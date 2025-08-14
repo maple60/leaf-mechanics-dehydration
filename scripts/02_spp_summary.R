@@ -38,10 +38,10 @@ data_list[["thickness_turgid"]] <- rbind(
 data_list[["thickness_turgid"]]$spp <- factor(
   data_list[["thickness_turgid"]]$spp,
   levels = c(
-    "aoki",
     "nezumimochi",
-    "yurinoki",
+    "aoki",
     "niseakashia",
+    "yurinoki",
     "youshuyamagobou",
     "ubayuri"
   )
@@ -67,15 +67,14 @@ boxplot(
   horizontal = TRUE
 )
 spp_names <- c(
-  "A. japonica",
   "L. lucidum",
-  "L. tulipifera",
+  "A. japonica",
   "R. pseudoacacia",
+  "L. tulipifera",
   "P. americana",
   "C. cordatum"
 )
 # x axis
-par(family = "serif") # Set font to serif for axis labels
 axis(
   2,
   at = 1:6,
@@ -85,7 +84,6 @@ axis(
   mgp = c(3, 0.7, 0),
   font = 3, # Bold font for species names
 )
-par(family = "")
 axis(1, cex.axis = 2, mgp = c(3, 1, 0)) # y axis
 dev.off()
 
@@ -123,10 +121,10 @@ data_list[["LDMC"]] <- rbind(
 data_list[["LDMC"]]$spp <- factor(
   data_list[["LDMC"]]$spp,
   levels = c(
-    "aoki",
     "nezumimochi",
-    "yurinoki",
+    "aoki",
     "niseakashia",
+    "yurinoki",
     "youshuyamagobou",
     "ubayuri"
   )
@@ -154,15 +152,14 @@ boxplot(
   horizontal = TRUE
 )
 spp_names <- c(
-  "A. japonica",
   "L. lucidum",
-  "L. tulipifera",
+  "A. japonica",
   "R. pseudoacacia",
+  "L. tulipifera",
   "P. americana",
   "C. cordatum"
 )
 # x axis
-par(family = "serif") # Set font to serif for axis labels
 axis(
   2,
   at = 1:6,
@@ -172,7 +169,6 @@ axis(
   mgp = c(3, 0.7, 0),
   font = 3, # Bold font for species names
 )
-par(family = "")
 axis(1, cex.axis = 2, mgp = c(3, 1, 0)) # y axis
 dev.off()
 
@@ -199,10 +195,10 @@ data_list[["LMA"]] <- na.omit(data_list[["LMA"]]) # Remove rows with NA values
 data_list[["LMA"]]$spp <- factor(
   data_list[["LMA"]]$spp,
   levels = c(
-    "aoki",
     "nezumimochi",
-    "yurinoki",
+    "aoki",
     "niseakashia",
+    "yurinoki",
     "youshuyamagobou",
     "ubayuri"
   )
@@ -232,15 +228,14 @@ boxplot(
   horizontal = TRUE
 )
 spp_names <- c(
-  "A. japonica",
   "L. lucidum",
-  "L. tulipifera",
+  "A. japonica",
   "R. pseudoacacia",
+  "L. tulipifera",
   "P. americana",
   "C. cordatum"
 )
 # x axis
-par(family = "serif") # Set font to serif for axis labels
 axis(
   2,
   at = 1:6,
@@ -250,6 +245,5 @@ axis(
   mgp = c(3, 0.7, 0),
   font = 3, # Bold font for species names
 )
-par(family = "")
 axis(1, cex.axis = 2, mgp = c(3, 1, 0)) # y axis
 dev.off()
