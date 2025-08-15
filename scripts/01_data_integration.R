@@ -1,5 +1,3 @@
-library(tools)
-
 filenames <- list.files("data/raw", pattern = ".csv")
 date <- sapply(filenames, function(x) strsplit(x, "_")[[1]][1])
 type <- sapply(filenames, function(x) strsplit(x, "_")[[1]][2])
@@ -95,7 +93,6 @@ d_tensile <- d_tensile[
 # Remove rows with empty E values
 d_bending <- d_bending[-which(d_bending$E == "-.-"), ]
 
-
 # Merging data with sample information ----
 d_info_bending <- read.csv("data/manual/bending_sample_information.csv")
 d_info_tensile <- read.csv("data/manual/tensile_sample_information.csv")
@@ -172,15 +169,24 @@ data_list[["tensile"]] <- merge(
   by.y = c("spp", "ID")
 )
 
+# Data cleaning ----
+df_excluded <- read.csv("data/manual/exclude_records_bending.csv")
+# 除外キー（species, id）の組を作って %in% で除く
+keep_bending <- !do.call(paste, data_list[["bending"]][c("spp", "ID")]) %in%
+  do.call(paste, df_excluded[c("species", "id")])
+df_bending_filtered <- data_list[["bending"]][keep_bending, ]
+keep_tensile <- !do.call(paste, data_list[["tensile"]][c("spp", "ID1")]) %in%
+  do.call(paste, df_excluded[c("species", "id")])
+df_tensile_filtered <- data_list[["tensile"]][keep_tensile, ]
 
 # Save data ----
 write.csv(
-  data_list[["bending"]],
+  df_bending_filtered,
   "data/processed/bending.csv",
   row.names = FALSE
 )
 write.csv(
-  data_list[["tensile"]],
+  df_tensile_filtered,
   "data/processed/tensile.csv",
   row.names = FALSE
 )
