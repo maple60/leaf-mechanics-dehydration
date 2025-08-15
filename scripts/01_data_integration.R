@@ -1,3 +1,4 @@
+source("_setup.R")
 filenames <- list.files("data/raw", pattern = ".csv")
 date <- sapply(filenames, function(x) strsplit(x, "_")[[1]][1])
 type <- sapply(filenames, function(x) strsplit(x, "_")[[1]][2])
