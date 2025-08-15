@@ -1,8 +1,6 @@
 # The script for summarizing trait data of all species
 
-# Set Up ----
-palette("Okabe-Ito")
-
+source("_setup.R")
 # Data Import ----
 data_list <- list()
 data_list[["bending"]] <- read.csv("data/processed/bending.csv")
@@ -47,8 +45,7 @@ data_list[["thickness_turgid"]]$spp <- factor(
   )
 )
 
-
-# Output the result images ----
+# Output the result images
 output_dir <- "output"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir)
@@ -80,11 +77,17 @@ axis(
   at = 1:6,
   labels = spp_names,
   las = 2,
-  cex.axis = 1.5,
+  cex.axis = 2.5,
   mgp = c(3, 0.7, 0),
   font = 3, # Bold font for species names
 )
-axis(1, cex.axis = 2, mgp = c(3, 1, 0)) # y axis
+axis(
+  1,
+  at = axTicks(1),
+  labels = sprintf("%.1f", axTicks(1)),
+  cex.axis = 2.5,
+  mgp = c(3, 1.5, 0)
+) # y axis
 dev.off()
 
 
@@ -165,11 +168,17 @@ axis(
   at = 1:6,
   labels = spp_names,
   las = 2,
-  cex.axis = 1.5,
+  cex.axis = 2.5,
   mgp = c(3, 0.7, 0),
   font = 3, # Bold font for species names
 )
-axis(1, cex.axis = 2, mgp = c(3, 1, 0)) # y axis
+axis(
+  1,
+  at = axTicks(1),
+  labels = sprintf("%.1f", axTicks(1)),
+  cex.axis = 2.5,
+  mgp = c(3, 1.5, 0)
+) # y axis
 dev.off()
 
 
@@ -208,8 +217,7 @@ data_list[["LMA"]]$LMA <- data_list[["LMA"]]$dry_weight /
   data_list[["LMA"]]$area *
   10^3
 
-
-# Output the LMA boxplot ----
+# Output the LMA boxplot
 output_dir <- "output"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir)
@@ -241,9 +249,23 @@ axis(
   at = 1:6,
   labels = spp_names,
   las = 2,
-  cex.axis = 1.5,
+  cex.axis = 2.5,
   mgp = c(3, 0.7, 0),
   font = 3, # Bold font for species names
 )
-axis(1, cex.axis = 2, mgp = c(3, 1, 0)) # y axis
+axis(
+  1,
+  at = axTicks(1),
+  labels = axTicks(1),
+  cex.axis = 2.5,
+  mgp = c(3, 1.5, 0)
+) # y axis
+# add "100" at y-axis manually
+axis(
+  1,
+  at = 100,
+  labels = 100,
+  cex.axis = 2.5,
+  mgp = c(3, 1.5, 0)
+) # y axis
 dev.off()
