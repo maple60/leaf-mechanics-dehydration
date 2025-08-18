@@ -89,7 +89,7 @@ plot_gam_ci <- function(
   # ---- Axis ranges ----
   if (is.null(ylim)) {
     # Range including observations and CI
-    yr <- range(c(df_gam[[y]], ci_lo, ci_hi), na.rm = TRUE)
+    yr <- c(0, max(c(df_gam[[y]], ci_lo, ci_hi), na.rm = TRUE))
     #pad <- diff(yr) * 0.05 # Padding for upper limit
     #ylim <- c(yr[1], yr[2] + pad) # Add padding to the upper limit
     ylim <- yr
