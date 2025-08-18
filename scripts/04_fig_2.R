@@ -10,6 +10,9 @@ df$EI <- df$EI * 1000 # convert unit of EI
 df$I <- df$I * 1000 # convert unit of I
 df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
 df$density <- df$dry_weight / df$thickness # calculate leaf density (kg m-3)
+df$E_per_density <- df$E.x / df$density # calculate E per density (MPa kg m-3)
+df$E_per_density <- df$E_per_density * 10^3 # convert unit of E per density (MPa g m-3)
+
 spp <- c(
   "ubayuri",
   "youshuyamagobou",
@@ -40,7 +43,7 @@ lapply(seq_along(spp), function(i) {
   df_sp <- df[df$spp == sp, ]
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_EI_", names(spp)[i], ".svg")
+    paste0(LETTERS[i], "_RWC_vs_EI_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
@@ -61,7 +64,7 @@ lapply(seq_along(spp), function(i) {
   df_sp <- df[df$spp == sp, ]
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_E_", names(spp)[i], ".svg")
+    paste0(LETTERS[6 + i], "_RWC_vs_E_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
@@ -82,7 +85,7 @@ lapply(seq_along(spp), function(i) {
   df_sp <- df[df$spp == sp, ]
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_density_", names(spp)[i], ".svg")
+    paste0(LETTERS[6 * 2 + i], "_RWC_vs_density_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
@@ -103,14 +106,14 @@ lapply(seq_along(spp), function(i) {
   df_sp <- df[df$spp == sp, ]
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_E_per_density_", names(spp)[i], ".svg")
+    paste0(LETTERS[6 * 3 + i], "_RWC_vs_E_per_density_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
   plot_gam_ci(
     data = df_sp,
     x = "water_content",
-    y = "density",
+    y = "E_per_density",
     side = "tensile",
     pred_range = c(50, 100),
     xlim = c(100, 50)

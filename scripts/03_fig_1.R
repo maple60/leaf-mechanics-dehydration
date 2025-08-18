@@ -42,7 +42,7 @@ lapply(seq_along(spp), function(i) {
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_EI_", names(spp)[i], ".svg")
+    paste0(LETTERS[i], "_RWC_vs_EI_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
@@ -62,7 +62,7 @@ lapply(seq_along(spp), function(i) {
     side = "abaxial",
     pred_range = c(50, 100),
     xlim = c(100, 50),
-    add = TRUE, # add to existing plot,
+    add = TRUE, # add to existing plot
     pch = 22 # Use different point shape for abaxial
   )
   dev.off()
@@ -76,7 +76,7 @@ lapply(seq_along(spp), function(i) {
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_E_", names(spp)[i], ".svg")
+    paste0(LETTERS[6 + i], "_RWC_vs_E_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
@@ -110,7 +110,7 @@ lapply(seq_along(spp), function(i) {
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
   output_path <- file.path(
     output_dir,
-    paste0("RWC_vs_I_", names(spp)[i], ".svg")
+    paste0(LETTERS[6 * 2 + i], "_RWC_vs_I_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
