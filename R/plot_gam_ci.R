@@ -47,7 +47,7 @@ plot_gam_ci <- function(
   } else if (side == "abaxial") {
     base_col <- 6 # In the user's environment, blue
   } else {
-    base_col <- 9 # For tensile, gray
+    base_col <- 1 # For tensile, gray
   }
   # Semi-transparent color for filling (CI band & point fill)
   fill_col <- adjustcolor(base_col, alpha.f = ci_alpha) # CI band fill color
