@@ -5,7 +5,7 @@ df_list <- list()
 df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
 categories <- c("bending", "tensile")
 df <- df_list[[categories[2]]]
-df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
+df <- df[df$water_content >= 60, ] # filter data for water content >= 50%
 df$EI <- df$EI * 1000 # convert unit of EI
 df$I <- df$I * 1000 # convert unit of I
 df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
@@ -29,7 +29,9 @@ names(spp) <- c(
   "Aucuba_japonica",
   "Ligustrum lucidum"
 )
-
+pred_range <- c(60, 100)
+xlim <- c(100, 60)
+mar <- c(5, 5, 0.5, 0.5) # Margins
 
 # Plot GAM with confidence intervals ----
 output_dir <- "output/figure_02"
@@ -52,8 +54,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "EI",
     side = side,
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   dev.off()
 })
@@ -73,8 +76,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "E.x",
     side = side,
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   dev.off()
 })
@@ -94,8 +98,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "density",
     side = "tensile",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   dev.off()
 })
@@ -115,8 +120,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "E_per_density",
     side = "tensile",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   dev.off()
 })
