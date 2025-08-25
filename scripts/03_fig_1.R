@@ -7,7 +7,7 @@ df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
 
 categories <- c("bending", "tensile")
 df <- df_list[[categories[1]]]
-df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
+df <- df[df$water_content >= 60, ] # filter data for water content >= 50%
 df$EI <- df$EI * 1000 # convert unit of EI
 df$I <- df$I * 1000 # convert unit of I
 spp <- c(
@@ -26,6 +26,9 @@ names(spp) <- c(
   "Aucuba_japonica",
   "Ligustrum lucidum"
 )
+pred_range <- c(60, 100) # Prediction range
+xlim <- c(100, 60) # Reverse x-axis
+mar <- c(5, 5, 0.5, 0.5) # Margins
 
 
 # Plot GAM with confidence intervals ----
@@ -51,8 +54,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "EI",
     side = "adaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   # Add abaxial side to the same plot
   plot_gam_ci(
@@ -60,8 +64,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "EI",
     side = "abaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50),
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar,
     add = TRUE, # add to existing plot
     pch = 22 # Use different point shape for abaxial
   )
@@ -85,8 +90,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "E.x",
     side = "adaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   # Add abaxial side to the same plot
   plot_gam_ci(
@@ -94,8 +100,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "E.x",
     side = "abaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50),
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar,
     add = TRUE, # add to existing plot
     pch = 22
   )
@@ -119,8 +126,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "I",
     side = "adaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   # Add abaxial side to the same plot
   plot_gam_ci(
@@ -128,8 +136,9 @@ lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "I",
     side = "abaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50),
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar,
     add = TRUE, # add to existing plot
     pch = 22 # Use different point shape for abaxial
   )
