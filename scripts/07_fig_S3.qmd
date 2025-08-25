@@ -1,0 +1,278 @@
+# Figure S3: Comparison of the decrease in EI at 80% RWC between bending and tensile tests
+
+
+```{r}
+source("_setup.R")
+
+# Load data
+df_list <- list()
+df_list[["bending"]] <- read.csv("data/processed/bending.csv")
+df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+
+spp <- c(
+  "ubayuri",
+  "youshuyamagobou",
+  "yurinoki",
+  "niseakashia",
+  "aoki",
+  "nezumimochi"
+) # species names
+names(spp) <- c(
+  "Cardiocrinum_cordatum",
+  "Phytolacca_americana",
+  "Liriodendron_tulipifera",
+  "Robinia_pseudoacacia",
+  "Aucuba_japonica",
+  "Ligustrum lucidum"
+)
+```
+
+## Bending
+
+```{r}
+categories <- c("bending", "tensile")
+df <- df_list[[categories[1]]]
+df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
+df$EI <- df$EI * 1000 # convert unit of EI
+df$I <- df$I * 1000 # convert unit of I
+```
+
+```{r}
+# (A) - (F) RWC vs EI
+adaxial_result_list <- lapply(seq_along(spp), function(i) {
+  sp <- spp[i]
+  df_sp <- df[df$spp == sp, ]
+  df_adaxial <- droplevels(subset(df_sp, leaf_side == "adaxial"))
+  # Plot adaxial side
+  result_adaxial <- plot_gam_ci(
+    data = df_adaxial,
+    x = "water_content",
+    y = "EI",
+    side = "adaxial",
+    pred_range = c(50, 100),
+    xlim = c(100, 50)
+  )
+})
+
+abaxial_result_list <- lapply(seq_along(spp), function(i) {
+  sp <- spp[i]
+  df_sp <- df[df$spp == sp, ]
+  df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
+  # Add abaxial side to the same plot
+  result <- plot_gam_ci(
+    data = df_abaxial,
+    x = "water_content",
+    y = "EI",
+    side = "abaxial",
+    pred_range = c(50, 100),
+    xlim = c(100, 50),
+    pch = 22 # Use different point shape for abaxial
+  )
+})
+
+df_list_adaxial <- lapply(seq_along(adaxial_result_list), function(i) {
+  x <- adaxial_result_list[[i]]$newdata$water_content
+  y <- adaxial_result_list[[i]]$fit
+  df <- data.frame(x = x, y = y, species = names(spp)[i], side = "adaxial")
+})
+df_list_abaxial <- lapply(seq_along(abaxial_result_list), function(i) {
+  x <- abaxial_result_list[[i]]$newdata$water_content
+  y <- abaxial_result_list[[i]]$fit
+  df <- data.frame(x = x, y = y, species = names(spp)[i], side = "abaxial")
+})
+df_adaxial <- do.call(rbind, df_list_adaxial)
+df_abaxial <- do.call(rbind, df_list_abaxial)
+df_merged <- rbind(df_adaxial, df_abaxial)
+```
+
+
+## Tensile
+
+```{r}
+# Load data
+df_list <- list()
+df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+categories <- c("bending", "tensile")
+df <- df_list[[categories[2]]]
+df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
+df$EI <- df$EI * 1000 # convert unit of EI
+df$I <- df$I * 1000 # convert unit of I
+df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
+df$density <- df$dry_weight / df$thickness # calculate leaf density (kg m-3)
+df$E_per_density <- df$E.x / df$density # calculate E per density (MPa kg m-3)
+df$E_per_density <- df$E_per_density * 10^3 # convert unit of E per density (MPa g m-3)
+```
+
+```{r}
+side <- "tensile"
+# (A) - (F) RWC vs EI
+tensile_result_list <- lapply(seq_along(spp), function(i) {
+  sp <- spp[i]
+  df_sp <- df[df$spp == sp, ]
+  # Plot adaxial side
+  result <- plot_gam_ci(
+    data = df_sp,
+    x = "water_content",
+    y = "EI",
+    side = side,
+    pred_range = c(50, 100),
+    xlim = c(100, 50)
+  )
+  return(result)
+})
+df_list_tensile <- lapply(seq_along(tensile_result_list), function(i) {
+  x <- tensile_result_list[[i]]$newdata$water_content
+  y <- tensile_result_list[[i]]$fit
+  df <- data.frame(x = x, y = y, species = names(spp)[i], side = "tensile")
+})
+df_tensile <- do.call(rbind, df_list_tensile)
+df_merged <- rbind(df_merged, df_tensile)
+```
+
+
+## 80%までにどの程度EIが低下するか
+
+```{r}
+list_drop_adaxial <- lapply(seq_along(spp), function(i) {
+  sp <- names(spp)[i]
+  df_sp <- df_merged[df_merged$species == sp & df_merged$side == "adaxial", ]
+  ei_100 <- df_sp$y[which.min(abs(df_sp$x - 100))]
+  ei_80 <- df_sp$y[which.min(abs(df_sp$x - 80))]
+  drop <- (ei_100 - ei_80) / ei_100 * 100
+  df_drop <- data.frame(
+    species = sp,
+    side = "adaxial",
+    ei_100 = ei_100,
+    ei_80 = ei_80,
+    drop = drop
+  )
+})
+
+list_drop_abaxial <- lapply(seq_along(spp), function(i) {
+  sp <- names(spp)[i]
+  df_sp <- df_merged[df_merged$species == sp & df_merged$side == "abaxial", ]
+  ei_100 <- df_sp$y[which.min(abs(df_sp$x - 100))]
+  ei_80 <- df_sp$y[which.min(abs(df_sp$x - 80))]
+  drop <- (ei_100 - ei_80) / ei_100 * 100
+  df_drop <- data.frame(
+    species = sp,
+    side = "abaxial",
+    ei_100 = ei_100,
+    ei_80 = ei_80,
+    drop = drop
+  )
+})
+
+list_drop_tensile <- lapply(seq_along(spp), function(i) {
+  sp <- names(spp)[i]
+  df_sp <- df_merged[df_merged$species == sp & df_merged$side == "tensile", ]
+  ei_100 <- df_sp$y[which.min(abs(df_sp$x - 100))]
+  ei_80 <- df_sp$y[which.min(abs(df_sp$x - 80))]
+  drop <- (ei_100 - ei_80) / ei_100 * 100
+  df_drop <- data.frame(
+    species = sp,
+    side = "tensile",
+    ei_100 = ei_100,
+    ei_80 = ei_80,
+    drop = drop
+  )
+})
+
+df_drop <- as.data.frame(do.call(
+  rbind,
+  c(list_drop_adaxial, list_drop_abaxial, list_drop_tensile)
+))
+df_drop[
+  df_drop$species == "Ligustrum lucidum" & df_drop$side == "abaxial",
+  "drop"
+] <- NA
+
+df_wide <- reshape(
+  df_drop[, c("species", "side", "drop")],
+  idvar = "species",
+  timevar = "side",
+  direction = "wide",
+  sep = "_"
+)
+```
+
+比較プロット
+
+```{r}
+cex_pt <- 3 # Point size
+pt_fill_alpha <- 0.5 # Transparency of points
+pt_border_alpha <- 0.9 # Transparency of point borders
+cex.axis <- 2.5 # Axis label size
+cex.lab <- 2.5 # Axis label size
+mgp_x <- c(3, 1.5, 0)
+mgp_y <- c(3, 0.5, 0) # Margins for axis labels
+line_alpha <- 0.9 # Transparency of regression lines
+line_width <- 4 # Line width
+
+svg("output/figure_S3.svg", bg = "transparent")
+par(mar = c(3, 4, 0.6, 0.6))
+plot(
+  df_wide$drop_tensile,
+  df_wide$drop_adaxial,
+  xlim = c(0, 100),
+  ylim = c(0, 100),
+  xlab = "",
+  ylab = "",
+  asp = 1,
+  type = "n",
+  xaxt = "n",
+  yaxt = "n"
+)
+abline(0, 1, lty = 2, lwd = 3) # 1:1 line
+
+# Adaxial
+points(
+  df_wide$drop_tensile,
+  df_wide$drop_adaxial,
+  pch = 21,
+  cex = cex_pt,
+  bg = adjustcolor(7, alpha.f = pt_fill_alpha),
+  col = adjustcolor(7, alpha.f = pt_border_alpha)
+)
+# Abaxial
+points(
+  df_wide$drop_tensile,
+  df_wide$drop_abaxial,
+  pch = 22,
+  cex = cex_pt,
+  bg = adjustcolor(6, alpha.f = pt_fill_alpha),
+  col = adjustcolor(6, alpha.f = pt_border_alpha)
+)
+
+# Regression lines and statistics
+# Adaxial
+model_adaxial <- lm(
+  drop_adaxial ~ drop_tensile,
+  data = df_wide,
+  na.action = na.exclude
+)
+abline(
+  model_adaxial,
+  col = adjustcolor(7, alpha.f = line_alpha),
+  lwd = line_width
+)
+print(summary(model_adaxial))
+
+# Abaxial
+model_abaxial <- lm(
+  drop_abaxial ~ drop_tensile,
+  data = df_wide,
+  na.action = na.exclude
+)
+abline(
+  model_abaxial,
+  col = adjustcolor(6, alpha.f = line_alpha),
+  lwd = line_width
+)
+print(summary(model_abaxial))
+
+# Axis
+axis(2, las = 2, cex.axis = cex.axis, mgp = mgp_y)
+axis(1, cex.axis = cex.axis, mgp = mgp_x)
+dev.off()
+```
