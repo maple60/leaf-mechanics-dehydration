@@ -21,7 +21,7 @@ df_list[["merged"]] <- merge(
 )
 
 df <- df_list[["merged"]]
-df <- df[df$water_content_bending >= 50 & df$water_content_tensile >= 50, ] # filter data for water content >= 50%
+df <- df[df$water_content_bending >= 60 & df$water_content_tensile >= 60, ] # filter data for water content >= 50%
 
 df$RWC_mean <- (df$water_content_bending + df$water_content_tensile) / 2 # calculate mean RWC
 df$EI_ratio <- df$EI_bending / df$EI_tensile # calculate ratio of EI
@@ -45,6 +45,9 @@ names(spp) <- c(
   "Aucuba_japonica",
   "Ligustrum lucidum"
 )
+pred_range <- c(60, 100) # Prediction range for RWC
+xlim <- c(100, 60) # x-axis limits
+mar <- c(5, 5, 0.5, 0.5) # Margins
 
 
 # Plot GAM with confidence intervals ----
@@ -61,8 +64,6 @@ lapply(seq_along(spp), function(i) {
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
   x <- "RWC_mean"
   y <- "EI_ratio"
-  pred_range <- c(50, 100)
-  xlim <- c(100, 50)
   output_path <- file.path(
     output_dir,
     paste0(LETTERS[i], "_RWC_vs_EI_", names(spp)[i], ".svg")
@@ -75,7 +76,8 @@ lapply(seq_along(spp), function(i) {
     y = y,
     side = "adaxial",
     pred_range = pred_range,
-    xlim = xlim
+    xlim = xlim,
+    mar = mar
   )
   # Add abaxial side to the same plot
   plot_gam_ci(
@@ -85,6 +87,7 @@ lapply(seq_along(spp), function(i) {
     side = "abaxial",
     pred_range = pred_range,
     xlim = xlim,
+    mar = mar,
     add = TRUE, # add to existing plot
     pch = 22 # Use different point shape for abaxial
   )
@@ -99,8 +102,6 @@ lapply(seq_along(spp), function(i) {
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
   x <- "RWC_mean"
   y <- "E_ratio"
-  pred_range <- c(50, 100)
-  xlim <- c(100, 50)
   output_path <- file.path(
     output_dir,
     paste0(LETTERS[6 + i], "_RWC_vs_E_", names(spp)[i], ".svg")
@@ -112,8 +113,9 @@ lapply(seq_along(spp), function(i) {
     x = x,
     y = y,
     side = "adaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar
   )
   abline(h = 1, lty = 2, lwd = 3) # Add horizontal line at y = 1
   abline(h = 3, lty = 2, lwd = 3) # Add horizontal line at y = 1
@@ -123,8 +125,9 @@ lapply(seq_along(spp), function(i) {
     x = x,
     y = y,
     side = "abaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50),
+    pred_range = pred_range,
+    xlim = xlim,
+    mar = mar,
     add = TRUE, # add to existing plot
     pch = 22 # Use different point shape for abaxial
   )
