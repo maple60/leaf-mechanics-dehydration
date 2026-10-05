@@ -42,3 +42,12 @@ points to the new input directory and is ignored by Git.
 
 This verifies copying only. Full analysis and comparison with the previous
 derived CSV files and manuscript figures remain to be performed.
+
+### Removal of the redundant archive copy (2026-10-06)
+
+At the user's request, the destination `originals/` directory was deleted.
+The original `Dropbox/Konrai_exp/Paper` remains in place with 1,387 files.
+The 68 retained files in `raw/`, `manual/`, and `reference/processed/` were
+verified again against the migration SHA-256 manifest. The initial migration
+records remain as historical evidence; `originals-removal.json` records the
+subsequent deletion of the archive copy.
