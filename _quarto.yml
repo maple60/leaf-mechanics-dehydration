@@ -1,0 +1,8 @@
+project:
+  type: default
+  execute-dir: project
+  render:
+    - README.qmd
+    - scripts/07_fig_S3.qmd
+execute:
+  echo: true

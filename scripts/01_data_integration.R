@@ -1,5 +1,8 @@
 source("_setup.R")
-filenames <- list.files("data/raw", pattern = ".csv")
+filenames <- list.files(data_path("raw"), pattern = "\\.csv$", ignore.case = TRUE)
+if (!length(filenames)) {
+  stop("No raw CSV files found. Set PROJECT_DATA_DIR; see data/README.md.")
+}
 date <- sapply(filenames, function(x) strsplit(x, "_")[[1]][1])
 type <- sapply(filenames, function(x) strsplit(x, "_")[[1]][2])
 spp <- sapply(
@@ -8,7 +11,7 @@ spp <- sapply(
 )
 
 # Data Integration ----
-filepath <- list.files("data/raw", pattern = ".csv", full.names = TRUE)
+filepath <- file.path(data_path("raw"), filenames)
 tensile_list <- list()
 bending_list <- list()
 
@@ -95,8 +98,8 @@ d_tensile <- d_tensile[
 d_bending <- d_bending[-which(d_bending$E == "-.-"), ]
 
 # Merging data with sample information ----
-d_info_bending <- read.csv("data/manual/bending_sample_information.csv")
-d_info_tensile <- read.csv("data/manual/tensile_sample_information.csv")
+d_info_bending <- read.csv(data_path("manual", "bending_sample_information.csv"))
+d_info_tensile <- read.csv(data_path("manual", "tensile_sample_information.csv"))
 # rename column names
 names(d_info_bending) <- c(
   "ID",
@@ -171,7 +174,7 @@ data_list[["tensile"]] <- merge(
 )
 
 # Data cleaning ----
-df_excluded <- read.csv("data/manual/exclude_records_bending.csv")
+df_excluded <- read.csv(data_path("manual", "exclude_records_bending.csv"))
 # 除外キー（species, id）の組を作って %in% で除く
 keep_bending <- !do.call(paste, data_list[["bending"]][c("spp", "ID")]) %in%
   do.call(paste, df_excluded[c("species", "id")])
@@ -183,11 +186,11 @@ df_tensile_filtered <- data_list[["tensile"]][keep_tensile, ]
 # Save data ----
 write.csv(
   df_bending_filtered,
-  "data/processed/bending.csv",
+  "outputs/tables/bending.csv",
   row.names = FALSE
 )
 write.csv(
   df_tensile_filtered,
-  "data/processed/tensile.csv",
+  "outputs/tables/tensile.csv",
   row.names = FALSE
 )

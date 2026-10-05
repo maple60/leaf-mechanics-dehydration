@@ -6,8 +6,8 @@ source("_setup.R")
 
 # Load data
 df_list <- list()
-df_list[["bending"]] <- read.csv("data/processed/bending.csv")
-df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+df_list[["bending"]] <- read.csv("outputs/tables/bending.csv")
+df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 
 spp <- c(
   "ubayuri",
@@ -91,7 +91,7 @@ df_merged <- rbind(df_adaxial, df_abaxial)
 ```{r}
 # Load data
 df_list <- list()
-df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 categories <- c("bending", "tensile")
 df <- df_list[[categories[2]]]
 df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
@@ -209,7 +209,7 @@ mgp_y <- c(3, 0.5, 0) # Margins for axis labels
 line_alpha <- 0.9 # Transparency of regression lines
 line_width <- 4 # Line width
 
-svg("output/figure_S3.svg", bg = "transparent")
+svg("outputs/figures/figure_S3.svg", bg = "transparent")
 par(mar = c(3, 4, 0.6, 0.6))
 plot(
   df_wide$drop_tensile,

@@ -2,7 +2,7 @@ source("_setup.R")
 
 # Load data
 df_list <- list()
-df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 categories <- c("bending", "tensile")
 df <- df_list[[categories[2]]]
 df <- df[df$water_content >= 60, ] # filter data for water content >= 50%
@@ -34,7 +34,7 @@ xlim <- c(100, 60)
 mar <- c(5, 5, 0.5, 0.5) # Margins
 
 # Plot GAM with confidence intervals ----
-output_dir <- "output/figure_02"
+output_dir <- "outputs/figures/figure_02"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }

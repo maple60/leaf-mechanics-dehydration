@@ -3,8 +3,8 @@
 source("_setup.R")
 # Data Import ----
 data_list <- list()
-data_list[["bending"]] <- read.csv("data/processed/bending.csv")
-data_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+data_list[["bending"]] <- read.csv("outputs/tables/bending.csv")
+data_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 
 
 # Leaf thickness ----
@@ -46,7 +46,7 @@ data_list[["thickness_turgid"]]$spp <- factor(
 )
 
 # Output the result images
-output_dir <- "output"
+output_dir <- "outputs/figures"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir)
 }
@@ -137,7 +137,7 @@ data_list[["LDMC"]]$LDMC <- data_list[["LDMC"]]$dry_weight /
 
 
 # Output the leaf dry matter content boxplot ----
-output_dir <- "output"
+output_dir <- "outputs/figures"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir)
 }
@@ -218,7 +218,7 @@ data_list[["LMA"]]$LMA <- data_list[["LMA"]]$dry_weight /
   10^3
 
 # Output the LMA boxplot
-output_dir <- "output"
+output_dir <- "outputs/figures"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir)
 }

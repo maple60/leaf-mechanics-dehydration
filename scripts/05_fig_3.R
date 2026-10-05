@@ -2,8 +2,8 @@ source("_setup.R")
 
 # Load data
 df_list <- list()
-df_list[["bending"]] <- read.csv("data/processed/bending.csv")
-df_list[["tensile"]] <- read.csv("data/processed/tensile.csv")
+df_list[["bending"]] <- read.csv("outputs/tables/bending.csv")
+df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 df_list[["merged"]] <- merge(
   df_list[["bending"]][, c(
     "spp",
@@ -51,7 +51,7 @@ mar <- c(5, 5, 0.5, 0.5) # Margins
 
 
 # Plot GAM with confidence intervals ----
-output_dir <- "output/figure_03"
+output_dir <- "outputs/figures/figure_03"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
