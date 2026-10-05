@@ -9,7 +9,7 @@ Set `PROJECT_DATA_DIR` in `.Renviron` to the directory containing:
 | Path | Content expected by the existing analysis |
 | --- | --- |
 | `raw/*.csv` | Instrument exports in CP932; filenames encode date, test type, and species separated by underscores. Both bending and tensile exports are required. |
-| `manual/bending_sample_information.csv` | Bending sample metadata; 25 columns in the order specified in `scripts/01_data_integration.R`. |
+| `manual/bending_sample_information.csv` | Bending sample metadata; 24 columns in the order specified in `scripts/01_data_integration.R`. |
 | `manual/tensile_sample_information.csv` | Tensile sample metadata; 23 columns in the order specified in `scripts/01_data_integration.R`. |
 | `manual/exclude_records_bending.csv` | Exclusion table with `species` and `id` columns; the existing script applies it to both tests. |
 

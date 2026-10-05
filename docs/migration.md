@@ -22,3 +22,23 @@
 
 No license or manuscript citation has been invented. This private staging
 repository does not yet grant a public reuse license or claim full reproduction.
+
+## Local Dropbox data migration (2026-10-06)
+
+The local `Dropbox/Konrai_exp/Paper` collection was copied to
+`Dropbox/GitHub/leaf-mechanics-dehydration` without writing to the source.
+
+- `originals/Paper/`: all 1,387 source files, preserving the source hierarchy.
+- `raw/`: 56 instrument CSV files for analysis.
+- `manual/`: 3 metadata/exclusion CSV files and 7 Excel workbooks.
+- `reference/processed/`: 2 previous derived CSV files for later comparison.
+- `migration-records/2026-10-06/`: source inventories, copy manifest, SHA-256
+  verification, directory mapping, and the copy script.
+
+All 1,455 file copies were verified by SHA-256. The source was checked again
+after copying: all file contents, sizes, last-write timestamps, and file count
+matched the pre-copy inventory. Data remain outside Git. The local `.Renviron`
+points to the new input directory and is ignored by Git.
+
+This verifies copying only. Full analysis and comparison with the previous
+derived CSV files and manuscript figures remain to be performed.
