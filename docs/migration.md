@@ -51,3 +51,20 @@ The 68 retained files in `raw/`, `manual/`, and `reference/processed/` were
 verified again against the migration SHA-256 manifest. The initial migration
 records remain as historical evidence; `originals-removal.json` records the
 subsequent deletion of the archive copy.
+
+### Minimal external input package (2026-10-06)
+
+The external data folder now contains only `raw/` (56 CSV files), `manual/`
+(three CSV files), and a data README: 59 input files, 103,222,680 bytes.
+The seven Excel workbooks were removed after checksum comparison with the
+unchanged original collection. Migration records and previous derived CSV
+files were retained outside the data package in the local ignored `.migration/`
+working directory. Three manuscript DOCX files were preserved in the local
+ignored `manuscripts/` directory of the code checkout.
+
+All five R scripts and Figure S3 R chunks completed under R 4.5.3 and mgcv
+1.9-4, producing 58 SVGs. Regenerated bending (496 rows) and tensile (262 rows)
+data matched the previous derived tables (`all.equal`: TRUE). All 59 input
+checksums were unchanged. Figure S3 also rendered successfully to HTML using
+a writable validation cache and the existing user R library. This does not
+verify the lockfile's mgcv 1.9-3 or visual equivalence with manuscript figures.

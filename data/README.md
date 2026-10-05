@@ -4,6 +4,12 @@ Measurement data are not included in the migrated source repository. No public
 dataset DOI has been supplied yet. This repository currently contains code and
 instructions, not a complete data release.
 
+The external submission data folder has been reduced to 56 raw CSV files,
+the three CSV files listed below, and a README. Excel workbooks, migration
+records, prior derived outputs, and manuscripts are not required inputs and
+are excluded from that folder. Generated tables and figures are recreated by
+the scripts; the original `Paper` collection remains unchanged.
+
 Set `PROJECT_DATA_DIR` in `.Renviron` to the directory containing:
 
 | Path | Content expected by the existing analysis |

@@ -12,10 +12,10 @@ with its Git history retained.
 ## Current status
 
 Private preparation for a future manuscript data/code release. The
-source repository contains no measurement data, so complete reproduction
-has not been verified. Manuscript citation, dataset DOI, and reuse
-licenses remain to be confirmed. See [migration
-notes](docs/migration.md).
+source repository contains no measurement data; the external input
+package contains 56 raw CSV files and three metadata/exclusion CSV
+files. Manuscript citation, dataset DOI, and reuse licenses remain to be
+confirmed. See [migration notes](docs/migration.md).
 
 ## Quickstart
 
@@ -86,11 +86,13 @@ input data.
 
 ## Verification and limitations
 
-Migration checks cover R script and Quarto chunk syntax, input/output
-references, the inherited lockfile, and Git whitespace. Missing raw
-inputs cause an explicit error. Actual integration, GAM fits, and
-manuscript figure equivalence require the missing dataset and have not
-yet been verified.
+All five R scripts and the Figure S3 notebook’s R chunks were executed
+using R 4.5.3 and mgcv 1.9-4 with the minimal external input package.
+The regenerated bending (496 rows) and tensile (262 rows) tables matched
+the previous derived tables, and 58 SVG files were generated. All 59
+input files retained their SHA-256 hashes. The Figure S3 notebook also
+rendered successfully to HTML. Execution under the lockfile’s mgcv 1.9-3
+and visual equivalence with manuscript figures have not been verified.
 
 Original metadata column order and exclusions are retained. Review them
 against the manuscript before public release, particularly the existing

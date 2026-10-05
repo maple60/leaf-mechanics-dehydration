@@ -19,6 +19,7 @@ data/*
 outputs/*
 !outputs/README.md
 .venv/
+manuscripts/
 
 /.quarto/
 **/*.quarto_ipynb
