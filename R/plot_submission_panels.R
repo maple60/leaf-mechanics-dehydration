@@ -79,8 +79,7 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
   }
   for (i in seq_along(species)) {
     region <- plot_regions[[i]]
-    species_x <- if (length(metrics) == 2L) region["left"] else 0.07 / length(metrics)
-    text(species_x, region["top"] + 0.008,
+    text(region["left"], region["top"] + 0.008,
          names(species)[i], adj = c(0, 0), font = 3, cex = 1, col = "black")
   }
   text(0.5, 0.006, "Relative water content (%)", adj = c(0.5, 0), col = "black")
