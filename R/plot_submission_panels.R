@@ -2,14 +2,28 @@
 plot_submission_panels <- function(data, species, metrics, labels, file,
                                    x = "water_content", tensile = FALSE,
                                    reference_lines = NULL) {
-  cairo_pdf(file, width = 178 / 25.4, height = 245 / 25.4,
-            family = "Arial", pointsize = 8, bg = "white")
+  # Dimensions of the corresponding embedded figures in the current Word file.
+  dimensions_pt <- switch(as.character(length(metrics)),
+                          "2" = c(190.5, 569.25),
+                          "3" = c(323.65, 646.15),
+                          "4" = c(387.4, 584.65))
+  stopifnot(!is.null(dimensions_pt))
+  # Match the orange/blue appearance of the embedded manuscript figures.
+  original_palette <- palette()
+  manuscript_palette <- original_palette
+  manuscript_palette[c(6, 7)] <- c("#2977B5", "#D7673B")
+  palette(manuscript_palette)
+  on.exit(palette(original_palette), add = TRUE)
+  cairo_pdf(file, width = dimensions_pt[1] / 72, height = dimensions_pt[2] / 72,
+            family = "Arial", pointsize = 6.5, bg = "white")
   on.exit(dev.off(), add = TRUE)
   layout(matrix(seq_len(length(species) * length(metrics)),
                 nrow = length(species)))
-  margins <- c(2.5, 4.5, 2.1, 0.5)
-  par(mar = margins, oma = c(1.8, 0, 0.5, 0), tcl = -0.25)
+  margins <- c(1.5, 2.9, 1.8, 0.4)
+  par(mar = margins, oma = c(1.8, 0, 0, 0), tcl = -0.2,
+      pty = "s", cex = 1, lwd = 0.4, fg = "grey60", col.axis = "black")
   results <- list()
+  plot_regions <- list()
   for (j in seq_along(metrics)) {
     for (i in seq_along(species)) {
       subset_data <- data[data$spp == species[i], ]
@@ -21,23 +35,48 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
           data = side_data, x = x, y = metrics[j], side = side,
           pred_range = c(60, 100), xlim = c(100, 60), mar = margins,
           add = side == "abaxial", pch = if (side == "abaxial") 22 else 21,
-          cex_pt = 0.6, line_lwd = 1, cex.axis = 0.9, cex.lab = 1,
-          mgp_x = c(1.7, 0.5, 0), mgp_y = c(2.5, 0.4, 0))
+          cex_pt = 0.75, pt_border_alpha = 0.5, line_lwd = 1.2,
+          cex.axis = 0.95, cex.lab = 1,
+          ci_lty = 3, mgp_x = c(1.7, 0.4, 0), mgp_y = c(2.5, 0.3, 0))
         if (!is.null(reference_lines) && metrics[j] == "E_ratio") {
           abline(h = reference_lines, lty = 2, lwd = 0.7)
         }
       }
       panel <- LETTERS[(j - 1L) * length(species) + i]
-      mtext(labels[[j]], side = 2, line = 2.5, cex = 0.7)
-      mtext(paste0("(", panel, ")"), side = 3, line = 0.25, adj = 0,
-            cex = 0.9, font = 2)
-      if (j == 1L) {
-        mtext(names(species)[i], side = 3, line = 1.15, adj = 0,
-              cex = 0.85, font = 3)
+      usr <- par("usr")
+      text(usr[1] + 0.025 * diff(usr[1:2]),
+           usr[4] - 0.025 * diff(usr[3:4]), paste0("(", panel, ")"),
+           adj = c(0, 1), cex = 1, col = "black")
+      if (i == 1L && j == 1L && !tensile) {
+        legend("topright", c("Adaxial", "Abaxial"), pch = c(21, 22),
+               pt.bg = adjustcolor(c(7, 6), alpha.f = 0.5), col = c(7, 6),
+               pt.cex = 0.9, cex = 0.85, bg = "white", box.col = "grey60",
+               text.col = "black")
       }
+      # Store physical plot rectangles to check that each panel is square.
+      plot_regions[[length(plot_regions) + 1L]] <- c(
+        row = i, column = j, width = par("pin")[1], height = par("pin")[2],
+        left = grconvertX(usr[1], "user", "ndc"),
+        top = grconvertY(usr[4], "user", "ndc"))
     }
   }
-  mtext("Relative water content (%)", side = 1, outer = TRUE, line = 0.4)
+  # One shared y label per column, and species names above the first column.
+  layout(1)
+  par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4),
+      pty = "m", plt = c(0, 1, 0, 1), new = TRUE)
+  plot.new()
+  plot.window(xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i")
+  for (j in seq_along(metrics)) {
+    text((j - 1) / length(metrics) + 0.04 / length(metrics), 0.5,
+         labels[[j]], srt = 90, cex = 1, col = "black")
+  }
+  for (i in seq_along(species)) {
+    region <- plot_regions[[i]]
+    text(0.07 / length(metrics), region["top"] + 0.008,
+         names(species)[i], adj = c(0, 0), font = 3, cex = 1, col = "black")
+  }
+  text(0.5, 0.006, "Relative water content (%)", adj = c(0.5, 0), col = "black")
+  attr(results, "plot_regions") <- do.call(rbind, plot_regions)
   invisible(results)
 }
 

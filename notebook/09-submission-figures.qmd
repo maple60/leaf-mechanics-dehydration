@@ -9,10 +9,12 @@ change. They are downloadable files rather than embedded figures on this page.
 
 [Download the generation notebook (QMD)](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
 
-Figures 1–3 are 178 mm wide, with six species arranged in rows and traits in
-columns. Panel letters follow the manuscript: A–F in the first column, G–L in
-the second, and so on. Figure S2 is 120 mm wide. Text uses Arial, and the PDFs
-retain vector lines and text. Layout is a draft to review before submission.
+Figures 1–3 use the dimensions and arrangement of the figures embedded in the
+current manuscript: approximately 114 × 228, 137 × 206, and 67 × 201 mm.
+Each panel has a square plotting region. Species are arranged in rows and
+traits in columns, with shared vertical labels, italic species names, and panel
+letters inside the frames. Figure S2 is 120 mm wide. Text uses Arial, and the
+PDFs retain vector lines and text. Corrected $E_t A$ values and units are retained.
 
 Tensile stiffness is calculated as `E_t * A`, with `A = thick * width.x` from
 the instrument dimensions (mm) associated with `E.x` (MPa). The resulting
@@ -58,8 +60,9 @@ data_bending$EI <- data_bending$EI * 1000
 data_bending$I <- data_bending$I * 1000
 figure_1_models <- plot_submission_panels(
   data_bending, species, metrics = c("EI", "E.x", "I"),
-  labels = expression(E[b]*I~(10^{-3}~N~mm^2), E[b]~(MPa),
-                      I~(10^{-3}~mm^4)),
+  labels = expression("Bending stiffness"~(10^{-3}~N~mm^2),
+                      "Young's modulus"~(MPa),
+                      "Second moment of area"~(10^{-3}~mm^4)),
   file = file.path(submission_dir, "figure_1.pdf"))
 ```
 
@@ -82,8 +85,9 @@ data_tensile$density <- data_tensile$dry_weight / data_tensile$thickness
 data_tensile$E_per_density <- data_tensile$E.x / data_tensile$density * 1000
 figure_2_models <- plot_submission_panels(
   data_tensile, species, metrics = c("EA", "E.x", "density", "E_per_density"),
-  labels = expression(E[t]*A~(N), E[t]~(MPa),
-                      D~(kg~m^{-3}), E[t]/D~(MPa~cm^3~g^{-1})),
+  labels = expression("Tensile stiffness"~(N), "Young's modulus"~(MPa),
+                      "Leaf tissue density"~(kg~m^{-3}),
+                      "Young's modulus / density"~(MPa~cm^3~g^{-1})),
   file = file.path(submission_dir, "figure_2.pdf"), tensile = TRUE)
 ```
 
@@ -111,7 +115,8 @@ ratios$stiffness_ratio <- ratios$EI / ratios$EA * 1000
 ratios$E_ratio <- ratios$E.x_bending / ratios$E.x_tensile
 figure_3_models <- plot_submission_panels(
   ratios, species, metrics = c("stiffness_ratio", "E_ratio"),
-  labels = expression(E[b]*I/(E[t]*A)~(10^{-3}~mm^2), E[b]/E[t]),
+  labels = expression("Bending stiffness / tensile stiffness"~(10^{-3}~mm^2),
+                      "Bending / tensile Young's modulus"),
   file = file.path(submission_dir, "figure_3.pdf"), x = "RWC_mean",
   reference_lines = c(1, 3))
 ```
