@@ -1,7 +1,3 @@
-/data/raw
-/data/manual
-/data/processed
-/output
 .Rproj.user/
 .Rhistory
 .RData
@@ -22,5 +18,4 @@ outputs/*
 .venv/
 manuscripts/
 
-/.quarto/
 **/*.quarto_ipynb
