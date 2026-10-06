@@ -2,7 +2,11 @@ project:
   type: default
   execute-dir: project
   render:
-    - README.qmd
-    - scripts/07_fig_S3.qmd
+    - notebook/01-data-integration.qmd
+    - notebook/02-species-summary.qmd
+    - notebook/03-bending.qmd
+    - notebook/04-tensile.qmd
+    - notebook/05-bending-tensile-ratios.qmd
+    - notebook/06-stiffness-comparison.qmd
 execute:
   echo: true

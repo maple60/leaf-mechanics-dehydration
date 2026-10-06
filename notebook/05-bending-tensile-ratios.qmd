@@ -1,15 +1,47 @@
-source("_setup.R")
+---
+title: "Figure 3: Bending and tensile ratios"
+---
+
+Compare bending and tensile properties using the existing specimen matching and GAMs. Both measurements must have RWC of at least 60%.
+
+## Analysis
+
+```{r}
+#| label: analysis-05
+#| results: hide
+#| fig-show: hide
+
+source("R/setup.R")
 
 # Load data
 df_list <- list()
 df_list[["bending"]] <- read.csv("outputs/tables/bending.csv")
 df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
+df_list[["merged"]] <- merge(
+  df_list[["bending"]][, c(
+    "spp",
+    "leaf_side",
+    "ID",
+    "EI",
+    "E.x",
+    "water_content"
+  )],
+  df_list[["tensile"]][, c("spp", "ID1", "EI", "E.x", "water_content")],
+  all = TRUE,
+  suffixes = c("_bending", "_tensile"),
+  by.x = c("spp", "ID"),
+  by.y = c("spp", "ID1")
+)
 
-categories <- c("bending", "tensile")
-df <- df_list[[categories[1]]]
-df <- df[df$water_content >= 60, ] # filter data for water content >= 50%
-df$EI <- df$EI * 1000 # convert unit of EI
-df$I <- df$I * 1000 # convert unit of I
+df <- df_list[["merged"]]
+df <- df[df$water_content_bending >= 60 & df$water_content_tensile >= 60, ] # filter data for water content >= 50%
+
+df$RWC_mean <- (df$water_content_bending + df$water_content_tensile) / 2 # calculate mean RWC
+df$EI_ratio <- df$EI_bending / df$EI_tensile # calculate ratio of EI
+df$E_ratio <- df$E.x_bending / df$E.x_tensile # calculate ratio of E
+
+df$EI_ratio <- df$EI_ratio * 10^3 # convert unit of EI
+
 spp <- c(
   "ubayuri",
   "youshuyamagobou",
@@ -26,23 +58,25 @@ names(spp) <- c(
   "Aucuba_japonica",
   "Ligustrum lucidum"
 )
-pred_range <- c(60, 100) # Prediction range
-xlim <- c(100, 60) # Reverse x-axis
+pred_range <- c(60, 100) # Prediction range for RWC
+xlim <- c(100, 60) # x-axis limits
 mar <- c(5, 5, 0.5, 0.5) # Margins
 
 
 # Plot GAM with confidence intervals ----
-output_dir <- "outputs/figures/figure_01"
+output_dir <- "outputs/figures/figure_03"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
 
-# (A) - (F) RWC vs EI
+# (A) - (F) RWC vs EI_bending / EI_tensile
 lapply(seq_along(spp), function(i) {
   sp <- spp[i]
   df_sp <- df[df$spp == sp, ]
   df_adaxial <- droplevels(subset(df_sp, leaf_side == "adaxial"))
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
+  x <- "RWC_mean"
+  y <- "EI_ratio"
   output_path <- file.path(
     output_dir,
     paste0(LETTERS[i], "_RWC_vs_EI_", names(spp)[i], ".svg")
@@ -51,8 +85,8 @@ lapply(seq_along(spp), function(i) {
   # Plot adaxial side
   plot_gam_ci(
     data = df_adaxial,
-    x = "water_content",
-    y = "EI",
+    x = x,
+    y = y,
     side = "adaxial",
     pred_range = pred_range,
     xlim = xlim,
@@ -61,8 +95,8 @@ lapply(seq_along(spp), function(i) {
   # Add abaxial side to the same plot
   plot_gam_ci(
     data = df_abaxial,
-    x = "water_content",
-    y = "EI",
+    x = x,
+    y = y,
     side = "abaxial",
     pred_range = pred_range,
     xlim = xlim,
@@ -79,6 +113,8 @@ lapply(seq_along(spp), function(i) {
   df_sp <- df[df$spp == sp, ]
   df_adaxial <- droplevels(subset(df_sp, leaf_side == "adaxial"))
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
+  x <- "RWC_mean"
+  y <- "E_ratio"
   output_path <- file.path(
     output_dir,
     paste0(LETTERS[6 + i], "_RWC_vs_E_", names(spp)[i], ".svg")
@@ -87,54 +123,20 @@ lapply(seq_along(spp), function(i) {
   # Plot adaxial side
   plot_gam_ci(
     data = df_adaxial,
-    x = "water_content",
-    y = "E.x",
+    x = x,
+    y = y,
     side = "adaxial",
     pred_range = pred_range,
     xlim = xlim,
     mar = mar
   )
+  abline(h = 1, lty = 2, lwd = 3) # Add horizontal line at y = 1
+  abline(h = 3, lty = 2, lwd = 3) # Add horizontal line at y = 1
   # Add abaxial side to the same plot
   plot_gam_ci(
     data = df_abaxial,
-    x = "water_content",
-    y = "E.x",
-    side = "abaxial",
-    pred_range = pred_range,
-    xlim = xlim,
-    mar = mar,
-    add = TRUE, # add to existing plot
-    pch = 22
-  )
-  dev.off()
-})
-
-# (M) - (R) RWC vs I
-lapply(seq_along(spp), function(i) {
-  sp <- spp[i]
-  df_sp <- df[df$spp == sp, ]
-  df_adaxial <- droplevels(subset(df_sp, leaf_side == "adaxial"))
-  df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
-  output_path <- file.path(
-    output_dir,
-    paste0(LETTERS[6 * 2 + i], "_RWC_vs_I_", names(spp)[i], ".svg")
-  )
-  svg(output_path, bg = "transparent")
-  # Plot adaxial side
-  plot_gam_ci(
-    data = df_adaxial,
-    x = "water_content",
-    y = "I",
-    side = "adaxial",
-    pred_range = pred_range,
-    xlim = xlim,
-    mar = mar
-  )
-  # Add abaxial side to the same plot
-  plot_gam_ci(
-    data = df_abaxial,
-    x = "water_content",
-    y = "I",
+    x = x,
+    y = y,
     side = "abaxial",
     pred_range = pred_range,
     xlim = xlim,
@@ -142,5 +144,8 @@ lapply(seq_along(spp), function(i) {
     add = TRUE, # add to existing plot
     pch = 22 # Use different point shape for abaxial
   )
+  abline(h = 1, lty = 2, lwd = 3) # Add horizontal line at y = 1
+  abline(h = 3, lty = 2, lwd = 3) # Add horizontal line at y = 1
   dev.off()
 })
+```

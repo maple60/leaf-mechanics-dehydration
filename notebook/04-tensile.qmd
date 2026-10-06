@@ -1,4 +1,17 @@
-source("_setup.R")
+---
+title: "Figure 2: Tensile properties"
+---
+
+Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divided by density. The analysis uses RWC of at least 60%.
+
+## Analysis
+
+```{r}
+#| label: analysis-04
+#| results: hide
+#| fig-show: hide
+
+source("R/setup.R")
 
 # Load data
 df_list <- list()
@@ -126,3 +139,4 @@ lapply(seq_along(spp), function(i) {
   )
   dev.off()
 })
+```

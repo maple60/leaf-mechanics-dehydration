@@ -1,116 +1,69 @@
 # Leaf Mechanics under Dehydration
 
-
-<!-- README.md is generated from README.qmd. Edit this source and run quarto render README.qmd. -->
-
-Analysis code and reproducibility materials for a manuscript on leaf
-mechanical properties under dehydration, using three-point bending and
-tensile tests. Migrated from
-[paper-leaf-mechanics](https://github.com/maple60/paper-leaf-mechanics)
-with its Git history retained.
-
-## Current status
-
-Private preparation for a future manuscript data/code release. The
-source repository contains no measurement data; the external input
-package contains 56 raw CSV files and three metadata/exclusion CSV
-files. Manuscript citation, dataset DOI, and reuse licenses remain to be
-confirmed. See [migration notes](docs/migration.md).
+Analysis notebooks for leaf mechanical properties under dehydration, using
+three-point bending and tensile tests. This is a private draft of the manuscript
+analysis site. Manuscript citation, dataset DOI, and reuse licenses are pending.
 
 ## Quickstart
 
-Run all commands from the repository root.
+Run commands from the repository root.
 
-1.  Obtain the input files listed in [data/README.md](data/README.md).
+1. Obtain the 56 instrument CSV files and three metadata/exclusion CSV files
+   described in [data/README.md](data/README.md).
+2. Copy `.Renviron.example` to `.Renviron`, set `PROJECT_DATA_DIR` to the folder
+   containing `raw/` and `manual/`, and restart R. Use forward slashes on Windows.
+3. Restore the R packages recorded in `renv.lock`:
 
-2.  Copy `.Renviron.example` to `.Renviron` and set `PROJECT_DATA_DIR`
-    to the directory containing `raw/` and `manual/`. Use forward
-    slashes on Windows. Restart R after editing `.Renviron`. The default
-    input directory is `data/`.
+   ```r
+   renv::restore()
+   ```
 
-3.  Restore the original dependency versions in R:
+4. Execute the notebooks in order and render the analysis:
 
-    ``` r
-    renv::restore()
-    ```
+   ```sh
+   quarto render
+   ```
 
-4.  Integrate the data, then generate summaries and manuscript figures:
+To run one chapter, use `quarto render notebook/03-bending.qmd` after running
+`notebook/01-data-integration.qmd`. The first notebook creates the integrated
+CSV files used by all later analyses.
 
-    ``` sh
-    Rscript scripts/01_data_integration.R
-    Rscript scripts/02_spp_summary.R
-    Rscript scripts/03_fig_1.R
-    Rscript scripts/04_fig_2.R
-    Rscript scripts/05_fig_3.R
-    quarto render scripts/07_fig_S3.qmd --to html
-    ```
-
-Numbering is inherited; no script numbered 06 was present. Each step
-reads inputs independently after integration.
-
-## Requirements
-
-- R: the source `renv.lock` records R 4.5.1; migration syntax checks use
-  R 4.5.3.
-- Existing dependencies are recorded in `renv.lock`, including `mgcv`
-  for generalized additive models. Figures use base R graphics.
-- Quarto for the Figure S3 notebook and README rendering.
-- Python and DVC are not required by the migrated analysis.
-
-## Data and outputs
-
-Original exports and manually entered metadata live outside Git.
-`PROJECT_DATA_DIR` can point to an external directory such as a Dropbox
-folder. The actual input files must be present; an empty folder is
-insufficient. See [data requirements](data/README.md) for filenames,
-encodings, and schema constraints.
-
-Generated CSV files go to `outputs/tables/`; SVG figures go to
-`outputs/figures/`. Outputs are ignored by Git and do not overwrite
-input data.
-
-## Repository layout
+## Layout
 
 | Path | Purpose |
-|----|----|
-| `scripts/01_data_integration.R` | Import exports, merge metadata, apply existing exclusions. |
-| `scripts/02_spp_summary.R` | Species summaries for thickness, LDMC, and LMA. |
-| `scripts/03_fig_1.R` through `05_fig_3.R` | Main manuscript figures. |
-| `scripts/07_fig_S3.qmd` | Supplementary comparison of EI decrease at 80% RWC. |
-| `R/plot_gam_ci.R` | Shared GAM fitting and plotting helper. |
-| `_setup.R` | Libraries, data path, and output directory setup. |
-| `data/README.md` | External input requirements and release policy. |
-| `outputs/README.md` | Generated output conventions. |
-| `renv.lock`, `renv/` | Inherited dependency versions and bootstrap. |
-| `docs/migration.md` | Source commit, migration details, and release checklist. |
+| --- | --- |
+| `notebook/01-data-integration.qmd` | Import exports, merge metadata, apply exclusions. |
+| `notebook/02-species-summary.qmd` | Thickness, LDMC, and LMA summaries. |
+| `notebook/03-bending.qmd` | Main Figure 1. |
+| `notebook/04-tensile.qmd` | Main Figure 2. |
+| `notebook/05-bending-tensile-ratios.qmd` | Main Figure 3. |
+| `notebook/06-stiffness-comparison.qmd` | Supplementary Figure S2. |
+| `R/` | Shared functions and notebook setup. |
+| `data/README.md` | External data requirements. |
+| `outputs/tables/`, `outputs/figures/` | Generated CSV and SVG files, ignored by Git. |
+| `renv.lock`, `renv/` | Original R package environment. |
 
-## Verification and limitations
+R (the lockfile records 4.5.1) and Quarto are required. Analyses use base R
+and the existing `mgcv` dependency; no new analysis packages were introduced.
 
-All five R scripts and the Figure S3 notebook’s R chunks were executed
-using R 4.5.3 and the lockfile’s mgcv 1.9-3, Matrix 1.7-3, nlme 3.1-168,
-and lattice 0.22-7 with the minimal external input package. The
-regenerated bending (496 rows) and tensile (262 rows) tables matched the
-previous derived tables, and 58 SVG files were generated. All 59 input
-files retained their SHA-256 hashes. The supplementary comparison
-notebook also rendered to HTML. A separate run of the imported source
-and migrated code produced exactly matching outputs for 102 GAM calls
-and all 58 SVGs. See [manuscript reproduction
-check](docs/reproduction-check.md) for the manuscript reference,
-discrepancies in reported numbers, and supplementary figure mapping. R
-itself was 4.5.3 rather than the lockfile’s 4.5.1; pixel equivalence
-with the manuscript’s assembled figures has not been verified.
+## Reproduction status
 
-Original metadata column order and exclusions are retained. Review them
-against the manuscript before public release, particularly the existing
-application of the bending exclusion table to tensile records.
+The source and migrated analyses were checked under R 4.5.3 using the lockfile's
+mgcv 1.9-3, Matrix 1.7-3, nlme 3.1-168, and lattice 0.22-7. Integrated tables
+contain 496 bending records and 262 tensile records. The notebook conversion
+retains the main-figure cutoff of 60% RWC and the supplementary comparison's
+cutoff of 50% RWC. The supplementary comparison was previously named S3 in code;
+it is S2 in the manuscript.
 
-## Documentation and reuse
+The manuscript's Table 1 sample-count definition, Aucuba thickness standard
+deviation, and supplementary regression reporting still require reconciliation.
+The force-displacement examples (S1) and microscopy panels (S3) are not yet
+recreated by these notebooks.
 
-Edit `README.qmd` and regenerate this README with:
+## Data and manuscripts
 
-``` sh
-quarto render README.qmd
-```
+Original inputs remain outside Git; outputs are generated in the code checkout.
+`manuscripts/` is a local working folder excluded from Git and the rendered site.
+A dataset DOI and an agreed license will be added before public release.
 
-Licensing and the manuscript citation will be added when confirmed by
-the authors. No public reuse license is currently specified.
+Edit this `README.md` directly; it is not generated from Quarto.

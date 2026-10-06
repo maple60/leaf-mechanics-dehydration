@@ -1,4 +1,17 @@
-source("_setup.R")
+---
+title: "Data integration"
+---
+
+Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to outputs/tables/.
+
+## Analysis
+
+```{r}
+#| label: analysis-01
+#| results: hide
+#| fig-show: hide
+
+source("R/setup.R")
 filenames <- list.files(data_path("raw"), pattern = "\\.csv$", ignore.case = TRUE)
 if (!length(filenames)) {
   stop("No raw CSV files found. Set PROJECT_DATA_DIR; see data/README.md.")
@@ -194,3 +207,4 @@ write.csv(
   "outputs/tables/tensile.csv",
   row.names = FALSE
 )
+```

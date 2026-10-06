@@ -12,7 +12,8 @@
 .migration/
 .quarto/
 *_files/
-scripts/*.html
+notebook/*.html
+_site/
 Rplots.pdf
 data/*
 !data/README.md

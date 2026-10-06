@@ -1,8 +1,13 @@
-# Figure S3: Comparison of the decrease in EI at 80% RWC between bending and tensile tests
+---
+title: "Figure S2: Stiffness decrease"
+---
 
+Compare the relative decrease in bending and tensile stiffness from 100% to 80% RWC. This is Figure S2 in the manuscript; the source notebook called it S3. Its GAMs retain the original RWC cutoff of 50%.
 
 ```{r}
-source("_setup.R")
+#| results: hide
+#| fig-show: hide
+source("R/setup.R")
 
 # Load data
 df_list <- list()
@@ -30,6 +35,8 @@ names(spp) <- c(
 ## Bending
 
 ```{r}
+#| results: hide
+#| fig-show: hide
 categories <- c("bending", "tensile")
 df <- df_list[[categories[1]]]
 df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
@@ -38,6 +45,8 @@ df$I <- df$I * 1000 # convert unit of I
 ```
 
 ```{r}
+#| results: hide
+#| fig-show: hide
 # (A) - (F) RWC vs EI
 adaxial_result_list <- lapply(seq_along(spp), function(i) {
   sp <- spp[i]
@@ -89,6 +98,8 @@ df_merged <- rbind(df_adaxial, df_abaxial)
 ## Tensile
 
 ```{r}
+#| results: hide
+#| fig-show: hide
 # Load data
 df_list <- list()
 df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
@@ -104,6 +115,8 @@ df$E_per_density <- df$E_per_density * 10^3 # convert unit of E per density (MPa
 ```
 
 ```{r}
+#| results: hide
+#| fig-show: hide
 side <- "tensile"
 # (A) - (F) RWC vs EI
 tensile_result_list <- lapply(seq_along(spp), function(i) {
@@ -130,9 +143,11 @@ df_merged <- rbind(df_merged, df_tensile)
 ```
 
 
-## 80%までにどの程度EIが低下するか
+## Relative stiffness decrease from 100% to 80% RWC
 
 ```{r}
+#| results: hide
+#| fig-show: hide
 list_drop_adaxial <- lapply(seq_along(spp), function(i) {
   sp <- names(spp)[i]
   df_sp <- df_merged[df_merged$species == sp & df_merged$side == "adaxial", ]
@@ -196,9 +211,11 @@ df_wide <- reshape(
 )
 ```
 
-比較プロット
+## Comparison plot
 
 ```{r}
+#| results: hide
+#| fig-show: hide
 cex_pt <- 3 # Point size
 pt_fill_alpha <- 0.5 # Transparency of points
 pt_border_alpha <- 0.9 # Transparency of point borders
@@ -209,7 +226,7 @@ mgp_y <- c(3, 0.5, 0) # Margins for axis labels
 line_alpha <- 0.9 # Transparency of regression lines
 line_width <- 4 # Line width
 
-svg("outputs/figures/figure_S3.svg", bg = "transparent")
+svg("outputs/figures/figure_S2.svg", bg = "transparent")
 par(mar = c(3, 4, 0.6, 0.6))
 plot(
   df_wide$drop_tensile,

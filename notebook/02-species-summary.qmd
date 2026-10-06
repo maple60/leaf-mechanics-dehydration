@@ -1,6 +1,19 @@
+---
+title: "Species summary"
+---
+
+Summarize leaf thickness, leaf dry matter content (LDMC), and leaf mass per area (LMA). Thickness uses fully hydrated samples. The original calculations and plots are retained.
+
+## Analysis
+
+```{r}
+#| label: analysis-02
+#| results: hide
+#| fig-show: hide
+
 # The script for summarizing trait data of all species
 
-source("_setup.R")
+source("R/setup.R")
 # Data Import ----
 data_list <- list()
 data_list[["bending"]] <- read.csv("outputs/tables/bending.csv")
@@ -269,3 +282,4 @@ axis(
   mgp = c(3, 1.5, 0)
 ) # y axis
 dev.off()
+```
