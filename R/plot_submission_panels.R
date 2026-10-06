@@ -20,6 +20,8 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
   layout(matrix(seq_len(length(species) * length(metrics)),
                 nrow = length(species)))
   margins <- c(1.5, 2.9, 1.8, 0.4)
+  # Figure 3 needs extra room for both the ratio title and decimal tick labels.
+  if (length(metrics) == 2L) margins[2] <- 4.4
   par(mar = margins, oma = c(1.8, 0, 0, 0), tcl = -0.2,
       pty = "s", cex = 1, lwd = 0.4, fg = "grey60", col.axis = "black")
   results <- list()
@@ -67,12 +69,14 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
   plot.new()
   plot.window(xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i")
   for (j in seq_along(metrics)) {
-    text((j - 1) / length(metrics) + 0.04 / length(metrics), 0.5,
+    label_offset <- if (length(metrics) == 2L) 0.045 else 0.04 / length(metrics)
+    text((j - 1) / length(metrics) + label_offset, 0.5,
          labels[[j]], srt = 90, cex = 1, col = "black")
   }
   for (i in seq_along(species)) {
     region <- plot_regions[[i]]
-    text(0.07 / length(metrics), region["top"] + 0.008,
+    species_x <- if (length(metrics) == 2L) region["left"] else 0.07 / length(metrics)
+    text(species_x, region["top"] + 0.008,
          names(species)[i], adj = c(0, 0), font = 3, cex = 1, col = "black")
   }
   text(0.5, 0.006, "Relative water content (%)", adj = c(0.5, 0), col = "black")
