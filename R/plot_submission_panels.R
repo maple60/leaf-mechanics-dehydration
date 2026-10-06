@@ -1,7 +1,12 @@
 # Draw manuscript panels using the same GAM function as the analysis chapters.
 plot_submission_panels <- function(data, species, metrics, labels, file,
                                    x = "water_content", tensile = FALSE,
-                                   reference_lines = NULL) {
+                                   reference_lines = NULL, label_offsets = NULL) {
+  # Horizontal offsets from each column's left edge, as fractions of page width.
+  if (is.null(label_offsets)) {
+    label_offsets <- rep(0.04 / length(metrics), length(metrics))
+  }
+  stopifnot(length(label_offsets) == length(metrics), all(is.finite(label_offsets)))
   # Dimensions of the corresponding embedded figures in the current Word file.
   dimensions_pt <- switch(as.character(length(metrics)),
                           "2" = c(190.5, 569.25),
@@ -69,8 +74,7 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
   plot.new()
   plot.window(xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i")
   for (j in seq_along(metrics)) {
-    label_offset <- if (length(metrics) == 2L) 0.045 else 0.04 / length(metrics)
-    text((j - 1) / length(metrics) + label_offset, 0.5,
+    text((j - 1) / length(metrics) + label_offsets[j], 0.5,
          labels[[j]], srt = 90, cex = 1, col = "black")
   }
   for (i in seq_along(species)) {
