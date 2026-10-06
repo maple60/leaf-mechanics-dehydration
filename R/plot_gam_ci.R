@@ -23,6 +23,7 @@ plot_gam_ci <- function(
   ylab = "",
   cex.axis = 2.5, # Axis label size
   cex.lab = 2.5, # Axis label size
+  axis_lwd = 1, # Axis and tick line width
   mgp_x = c(3, 1.5, 0),
   mgp_y = c(3, 0.5, 0), # Margins for axis labels
   add = FALSE, # Add to an existing plot
@@ -135,11 +136,12 @@ plot_gam_ci <- function(
         at = pretty(new_x[[x]]),
         labels = pretty(new_x[[x]]),
         cex.axis = cex.axis,
-        mgp = mgp_x
+        mgp = mgp_x, lwd = axis_lwd, lwd.ticks = axis_lwd
       )
     }
     if (yaxt != "n") {
-      axis(2, at = pretty(ylim), las = 2, cex.axis = cex.axis, mgp = mgp_y)
+      axis(2, at = pretty(ylim), las = 2, cex.axis = cex.axis, mgp = mgp_y,
+           lwd = axis_lwd, lwd.ticks = axis_lwd)
     }
     if (xlab != "") {
       mtext(xlab, side = 1, line = mgp_x[1], cex = cex.lab)

@@ -28,7 +28,7 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
   # Figure 3 needs extra room for both the ratio title and decimal tick labels.
   if (length(metrics) == 2L) margins[2] <- 4.4
   par(mar = margins, oma = c(1.8, 0, 0, 0), tcl = -0.2,
-      pty = "s", cex = 1, lwd = 0.4, fg = "grey60", col.axis = "black")
+      pty = "s", cex = 1, lwd = 0.4, fg = "black", col.axis = "black")
   results <- list()
   plot_regions <- list()
   for (j in seq_along(metrics)) {
@@ -43,7 +43,7 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
           pred_range = c(60, 100), xlim = c(100, 60), mar = margins,
           add = side == "abaxial", pch = if (side == "abaxial") 22 else 21,
           cex_pt = 0.75, pt_border_alpha = 0.5, line_lwd = 1.2,
-          cex.axis = 0.95, cex.lab = 1,
+          cex.axis = 0.95, cex.lab = 1, axis_lwd = 0.4,
           ci_lty = 3, mgp_x = c(1.7, 0.4, 0), mgp_y = c(2.5, 0.3, 0))
         if (!is.null(reference_lines) && metrics[j] == "E_ratio") {
           abline(h = reference_lines, lty = 2, lwd = 0.7)
@@ -57,7 +57,7 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
       if (i == 1L && j == 1L && !tensile) {
         legend("topright", c("Adaxial", "Abaxial"), pch = c(21, 22),
                pt.bg = adjustcolor(c(7, 6), alpha.f = 0.5), col = c(7, 6),
-               pt.cex = 0.9, cex = 0.85, bg = "white", box.col = "grey60",
+               pt.cex = 0.9, cex = 0.85, bg = "white", box.col = "black",
                text.col = "black")
       }
       # Store physical plot rectangles to check that each panel is square.
