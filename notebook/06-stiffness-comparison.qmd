@@ -293,3 +293,30 @@ axis(2, las = 2, cex.axis = cex.axis, mgp = mgp_y)
 axis(1, cex.axis = cex.axis, mgp = mgp_x)
 dev.off()
 ```
+
+## Relative stiffness change
+
+```{r}
+#| label: fig-stiffness-comparison
+#| echo: false
+#| fig-cap: "Relative bending and tensile stiffness decrease from 100% to 80% RWC. Orange circles: adaxial bending; blue squares: abaxial bending. The dashed line is 1:1."
+knitr::include_graphics("../outputs/figures/figure_S2.svg", rel_path = FALSE, error = FALSE)
+```
+
+## Regression results
+
+```{r}
+#| label: stiffness-regression-results
+regression_summary <- do.call(rbind, lapply(c("Adaxial", "Abaxial"), function(side) {
+  model <- if (side == "Adaxial") model_adaxial else model_abaxial
+  model_summary <- summary(model)
+  data.frame(side = side, species = nobs(model), intercept = unname(coef(model)[1]),
+    slope = unname(coef(model)[2]), R2 = model_summary$r.squared,
+    adjusted_R2 = model_summary$adj.r.squared, p = coef(model_summary)[2, 4])
+}))
+knitr::kable(regression_summary, digits = c(0, 0, 3, 3, 3, 3, 5), row.names = FALSE)
+```
+
+The inherited analysis excludes the abaxial value for *Ligustrum lucidum* by
+assigning it `NA`. The abaxial regression therefore uses five species.
+Both ordinary and adjusted R² are shown to clarify the manuscript reporting.

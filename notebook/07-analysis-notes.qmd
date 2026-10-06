@@ -1,0 +1,54 @@
+---
+title: "Analysis notes"
+---
+
+## Reproduction checks
+
+The original GitHub analysis at commit
+`606501e6a66bde009e91a9326a1c216c9e6e16d1` was compared with the migrated code
+and the notebook conversion using R 4.5.3, mgcv 1.9-3, Matrix 1.7-3,
+nlme 3.1-168, and lattice 0.22-7. The four analysis packages match `renv.lock`;
+R itself differs from the lockfile's 4.5.1.
+
+- Integrated data matched: 496 bending records and 262 tensile records.
+- All 102 GAM calls matched in coefficients, smoothing parameters, model data,
+  predictions, standard errors, and confidence intervals.
+- All 58 SVG outputs matched before notebook rendering. The supplementary
+  comparison was renamed from the source code's S3 to the manuscript's S2.
+
+The manuscript's main figure images span RWC 100–60%, matching this analysis.
+An older Dropbox code version used 50% and produces different model predictions.
+The assembled manuscript images have not been checked for pixel equivalence.
+
+## Reporting details to reconcile
+
+| Item | Manuscript text | Recalculation |
+| --- | --- | --- |
+| *Aucuba japonica* thickness SD | 0.001 mm | 0.0104403 mm |
+| S2 abaxial regression slope | 1.05 | 1.0514683 |
+| S2 abaxial R² | 0.97 | 0.9765379 (adjusted R² ≈ 0.9687) |
+| S2 abaxial p | <0.001 | 0.0015361 |
+
+The other species' thickness summaries and all LMA/LDMC mean and SD values
+agree at the manuscript's reported precision. Table 1's sample-count definition
+remains unresolved: the notebook's summary counts are nonmissing measurement
+records for each trait, not confirmed counts of independent leaves.
+
+## Inherited exclusions
+
+The integration notebook applies `exclude_records_bending.csv` to both bending
+and tensile records. It also retains the existing hard-coded tensile exclusions
+and instrument failure filtering. No exclusion rule was changed during migration.
+
+The supplementary analysis sets the abaxial stiffness decrease for
+*Ligustrum lucidum* to missing. Its regression therefore uses five species,
+compared with six on the adaxial side. The reason for that exclusion should be
+documented before release.
+
+## Supplementary figure mapping
+
+| Manuscript figure | Notebook coverage |
+| --- | --- |
+| S1: force–displacement examples | Not yet implemented. |
+| S2: relative stiffness decrease | `06-stiffness-comparison.qmd`. |
+| S3: microscopy | Not yet implemented; source photographs remain in the original collection. |

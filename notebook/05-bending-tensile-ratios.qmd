@@ -34,7 +34,7 @@ df_list[["merged"]] <- merge(
 )
 
 df <- df_list[["merged"]]
-df <- df[df$water_content_bending >= 60 & df$water_content_tensile >= 60, ] # filter data for water content >= 50%
+df <- df[df$water_content_bending >= 60 & df$water_content_tensile >= 60, ] # filter data for water content >= 60%
 
 df$RWC_mean <- (df$water_content_bending + df$water_content_tensile) / 2 # calculate mean RWC
 df$EI_ratio <- df$EI_bending / df$EI_tensile # calculate ratio of EI
@@ -148,4 +148,28 @@ lapply(seq_along(spp), function(i) {
   abline(h = 3, lty = 2, lwd = 3) # Add horizontal line at y = 1
   dev.off()
 })
+```
+
+## Bending-to-tensile stiffness ratio
+
+```{r}
+#| label: fig-stiffness-ratio
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+figure_files <- list.files("outputs/figures/figure_03", pattern = "_RWC_vs_EI_", full.names = TRUE)
+stopifnot(length(figure_files) == 6L)
+knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
+```
+
+## Bending-to-tensile modulus ratio
+
+```{r}
+#| label: fig-modulus-ratio
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+figure_files <- list.files("outputs/figures/figure_03", pattern = "_RWC_vs_E_", full.names = TRUE)
+stopifnot(length(figure_files) == 6L)
+knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```

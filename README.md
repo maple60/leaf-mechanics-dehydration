@@ -39,6 +39,9 @@ CSV files used by all later analyses.
 | `notebook/05-bending-tensile-ratios.qmd` | Main Figure 3. |
 | `notebook/06-stiffness-comparison.qmd` | Supplementary Figure S2. |
 | `R/` | Shared functions and notebook setup. |
+| `index.qmd`, `_quarto.yml` | Quarto book home page and chapter navigation. |
+| `notebook/07-analysis-notes.qmd` | Reproduction checks and unresolved manuscript reporting. |
+| `notebook/08-functions.qmd` | Shared function reference. |
 | `data/README.md` | External data requirements. |
 | `outputs/tables/`, `outputs/figures/` | Generated CSV and SVG files, ignored by Git. |
 | `renv.lock`, `renv/` | Original R package environment. |
@@ -65,5 +68,11 @@ recreated by these notebooks.
 Original inputs remain outside Git; outputs are generated in the code checkout.
 `manuscripts/` is a local working folder excluded from Git and the rendered site.
 A dataset DOI and an agreed license will be added before public release.
+
+## Site preview
+
+`quarto render` builds the book in `_site/` (ignored by Git).
+Use `quarto preview` for a local browser preview. This draft does not deploy
+automatically or make the private repository public.
 
 Edit this `README.md` directly; it is not generated from Quarto.

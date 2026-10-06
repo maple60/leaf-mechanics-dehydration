@@ -7,4 +7,5 @@ dir.create("outputs/figures", recursive = TRUE, showWarnings = FALSE)
 
 library(mgcv)
 source("R/plot_gam_ci.R")
+source("R/summarize_trait.R")
 palette("Okabe-Ito")

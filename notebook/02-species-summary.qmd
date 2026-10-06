@@ -283,3 +283,55 @@ axis(
 ) # y axis
 dev.off()
 ```
+
+## Trait summaries
+
+Each table reports nonmissing measurement records, mean, and sample standard
+deviation. These counts are not confirmed independent-leaf sample sizes in
+manuscript Table 1. Thickness uses the fully hydrated records; LDMC and LMA use
+the existing summary datasets.
+
+### Thickness (mm)
+
+```{r}
+#| label: thickness-summary
+thickness_summary <- summarize_trait(data_list$thickness_turgid, "thick")
+knitr::kable(thickness_summary, digits = 4, row.names = FALSE)
+```
+
+```{r}
+#| label: fig-thickness-summary
+#| echo: false
+#| fig-cap: "Leaf thickness at full hydration."
+knitr::include_graphics("../outputs/figures/leaf_thickness_boxplot.svg", rel_path = FALSE, error = FALSE)
+```
+
+### Leaf dry matter content
+
+```{r}
+#| label: ldmc-summary
+ldmc_summary <- summarize_trait(data_list$LDMC, "LDMC")
+knitr::kable(ldmc_summary, digits = 4, row.names = FALSE)
+```
+
+```{r}
+#| label: fig-ldmc-summary
+#| echo: false
+#| fig-cap: "Leaf dry matter content: dry mass divided by fully hydrated mass."
+knitr::include_graphics("../outputs/figures/LDMC_boxplot.svg", rel_path = FALSE, error = FALSE)
+```
+
+### Leaf mass per area (g m⁻²)
+
+```{r}
+#| label: lma-summary
+lma_summary <- summarize_trait(data_list$LMA, "LMA")
+knitr::kable(lma_summary, digits = 3, row.names = FALSE)
+```
+
+```{r}
+#| label: fig-lma-summary
+#| echo: false
+#| fig-cap: "Leaf mass per area."
+knitr::include_graphics("../outputs/figures/LMA_boxplot.svg", rel_path = FALSE, error = FALSE)
+```

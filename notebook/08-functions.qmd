@@ -1,0 +1,35 @@
+---
+title: "Shared functions"
+---
+
+Each analysis notebook loads `R/setup.R` for the external data path, output
+directories, palette, and shared functions. The analysis uses base R graphics.
+
+## GAM fitting and plotting
+
+`plot_gam_ci()` fits a GAM by REML and returns its model, prediction grid,
+predicted values, standard errors, and confidence limits while drawing the plot.
+Its statistical calculation and plotting parameters are inherited unchanged.
+
+[Download plot_gam_ci.R](../R/plot_gam_ci.R)
+
+```{r}
+#| echo: false
+#| results: asis
+cat("```r\n", paste(readLines("R/plot_gam_ci.R"), collapse = "\n"), "\n```\n", sep = "")
+```
+
+## Trait summaries
+
+`summarize_trait()` reports the mean, sample standard deviation, and number of
+nonmissing measurement records for each species. It is used for thickness,
+LDMC, and LMA; these record counts do not define the manuscript's independent
+sample count.
+
+[Download summarize_trait.R](../R/summarize_trait.R)
+
+```{r}
+#| echo: false
+#| results: asis
+cat("```r\n", paste(readLines("R/summarize_trait.R"), collapse = "\n"), "\n```\n", sep = "")
+```

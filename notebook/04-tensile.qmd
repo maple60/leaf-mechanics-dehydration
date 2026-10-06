@@ -18,7 +18,7 @@ df_list <- list()
 df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 categories <- c("bending", "tensile")
 df <- df_list[[categories[2]]]
-df <- df[df$water_content >= 60, ] # filter data for water content >= 50%
+df <- df[df$water_content >= 60, ] # filter data for water content >= 60%
 df$EI <- df$EI * 1000 # convert unit of EI
 df$I <- df$I * 1000 # convert unit of I
 df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
@@ -139,4 +139,52 @@ lapply(seq_along(spp), function(i) {
   )
   dev.off()
 })
+```
+
+## Tensile stiffness
+
+```{r}
+#| label: fig-tensile-stiffness
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_EI_", full.names = TRUE)
+stopifnot(length(figure_files) == 6L)
+knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
+```
+
+## Tensile Young modulus
+
+```{r}
+#| label: fig-tensile-modulus
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_E_[A-Z]", full.names = TRUE)
+stopifnot(length(figure_files) == 6L)
+knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
+```
+
+## Tissue density
+
+```{r}
+#| label: fig-tensile-density
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_density_", full.names = TRUE)
+stopifnot(length(figure_files) == 6L)
+knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
+```
+
+## Modulus divided by tissue density
+
+```{r}
+#| label: fig-tensile-modulus-density
+#| echo: false
+#| layout-ncol: 2
+#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_E_per_density_", full.names = TRUE)
+stopifnot(length(figure_files) == 6L)
+knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```

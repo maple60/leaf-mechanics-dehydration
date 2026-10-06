@@ -208,3 +208,19 @@ write.csv(
   row.names = FALSE
 )
 ```
+
+## Integrated records
+
+```{r}
+#| label: integration-records
+record_counts <- data.frame(
+  test = c("Bending", "Tensile"),
+  records = c(nrow(df_bending_filtered), nrow(df_tensile_filtered))
+)
+knitr::kable(record_counts, row.names = FALSE)
+```
+
+The exclusion CSV is applied to both tests, as in the source analysis. The
+existing failure filtering and the two hard-coded tensile exclusions are
+retained. See [Analysis notes](07-analysis-notes.qmd) for unresolved reporting
+questions. The integrated tables are generated outputs, not new original data.

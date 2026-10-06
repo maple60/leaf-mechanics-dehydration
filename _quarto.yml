@@ -1,12 +1,41 @@
 project:
-  type: default
+  type: book
   execute-dir: project
-  render:
-    - notebook/01-data-integration.qmd
-    - notebook/02-species-summary.qmd
-    - notebook/03-bending.qmd
-    - notebook/04-tensile.qmd
-    - notebook/05-bending-tensile-ratios.qmd
-    - notebook/06-stiffness-comparison.qmd
+  output-dir: _site
+  resources:
+    - R/plot_gam_ci.R
+    - R/summarize_trait.R
+
+book:
+  title: "Leaf Mechanics under Dehydration"
+  author: "Kaede Konrai"
+  chapters:
+    - index.qmd
+    - part: "Data preparation"
+      chapters:
+        - notebook/01-data-integration.qmd
+        - notebook/02-species-summary.qmd
+    - part: "Main figures"
+      chapters:
+        - notebook/03-bending.qmd
+        - notebook/04-tensile.qmd
+        - notebook/05-bending-tensile-ratios.qmd
+    - part: "Supplementary analysis"
+      chapters:
+        - notebook/06-stiffness-comparison.qmd
+  appendices:
+    - notebook/07-analysis-notes.qmd
+    - notebook/08-functions.qmd
+
+number-sections: false
 execute:
   echo: true
+  freeze: false
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    code-tools: true
+    code-overflow: wrap
+    fig-format: svg
