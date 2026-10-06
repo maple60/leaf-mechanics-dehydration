@@ -85,12 +85,17 @@ Generated CSV files go to `outputs/tables/`; SVG figures go to
 ## Verification and limitations
 
 All five R scripts and the Figure S3 notebook's R chunks were executed using
-R 4.5.3 and mgcv 1.9-4 with the minimal external input package. The regenerated
+R 4.5.3 and the lockfile's mgcv 1.9-3, Matrix 1.7-3, nlme 3.1-168, and lattice
+0.22-7 with the minimal external input package. The regenerated
 bending (496 rows) and tensile (262 rows) tables matched the previous derived
 tables, and 58 SVG files were generated. All 59 input files retained their
-SHA-256 hashes. The Figure S3 notebook also rendered successfully to HTML.
-Execution under the lockfile's mgcv 1.9-3 and visual equivalence with manuscript
-figures have not been verified.
+SHA-256 hashes. The supplementary comparison notebook also rendered to HTML.
+A separate run of the imported source and migrated code produced exactly
+matching outputs for 102 GAM calls and all 58 SVGs. See
+[manuscript reproduction check](docs/reproduction-check.md) for the manuscript
+reference, discrepancies in reported numbers, and supplementary figure mapping.
+R itself was 4.5.3 rather than the lockfile's 4.5.1; pixel equivalence with the
+manuscript's assembled figures has not been verified.
 
 Original metadata column order and exclusions are retained. Review them against
 the manuscript before public release, particularly the existing application of
