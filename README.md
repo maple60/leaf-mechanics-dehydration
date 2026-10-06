@@ -42,6 +42,7 @@ CSV files used by all later analyses.
 | `index.qmd`, `_quarto.yml` | Quarto book home page and chapter navigation. |
 | `notebook/07-analysis-notes.qmd` | Reproduction checks and unresolved manuscript reporting. |
 | `notebook/08-functions.qmd` | Shared function reference. |
+| `notebook/09-submission-figures.qmd` | Folded PDF generation code and submission figure downloads. |
 | `data/README.md` | External data requirements. |
 | `outputs/tables/`, `outputs/figures/` | Generated CSV and SVG files, ignored by Git. |
 | `renv.lock`, `renv/` | Original R package environment. |
@@ -72,6 +73,9 @@ A dataset DOI and an agreed license will be added before public release.
 ## Site preview
 
 `quarto render` builds the book in `_site/` (ignored by Git).
+The final chapter creates four draft PDFs in `outputs/figures/submission/`
+and copies them into the site for download. Review the tensile stiffness
+definition noted there before submitting the figures.
 Use `quarto preview` for a local browser preview. This draft does not deploy
 automatically or make the private repository public.
 

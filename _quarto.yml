@@ -5,6 +5,9 @@ project:
   resources:
     - R/plot_gam_ci.R
     - R/summarize_trait.R
+    - R/plot_submission_panels.R
+    - outputs/figures/submission/generate_figures.qmd
+    - outputs/figures/submission/*.pdf
 
 book:
   title: "Leaf Mechanics under Dehydration"
@@ -26,6 +29,7 @@ book:
   appendices:
     - notebook/07-analysis-notes.qmd
     - notebook/08-functions.qmd
+    - notebook/09-submission-figures.qmd
 
 number-sections: false
 execute:

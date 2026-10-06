@@ -36,6 +36,14 @@ records for each trait, not confirmed counts of independent leaves.
 
 ## Inherited exclusions
 
+### Tensile stiffness definition
+
+The inherited Figure 2 code uses the tensile metadata `EI` column, matching
+`E.x * I` for 248 of 262 records (relative tolerance 10⁻⁶), while the manuscript
+methods define tensile stiffness as `E_t * A`. The other 14 records also need checking.
+Figure 3 and S2 also use this column. Reconcile that definition and the axis
+units before submitting the PDF drafts; no calculation has been changed here.
+
 The integration notebook applies `exclude_records_bending.csv` to both bending
 and tensile records. It also retains the existing hard-coded tensile exclusions
 and instrument failure filtering. No exclusion rule was changed during migration.

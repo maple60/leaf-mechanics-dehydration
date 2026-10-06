@@ -1,0 +1,156 @@
+---
+title: "Figures for journal submission"
+---
+
+The code below generates one PDF per manuscript figure. Expand **Show generation
+code** to inspect each step. The PDFs use the same inputs, exclusions, GAMs, and
+prediction grids as the analysis chapters; only the panel layout and typography
+change. They are downloadable files rather than embedded figures on this page.
+
+[Download the generation notebook (QMD)](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
+
+Figures 1–3 are 178 mm wide, with six species arranged in rows and traits in
+columns. Panel letters follow the manuscript: A–F in the first column, G–L in
+the second, and so on. Figure S2 is 120 mm wide. Text uses Arial, and the PDFs
+retain vector lines and text. Layout is a draft to review before submission.
+
+::: {.callout-note title="Check the stiffness definition before submission"}
+The inherited tensile analysis plots the metadata `EI` column, which matches
+`E.x * I` for 248 of 262 records (relative tolerance 10⁻⁶), whereas the
+manuscript's methods describe tensile stiffness as
+`E_t * A`. These PDFs retain the original analysis and figure units; they do
+not substitute `E_t * A`. The tensile stiffness definition and associated
+ratio labels need reconciliation before these drafts are submitted.
+:::
+
+## Preparation
+
+Run data integration first. Figure S2 also requires the stiffness comparison
+chapter, which saves its data and fitted regressions without refitting here.
+
+```{r}
+#| label: submission-preparation
+#| code-summary: "Show generation code"
+#| message: false
+source("R/setup.R")
+source("R/plot_submission_panels.R")
+submission_dir <- "outputs/figures/submission"
+dir.create(submission_dir, recursive = TRUE, showWarnings = FALSE)
+invisible(file.copy("notebook/09-submission-figures.qmd",
+                    file.path(submission_dir, "generate_figures.qmd"),
+                    overwrite = TRUE))
+bending <- read.csv("outputs/tables/bending.csv")
+tensile <- read.csv("outputs/tables/tensile.csv")
+species <- c("ubayuri", "youshuyamagobou", "yurinoki",
+             "niseakashia", "aoki", "nezumimochi")
+names(species) <- c("Cardiocrinum cordatum", "Phytolacca americana",
+                   "Liriodendron tulipifera", "Robinia pseudoacacia",
+                   "Aucuba japonica", "Ligustrum lucidum")
+```
+
+## Figure 1: Bending properties
+
+A–F: bending stiffness; G–L: bending Young's modulus; M–R: second moment of
+area. Orange circles and blue squares represent adaxial and abaxial bending.
+
+```{r}
+#| label: submission-figure-1
+#| code-summary: "Show generation code"
+#| results: hide
+#| fig-show: hide
+data_bending <- bending[bending$water_content >= 60, ]
+data_bending$EI <- data_bending$EI * 1000
+data_bending$I <- data_bending$I * 1000
+figure_1_models <- plot_submission_panels(
+  data_bending, species, metrics = c("EI", "E.x", "I"),
+  labels = expression(E[b]*I~(10^{-3}~N~mm^2), E[b]~(MPa),
+                      I~(10^{-3}~mm^4)),
+  file = file.path(submission_dir, "figure_1.pdf"))
+```
+
+[Download Figure 1 (PDF)](../outputs/figures/submission/figure_1.pdf){download="figure_1.pdf"}
+
+## Figure 2: Tensile properties
+
+A–F: tensile stiffness; G–L: tensile Young's modulus; M–R: tissue density;
+S–X: modulus divided by tissue density.
+
+```{r}
+#| label: submission-figure-2
+#| code-summary: "Show generation code"
+#| results: hide
+#| fig-show: hide
+data_tensile <- tensile[tensile$water_content >= 60, ]
+data_tensile$EI <- data_tensile$EI * 1000
+data_tensile$I <- data_tensile$I * 1000
+data_tensile$density <- data_tensile$dry_weight / data_tensile$thickness
+data_tensile$E_per_density <- data_tensile$E.x / data_tensile$density * 1000
+figure_2_models <- plot_submission_panels(
+  data_tensile, species, metrics = c("EI", "E.x", "density", "E_per_density"),
+  labels = expression(EI[t]~(10^{-3}~N~mm^2), E[t]~(MPa),
+                      D~(kg~m^{-3}), E[t]/D~(MPa~cm^3~g^{-1})),
+  file = file.path(submission_dir, "figure_2.pdf"), tensile = TRUE)
+```
+
+[Download Figure 2 (PDF)](../outputs/figures/submission/figure_2.pdf){download="figure_2.pdf"}
+
+## Figure 3: Bending-to-tensile ratios
+
+A–F: stiffness ratio; G–L: Young's modulus ratio. The reference lines for the
+modulus ratio are at 1 and 3, as in the analysis chapter.
+
+```{r}
+#| label: submission-figure-3
+#| code-summary: "Show generation code"
+#| results: hide
+#| fig-show: hide
+ratios <- merge(
+  bending[, c("spp", "leaf_side", "ID", "EI", "E.x", "water_content")],
+  tensile[, c("spp", "ID1", "EI", "E.x", "water_content")],
+  all = TRUE, suffixes = c("_bending", "_tensile"),
+  by.x = c("spp", "ID"), by.y = c("spp", "ID1"))
+ratios <- ratios[ratios$water_content_bending >= 60 &
+                   ratios$water_content_tensile >= 60, ]
+ratios$RWC_mean <- (ratios$water_content_bending + ratios$water_content_tensile) / 2
+ratios$EI_ratio <- ratios$EI_bending / ratios$EI_tensile * 1000
+ratios$E_ratio <- ratios$E.x_bending / ratios$E.x_tensile
+figure_3_models <- plot_submission_panels(
+  ratios, species, metrics = c("EI_ratio", "E_ratio"),
+  labels = expression(EI[b]/EI[t]~(10^{-3}), E[b]/E[t]),
+  file = file.path(submission_dir, "figure_3.pdf"), x = "RWC_mean",
+  reference_lines = c(1, 3))
+```
+
+[Download Figure 3 (PDF)](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
+
+## Figure S2: Relative stiffness decrease
+
+This PDF uses the saved predictions and regressions from the supplementary
+analysis, including its 50% RWC fitting cutoff and inherited missing abaxial
+value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.
+
+```{r}
+#| label: submission-figure-s2
+#| code-summary: "Show generation code"
+#| results: hide
+#| fig-show: hide
+comparison <- readRDS("outputs/tables/stiffness-comparison.rds")
+plot_submission_comparison(comparison, file.path(submission_dir, "figure_S2.pdf"))
+```
+
+[Download Figure S2 (PDF)](../outputs/figures/submission/figure_S2.pdf){download="figure_S2.pdf"}
+
+## Shared drawing code
+
+The calls above use `plot_gam_ci()` from the analysis chapters. The helper below
+sets the PDF device, panel arrangement, labels, and point and line sizes.
+
+[Download the drawing helper (R)](../R/plot_submission_panels.R)
+
+```{r}
+#| echo: false
+#| results: asis
+cat("::: {.callout-note collapse=\"true\" title=\"Show shared drawing code\"}\n",
+    "```r\n", paste(readLines("R/plot_submission_panels.R"), collapse = "\n"),
+    "\n```\n::: \n", sep = "")
+```

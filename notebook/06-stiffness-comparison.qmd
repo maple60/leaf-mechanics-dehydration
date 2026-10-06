@@ -292,6 +292,8 @@ print(summary(model_abaxial))
 axis(2, las = 2, cex.axis = cex.axis, mgp = mgp_y)
 axis(1, cex.axis = cex.axis, mgp = mgp_x)
 dev.off()
+saveRDS(list(data = df_wide, adaxial = model_adaxial, abaxial = model_abaxial),
+        "outputs/tables/stiffness-comparison.rds")
 ```
 
 ## Relative stiffness change
