@@ -74,8 +74,9 @@ A dataset DOI and an agreed license will be added before public release.
 
 `quarto render` builds the book in `_site/` (ignored by Git).
 The final chapter creates four draft PDFs in `outputs/figures/submission/`
-and copies them into the site for download. Review the tensile stiffness
-definition noted there before submitting the figures.
+and copies them into the site for download. Figures 2, 3, and S2 now use tensile
+stiffness `EA = E.x * thick * width.x` (N), replacing the legacy tensile `EI`.
+Update the manuscript's figure units and S2 statistics to the corrected results.
 Use `quarto preview` for a local browser preview. This draft does not deploy
 automatically or make the private repository public.
 

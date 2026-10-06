@@ -6,5 +6,5 @@
 - `figures/submission/`: one-page draft PDFs for Figures 1, 2, 3, and S2.
 
 Generated files are ignored by Git. Recreate them using the commands in the
-project README. Analysis notebooks retain the source repository's statistical
-methods, exclusions, and plotting conventions.
+project README. Statistical methods and exclusions are retained; tensile
+stiffness is now computed as `E_t A`, as documented in the analysis notes.

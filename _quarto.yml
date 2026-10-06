@@ -6,6 +6,7 @@ project:
     - R/plot_gam_ci.R
     - R/summarize_trait.R
     - R/plot_submission_panels.R
+    - R/add_tensile_stiffness.R
     - outputs/figures/submission/generate_figures.qmd
     - outputs/figures/submission/*.pdf
 

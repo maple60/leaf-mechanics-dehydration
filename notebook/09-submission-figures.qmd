@@ -14,14 +14,9 @@ columns. Panel letters follow the manuscript: A–F in the first column, G–L i
 the second, and so on. Figure S2 is 120 mm wide. Text uses Arial, and the PDFs
 retain vector lines and text. Layout is a draft to review before submission.
 
-::: {.callout-note title="Check the stiffness definition before submission"}
-The inherited tensile analysis plots the metadata `EI` column, which matches
-`E.x * I` for 248 of 262 records (relative tolerance 10⁻⁶), whereas the
-manuscript's methods describe tensile stiffness as
-`E_t * A`. These PDFs retain the original analysis and figure units; they do
-not substitute `E_t * A`. The tensile stiffness definition and associated
-ratio labels need reconciliation before these drafts are submitted.
-:::
+Tensile stiffness is calculated as `E_t * A`, with `A = thick * width.x` from
+the instrument dimensions (mm) associated with `E.x` (MPa). The resulting
+`EA` is in N; bending-to-tensile stiffness ratios are in mm².
 
 ## Preparation
 
@@ -40,7 +35,7 @@ invisible(file.copy("notebook/09-submission-figures.qmd",
                     file.path(submission_dir, "generate_figures.qmd"),
                     overwrite = TRUE))
 bending <- read.csv("outputs/tables/bending.csv")
-tensile <- read.csv("outputs/tables/tensile.csv")
+tensile <- add_tensile_stiffness(read.csv("outputs/tables/tensile.csv"))
 species <- c("ubayuri", "youshuyamagobou", "yurinoki",
              "niseakashia", "aoki", "nezumimochi")
 names(species) <- c("Cardiocrinum cordatum", "Phytolacca americana",
@@ -81,13 +76,13 @@ S–X: modulus divided by tissue density.
 #| results: hide
 #| fig-show: hide
 data_tensile <- tensile[tensile$water_content >= 60, ]
-data_tensile$EI <- data_tensile$EI * 1000
+
 data_tensile$I <- data_tensile$I * 1000
 data_tensile$density <- data_tensile$dry_weight / data_tensile$thickness
 data_tensile$E_per_density <- data_tensile$E.x / data_tensile$density * 1000
 figure_2_models <- plot_submission_panels(
-  data_tensile, species, metrics = c("EI", "E.x", "density", "E_per_density"),
-  labels = expression(EI[t]~(10^{-3}~N~mm^2), E[t]~(MPa),
+  data_tensile, species, metrics = c("EA", "E.x", "density", "E_per_density"),
+  labels = expression(E[t]*A~(N), E[t]~(MPa),
                       D~(kg~m^{-3}), E[t]/D~(MPa~cm^3~g^{-1})),
   file = file.path(submission_dir, "figure_2.pdf"), tensile = TRUE)
 ```
@@ -106,17 +101,17 @@ modulus ratio are at 1 and 3, as in the analysis chapter.
 #| fig-show: hide
 ratios <- merge(
   bending[, c("spp", "leaf_side", "ID", "EI", "E.x", "water_content")],
-  tensile[, c("spp", "ID1", "EI", "E.x", "water_content")],
+  tensile[, c("spp", "ID1", "EA", "E.x", "water_content")],
   all = TRUE, suffixes = c("_bending", "_tensile"),
   by.x = c("spp", "ID"), by.y = c("spp", "ID1"))
 ratios <- ratios[ratios$water_content_bending >= 60 &
                    ratios$water_content_tensile >= 60, ]
 ratios$RWC_mean <- (ratios$water_content_bending + ratios$water_content_tensile) / 2
-ratios$EI_ratio <- ratios$EI_bending / ratios$EI_tensile * 1000
+ratios$stiffness_ratio <- ratios$EI / ratios$EA * 1000
 ratios$E_ratio <- ratios$E.x_bending / ratios$E.x_tensile
 figure_3_models <- plot_submission_panels(
-  ratios, species, metrics = c("EI_ratio", "E_ratio"),
-  labels = expression(EI[b]/EI[t]~(10^{-3}), E[b]/E[t]),
+  ratios, species, metrics = c("stiffness_ratio", "E_ratio"),
+  labels = expression(E[b]*I/(E[t]*A)~(10^{-3}~mm^2), E[b]/E[t]),
   file = file.path(submission_dir, "figure_3.pdf"), x = "RWC_mean",
   reference_lines = c(1, 3))
 ```

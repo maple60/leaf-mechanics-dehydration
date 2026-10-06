@@ -17,9 +17,9 @@ source("R/setup.R")
 df_list <- list()
 df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 categories <- c("bending", "tensile")
-df <- df_list[[categories[2]]]
+df <- add_tensile_stiffness(df_list[[categories[2]]])
 df <- df[df$water_content >= 60, ] # filter data for water content >= 60%
-df$EI <- df$EI * 1000 # convert unit of EI
+
 df$I <- df$I * 1000 # convert unit of I
 df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
 df$density <- df$dry_weight / df$thickness # calculate leaf density (kg m-3)
@@ -52,20 +52,20 @@ if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
 side <- "tensile"
-# (A) - (F) RWC vs EI
+# (A) - (F) RWC vs EA
 lapply(seq_along(spp), function(i) {
   sp <- spp[i]
   df_sp <- df[df$spp == sp, ]
   output_path <- file.path(
     output_dir,
-    paste0(LETTERS[i], "_RWC_vs_EI_", names(spp)[i], ".svg")
+    paste0(LETTERS[i], "_RWC_vs_EA_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
   plot_gam_ci(
     data = df_sp,
     x = "water_content",
-    y = "EI",
+    y = "EA",
     side = side,
     pred_range = pred_range,
     xlim = xlim,
@@ -141,14 +141,17 @@ lapply(seq_along(spp), function(i) {
 })
 ```
 
-## Tensile stiffness
+## Tensile stiffness ($E_tA$, N)
+
+Cross-sectional area is `thick * width.x` (mm²), using the instrument dimensions
+associated with `E.x` (MPa = N/mm²). The legacy tensile `EI` column is not used.
 
 ```{r}
 #| label: fig-tensile-stiffness
 #| echo: false
 #| layout-ncol: 2
 #| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
-figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_EI_", full.names = TRUE)
+figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_EA_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```

@@ -4,6 +4,10 @@ title: "Analysis notes"
 
 ## Reproduction checks
 
+These checks describe the migrated legacy analysis before the tensile stiffness
+correction below. They do not imply that the corrected Figures 2, 3, and S2
+match the legacy curves.
+
 The original GitHub analysis at commit
 `606501e6a66bde009e91a9326a1c216c9e6e16d1` was compared with the migrated code
 and the notebook conversion using R 4.5.3, mgcv 1.9-3, Matrix 1.7-3,
@@ -20,7 +24,9 @@ The manuscript's main figure images span RWC 100–60%, matching this analysis.
 An older Dropbox code version used 50% and produces different model predictions.
 The assembled manuscript images have not been checked for pixel equivalence.
 
-## Reporting details to reconcile
+## Legacy reporting details to reconcile
+
+The S2 values in this table refer to the legacy tensile `EI` calculation.
 
 | Item | Manuscript text | Recalculation |
 | --- | --- | --- |
@@ -38,11 +44,20 @@ records for each trait, not confirmed counts of independent leaves.
 
 ### Tensile stiffness definition
 
-The inherited Figure 2 code uses the tensile metadata `EI` column, matching
-`E.x * I` for 248 of 262 records (relative tolerance 10⁻⁶), while the manuscript
-methods define tensile stiffness as `E_t * A`. The other 14 records also need checking.
-Figure 3 and S2 also use this column. Reconcile that definition and the axis
-units before submitting the PDF drafts; no calculation has been changed here.
+The legacy Figure 2 code used the tensile metadata `EI` column, matching
+`E.x * I` for 248 of 262 records (relative tolerance 10⁻⁶). Figures 2, 3, and S2
+now use `EA = E.x * thick * width.x`, consistent with the manuscript definition
+of tensile stiffness. Dimensions are from the instrument export, paired with
+its Young's modulus, rather than the separate metadata dimensions (two thickness
+and four width values differ). Figure 2 uses N; the stiffness ratio in Figure 3
+uses 10⁻³ mm². Exclusions, matching, GAM settings, and RWC cutoffs are unchanged.
+The legacy S2 regression values above must be replaced by the corrected results
+shown in the stiffness comparison chapter.
+
+With `EA`, the abaxial S2 regression (five species) has slope 1.1311062,
+intercept -0.3633202, R² 0.9668022, and p = 0.0025932. The adaxial regression
+(six species) has slope 0.5194481, intercept 0.4466174, R² 0.7039988, and
+p = 0.0367743. The manuscript's quoted regression values need updating.
 
 The integration notebook applies `exclude_records_bending.csv` to both bending
 and tensile records. It also retains the existing hard-coded tensile exclusions

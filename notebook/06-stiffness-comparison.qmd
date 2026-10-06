@@ -104,9 +104,9 @@ df_merged <- rbind(df_adaxial, df_abaxial)
 df_list <- list()
 df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 categories <- c("bending", "tensile")
-df <- df_list[[categories[2]]]
+df <- add_tensile_stiffness(df_list[[categories[2]]])
 df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
-df$EI <- df$EI * 1000 # convert unit of EI
+
 df$I <- df$I * 1000 # convert unit of I
 df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
 df$density <- df$dry_weight / df$thickness # calculate leaf density (kg m-3)
@@ -118,7 +118,7 @@ df$E_per_density <- df$E_per_density * 10^3 # convert unit of E per density (MPa
 #| results: hide
 #| fig-show: hide
 side <- "tensile"
-# (A) - (F) RWC vs EI
+# (A) - (F) RWC vs EA
 tensile_result_list <- lapply(seq_along(spp), function(i) {
   sp <- spp[i]
   df_sp <- df[df$spp == sp, ]
@@ -126,7 +126,7 @@ tensile_result_list <- lapply(seq_along(spp), function(i) {
   result <- plot_gam_ci(
     data = df_sp,
     x = "water_content",
-    y = "EI",
+    y = "EA",
     side = side,
     pred_range = c(50, 100),
     xlim = c(100, 50)

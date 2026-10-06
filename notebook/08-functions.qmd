@@ -33,3 +33,17 @@ sample count.
 #| results: asis
 cat("```r\n", paste(readLines("R/summarize_trait.R"), collapse = "\n"), "\n```\n", sep = "")
 ```
+
+## Tensile stiffness
+
+`add_tensile_stiffness()` calculates the cross-sectional area from the instrument
+dimensions and multiplies it by the instrument Young's modulus. This keeps
+Figures 2, 3, S2, and the submission PDFs on the same definition of $E_t A$.
+
+[Download add_tensile_stiffness.R](../R/add_tensile_stiffness.R)
+
+```{r}
+#| echo: false
+#| results: asis
+cat("```r\n", paste(readLines("R/add_tensile_stiffness.R"), collapse = "\n"), "\n```\n", sep = "")
+```

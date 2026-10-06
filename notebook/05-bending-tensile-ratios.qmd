@@ -16,7 +16,7 @@ source("R/setup.R")
 # Load data
 df_list <- list()
 df_list[["bending"]] <- read.csv("outputs/tables/bending.csv")
-df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
+df_list[["tensile"]] <- add_tensile_stiffness(read.csv("outputs/tables/tensile.csv"))
 df_list[["merged"]] <- merge(
   df_list[["bending"]][, c(
     "spp",
@@ -26,7 +26,7 @@ df_list[["merged"]] <- merge(
     "E.x",
     "water_content"
   )],
-  df_list[["tensile"]][, c("spp", "ID1", "EI", "E.x", "water_content")],
+  df_list[["tensile"]][, c("spp", "ID1", "EA", "E.x", "water_content")],
   all = TRUE,
   suffixes = c("_bending", "_tensile"),
   by.x = c("spp", "ID"),
@@ -37,10 +37,10 @@ df <- df_list[["merged"]]
 df <- df[df$water_content_bending >= 60 & df$water_content_tensile >= 60, ] # filter data for water content >= 60%
 
 df$RWC_mean <- (df$water_content_bending + df$water_content_tensile) / 2 # calculate mean RWC
-df$EI_ratio <- df$EI_bending / df$EI_tensile # calculate ratio of EI
+df$stiffness_ratio <- df$EI / df$EA # calculate ratio of EI
 df$E_ratio <- df$E.x_bending / df$E.x_tensile # calculate ratio of E
 
-df$EI_ratio <- df$EI_ratio * 10^3 # convert unit of EI
+df$stiffness_ratio <- df$stiffness_ratio * 10^3 # convert unit of EI
 
 spp <- c(
   "ubayuri",
@@ -69,17 +69,17 @@ if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
 
-# (A) - (F) RWC vs EI_bending / EI_tensile
+# (A) - (F) RWC vs bending EI / tensile EA
 lapply(seq_along(spp), function(i) {
   sp <- spp[i]
   df_sp <- df[df$spp == sp, ]
   df_adaxial <- droplevels(subset(df_sp, leaf_side == "adaxial"))
   df_abaxial <- droplevels(subset(df_sp, leaf_side == "abaxial"))
   x <- "RWC_mean"
-  y <- "EI_ratio"
+  y <- "stiffness_ratio"
   output_path <- file.path(
     output_dir,
-    paste0(LETTERS[i], "_RWC_vs_EI_", names(spp)[i], ".svg")
+    paste0(LETTERS[i], "_RWC_vs_stiffness_ratio_", names(spp)[i], ".svg")
   )
   svg(output_path, bg = "transparent")
   # Plot adaxial side
@@ -150,14 +150,16 @@ lapply(seq_along(spp), function(i) {
 })
 ```
 
-## Bending-to-tensile stiffness ratio
+## Bending-to-tensile stiffness ratio ($E_bI/E_tA$)
+
+The ratio is in mm² and is displayed in units of 10⁻³ mm².
 
 ```{r}
 #| label: fig-stiffness-ratio
 #| echo: false
 #| layout-ncol: 2
 #| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
-figure_files <- list.files("outputs/figures/figure_03", pattern = "_RWC_vs_EI_", full.names = TRUE)
+figure_files <- list.files("outputs/figures/figure_03", pattern = "_RWC_vs_stiffness_ratio_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
