@@ -1,10 +1,39 @@
 ---
 title: "Data integration"
+title-ja: "データの統合"
 ---
+
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/01-data-integration.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/01-data-integration.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
 
 Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to outputs/tables/.
 
 ## Analysis
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+試験機の出力を読み込み、試料情報と結合し、元の解析の除外規則を適用します。入力ファイルは変更せず、2つの統合済みテーブルを `outputs/tables/` に保存します。
+
+## 解析
+
+::::
 
 ```{r}
 #| label: analysis-01
@@ -209,7 +238,17 @@ write.csv(
 )
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Integrated records
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 統合後の記録数
+
+::::
 
 ```{r}
 #| label: integration-records
@@ -220,7 +259,17 @@ record_counts <- data.frame(
 knitr::kable(record_counts, row.names = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 The exclusion CSV is applied to both tests, as in the source analysis. The
 existing failure filtering and the two hard-coded tensile exclusions are
 retained. See [Analysis notes](07-analysis-notes.qmd) for unresolved reporting
 questions. The integrated tables are generated outputs, not new original data.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+元の解析と同じく、除外CSVを両方の試験に適用します。試験失敗の除外処理と、コード内で指定されている引張試験2件の除外も維持しています。記載上の未解決事項は[解析に関する注記](07-analysis-notes.qmd)を参照してください。統合済みテーブルは処理結果であり、新しい原データではありません。
+
+::::

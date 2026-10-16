@@ -1,8 +1,35 @@
 ---
 title: "Figure S2: Stiffness decrease"
+title-ja: "図S2：剛性の低下"
 ---
 
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/06-stiffness-comparison.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/06-stiffness-comparison.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
+
 Compare the relative decrease in bending and tensile stiffness from 100% to 80% RWC. This is Figure S2 in the manuscript; the source notebook called it S3. Its GAMs retain the original RWC cutoff of 50%.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+RWC 100%から80%までの曲げ剛性と引張剛性の相対的な低下を比較します。論文の図S2に相当し、元のノートブックではS3と呼ばれていました。GAMの当てはめには、元の解析と同じRWC 50%以上の基準を用います。
+
+::::
 
 ```{r}
 #| results: hide
@@ -32,7 +59,17 @@ names(spp) <- c(
 )
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Bending
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 曲げ試験
+
+::::
 
 ```{r}
 #| results: hide
@@ -94,8 +131,17 @@ df_abaxial <- do.call(rbind, df_list_abaxial)
 df_merged <- rbind(df_adaxial, df_abaxial)
 ```
 
+:::: {.content-visible unless-profile="ja"}
 
 ## Tensile
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 引張試験
+
+::::
 
 ```{r}
 #| results: hide
@@ -142,8 +188,17 @@ df_tensile <- do.call(rbind, df_list_tensile)
 df_merged <- rbind(df_merged, df_tensile)
 ```
 
+:::: {.content-visible unless-profile="ja"}
 
 ## Relative stiffness decrease from 100% to 80% RWC
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## RWC 100%から80%までの剛性の相対的な低下
+
+::::
 
 ```{r}
 #| results: hide
@@ -211,7 +266,17 @@ df_wide <- reshape(
 )
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Comparison plot
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 比較図の作成
+
+::::
 
 ```{r}
 #| results: hide
@@ -296,7 +361,17 @@ saveRDS(list(data = df_wide, adaxial = model_adaxial, abaxial = model_abaxial),
         "outputs/tables/stiffness-comparison.rds")
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Relative stiffness change
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 剛性の相対的な変化
+
+::::
 
 ```{r}
 #| label: fig-stiffness-comparison
@@ -305,7 +380,17 @@ saveRDS(list(data = df_wide, adaxial = model_adaxial, abaxial = model_abaxial),
 knitr::include_graphics("../outputs/figures/figure_S2.svg", rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Regression results
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 回帰分析の結果
+
+::::
 
 ```{r}
 #| label: stiffness-regression-results
@@ -319,6 +404,16 @@ regression_summary <- do.call(rbind, lapply(c("Adaxial", "Abaxial"), function(si
 knitr::kable(regression_summary, digits = c(0, 0, 3, 3, 3, 3, 5), row.names = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 The inherited analysis excludes the abaxial value for *Ligustrum lucidum* by
 assigning it `NA`. The abaxial regression therefore uses five species.
 Both ordinary and adjusted R² are shown to clarify the manuscript reporting.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+元の解析では、*Ligustrum lucidum* の背軸側の値を `NA` として除外しています。そのため、背軸側の回帰には5種を用います。論文中の記載を確認できるように、通常のR²と自由度調整済みR²の両方を示します。
+
+::::

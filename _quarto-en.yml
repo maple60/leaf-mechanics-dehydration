@@ -1,0 +1,29 @@
+lang: en
+
+project:
+  post-render:
+    - scripts/render-japanese.R
+
+book:
+  navbar:
+    right:
+      - text: "JP"
+        href: ja/index.html
+  chapters:
+    - index.qmd
+    - part: "Data preparation"
+      chapters:
+        - notebook/01-data-integration.qmd
+        - notebook/02-species-summary.qmd
+    - part: "Main figures"
+      chapters:
+        - notebook/03-bending.qmd
+        - notebook/04-tensile.qmd
+        - notebook/05-bending-tensile-ratios.qmd
+    - part: "Supplementary analysis"
+      chapters:
+        - notebook/06-stiffness-comparison.qmd
+  appendices:
+    - notebook/07-analysis-notes.qmd
+    - notebook/08-functions.qmd
+    - notebook/09-submission-figures.qmd

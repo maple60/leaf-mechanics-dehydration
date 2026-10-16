@@ -1,6 +1,25 @@
 ---
 title: "Figures for journal submission"
+title-ja: "論文投稿用の図"
 ---
+
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/09-submission-figures.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/09-submission-figures.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
 
 The code below generates one PDF per manuscript figure. Expand **Show generation
 code** to inspect each step. The PDFs use the same inputs, exclusions, GAMs, and
@@ -25,6 +44,24 @@ the instrument dimensions (mm) associated with `E.x` (MPa). The resulting
 Run data integration first. Figure S2 also requires the stiffness comparison
 chapter, which saves its data and fitted regressions without refitting here.
 
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+以下のコードで、論文の図ごとに1つのPDFを作成します。コード欄を展開すると各手順を確認できます。入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。PDFはページ内への埋め込みではなく、ダウンロードして確認できます。
+
+[図生成用ノートブック（QMD）をダウンロード](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
+
+図1～3は、現在の原稿に埋め込まれた図の寸法と配置に合わせています（それぞれ約114 × 228、137 × 206、67 × 201 mm）。各パネルの描画領域は正方形です。行に種、列に形質を配置し、共通の縦軸ラベル、斜体の種名、枠内のパネル文字を使います。図S2の幅は120 mmです。文字はArialで、PDF内の線と文字はベクター形式です。修正後の $E_t A$ の値と単位を維持しています。
+
+引張剛性は `E_t * A` として計算します。`A = thick * width.x` は、`E.x`（MPa）に対応する試験機の寸法（mm）から得ます。`EA` の単位はN、曲げ剛性と引張剛性の比の単位はmm²です。
+
+## 準備
+
+最初にデータ統合を実行してください。図S2には剛性比較の章も必要です。同章が保存したデータと回帰結果を読み込むため、ここでは再推定しません。
+
+::::
+
 ```{r}
 #| label: submission-preparation
 #| code-summary: "Show generation code"
@@ -45,10 +82,22 @@ names(species) <- c("Cardiocrinum cordatum", "Phytolacca americana",
                    "Aucuba japonica", "Ligustrum lucidum")
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Figure 1: Bending properties
 
 A–F: bending stiffness; G–L: bending Young's modulus; M–R: second moment of
 area. Orange circles and blue squares represent adaxial and abaxial bending.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 図1：曲げ特性
+
+A～F：曲げ剛性、G～L：曲げ試験のヤング率、M～R：断面二次モーメント。オレンジの丸と青の四角は、それぞれ向軸側と背軸側の曲げを示します。
+
+::::
 
 ```{r}
 #| label: submission-figure-1
@@ -66,12 +115,26 @@ figure_1_models <- plot_submission_panels(
   file = file.path(submission_dir, "figure_1.pdf"))
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 [Download Figure 1 (PDF)](../outputs/figures/submission/figure_1.pdf){download="figure_1.pdf"}
 
 ## Figure 2: Tensile properties
 
 A–F: tensile stiffness; G–L: tensile Young's modulus; M–R: tissue density;
 S–X: modulus divided by tissue density.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+[図1（PDF）をダウンロード](../outputs/figures/submission/figure_1.pdf){download="figure_1.pdf"}
+
+## 図2：引張特性
+
+A～F：引張剛性、G～L：引張試験のヤング率、M～R：組織密度、S～X：ヤング率を組織密度で除した値。
+
+::::
 
 ```{r}
 #| label: submission-figure-2
@@ -91,12 +154,26 @@ figure_2_models <- plot_submission_panels(
   file = file.path(submission_dir, "figure_2.pdf"), tensile = TRUE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 [Download Figure 2 (PDF)](../outputs/figures/submission/figure_2.pdf){download="figure_2.pdf"}
 
 ## Figure 3: Bending-to-tensile ratios
 
 A–F: stiffness ratio; G–L: Young's modulus ratio. The reference lines for the
 modulus ratio are at 1 and 3, as in the analysis chapter.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+[図2（PDF）をダウンロード](../outputs/figures/submission/figure_2.pdf){download="figure_2.pdf"}
+
+## 図3：曲げ特性と引張特性の比
+
+A～F：剛性比、G～L：ヤング率の比。ヤング率の比の基準線は解析の章と同じく1と3です。
+
+::::
 
 ```{r}
 #| label: submission-figure-3
@@ -121,6 +198,8 @@ figure_3_models <- plot_submission_panels(
   reference_lines = c(1, 3), label_offsets = c(0.045, 0.085))
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 [Download Figure 3 (PDF)](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
 
 ## Figure S2: Relative stiffness decrease
@@ -128,6 +207,18 @@ figure_3_models <- plot_submission_panels(
 This PDF uses the saved predictions and regressions from the supplementary
 analysis, including its 50% RWC fitting cutoff and inherited missing abaxial
 value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+[図3（PDF）をダウンロード](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
+
+## 図S2：剛性の相対的な低下
+
+補足解析で保存した予測値と回帰結果を用います。モデルの当てはめはRWC 50%以上で行い、元の解析と同じく *Ligustrum lucidum* の背軸側を欠測とします。RWC 80%に最も近い格子点の予測値を維持しています。
+
+::::
 
 ```{r}
 #| label: submission-figure-s2
@@ -138,6 +229,8 @@ comparison <- readRDS("outputs/tables/stiffness-comparison.rds")
 plot_submission_comparison(comparison, file.path(submission_dir, "figure_S2.pdf"))
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 [Download Figure S2 (PDF)](../outputs/figures/submission/figure_S2.pdf){download="figure_S2.pdf"}
 
 ## Shared drawing code
@@ -146,6 +239,20 @@ The calls above use `plot_gam_ci()` from the analysis chapters. The helper below
 sets the PDF device, panel arrangement, labels, and point and line sizes.
 
 [Download the drawing helper (R)](../R/plot_submission_panels.R)
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+[図S2（PDF）をダウンロード](../outputs/figures/submission/figure_S2.pdf){download="figure_S2.pdf"}
+
+## 共通の描画コード
+
+上の処理では、解析の章と同じ `plot_gam_ci()` を呼び出します。以下の補助関数がPDFデバイス、パネルの配置、ラベル、点の大きさと線の太さを設定します。
+
+[描画用の補助関数（R）をダウンロード](../R/plot_submission_panels.R)
+
+::::
 
 ```{r}
 #| echo: false

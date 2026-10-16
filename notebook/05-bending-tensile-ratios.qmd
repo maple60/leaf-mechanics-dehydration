@@ -1,10 +1,39 @@
 ---
 title: "Figure 3: Bending and tensile ratios"
+title-ja: "図3：曲げ特性と引張特性の比"
 ---
+
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/05-bending-tensile-ratios.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/05-bending-tensile-ratios.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
 
 Compare bending and tensile properties using the existing specimen matching and GAMs. Both measurements must have RWC of at least 60%.
 
 ## Analysis
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。両方の測定でRWCが60%以上であることを条件とします。
+
+## 解析
+
+::::
 
 ```{r}
 #| label: analysis-05
@@ -150,9 +179,21 @@ lapply(seq_along(spp), function(i) {
 })
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Bending-to-tensile stiffness ratio ($E_bI/E_tA$)
 
 The ratio is in mm² and is displayed in units of 10⁻³ mm².
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 曲げ剛性と引張剛性の比（$E_bI/E_tA$）
+
+比の単位はmm²で、図では10⁻³ mm²単位で表示します。
+
+::::
 
 ```{r}
 #| label: fig-stiffness-ratio
@@ -164,7 +205,17 @@ stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Bending-to-tensile modulus ratio
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 曲げ試験と引張試験のヤング率の比
+
+::::
 
 ```{r}
 #| label: fig-modulus-ratio

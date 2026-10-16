@@ -18,6 +18,16 @@ Run commands from the repository root.
    renv::restore()
    ```
 
+   Run this in R with the repository root as the working directory. The
+   project uses an isolated `renv` library: packages installed in your usual
+   user library are not automatically available here. `knitr` and `rmarkdown`
+   are already recorded in the lockfile and are required for render/preview.
+   If Quarto reports either as missing, restore the environment before retrying;
+   do not update the lockfile just to silence a version mismatch warning.
+   `renv::status()` can also report inherited `readxl` dependencies as installed
+   and recorded but unused. That status is distinct from missing packages and
+   does not prevent rendering.
+
 4. Execute the notebooks in order and render the analysis:
 
    ```sh
@@ -73,6 +83,26 @@ A dataset DOI and an agreed license will be added before public release.
 ## Site preview
 
 `quarto render` builds the book in `_site/` (ignored by Git).
+The default language is English. `quarto render` builds English and then runs
+`scripts/render-japanese.R` to build Japanese, producing `_site/index.html`
+and `_site/ja/index.html`. `./scripts/render-bilingual.ps1` is a PowerShell
+wrapper for the same build. Use `quarto preview` and its JP/EN links to preview
+both languages under the same site root. `quarto preview --profile ja` serves
+Japanese alone; use the default preview for language switching.
+
+Each page has a language callout and a navbar switch to the corresponding page.
+The navbar uses an SVG Japanese flag so it also displays on Windows.
+English and Japanese prose live together in the QMD files, selected with
+Quarto's `en` and `ja` profiles. R chunks, numeric tables, figure labels, and
+submission PDFs are shared; code and scientific species names retain their
+original notation. Japanese page titles use `title-ja` and the small
+`filters/language-title.lua` filter.
+
+Japanese prose is the editorial source of truth. Edit the `when-profile="ja"`
+blocks and `title-ja` in the QMD sources, then update the corresponding English
+prose to match. Keep the shared R chunks, numerical results, and scientific
+notation consistent between languages; do not edit generated files in `_site/`.
+
 The final chapter creates four draft PDFs in `outputs/figures/submission/`
 and copies them into the site for download. Figures 2, 3, and S2 now use tensile
 stiffness `EA = E.x * thick * width.x` (N), replacing the legacy tensile `EI`.

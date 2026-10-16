@@ -1,10 +1,39 @@
 ---
 title: "Figure 2: Tensile properties"
+title-ja: "図2：引張特性"
 ---
+
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/04-tensile.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/04-tensile.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
 
 Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divided by density. The analysis uses RWC of at least 60%.
 
 ## Analysis
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。RWC 60%以上を解析対象とします。
+
+## 解析
+
+::::
 
 ```{r}
 #| label: analysis-04
@@ -141,10 +170,22 @@ lapply(seq_along(spp), function(i) {
 })
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Tensile stiffness ($E_tA$, N)
 
 Cross-sectional area is `thick * width.x` (mm²), using the instrument dimensions
 associated with `E.x` (MPa = N/mm²). The legacy tensile `EI` column is not used.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 引張剛性（$E_tA$、N）
+
+断面積は `thick * width.x`（mm²）で、`E.x`（MPa = N/mm²）に対応する試験機の寸法値を用います。従来の引張データの `EI` 列は用いません。
+
+::::
 
 ```{r}
 #| label: fig-tensile-stiffness
@@ -156,7 +197,17 @@ stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Tensile Young modulus
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 引張試験のヤング率
+
+::::
 
 ```{r}
 #| label: fig-tensile-modulus
@@ -168,7 +219,17 @@ stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Tissue density
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 組織密度
+
+::::
 
 ```{r}
 #| label: fig-tensile-density
@@ -180,7 +241,17 @@ stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Modulus divided by tissue density
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## ヤング率を組織密度で除した値
+
+::::
 
 ```{r}
 #| label: fig-tensile-modulus-density

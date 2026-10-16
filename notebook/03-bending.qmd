@@ -1,10 +1,39 @@
 ---
 title: "Figure 1: Bending properties"
+title-ja: "図1：曲げ特性"
 ---
+
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/03-bending.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/03-bending.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
 
 Fit generalized additive models (GAMs) to bending stiffness, Young's modulus, and the second moment of area. The analysis uses relative water content (RWC) of at least 60%, matching the main manuscript figures.
 
 ## Analysis
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+曲げ剛性、ヤング率、断面二次モーメントに一般化加法モデル（GAM）を当てはめます。論文の主要図に合わせ、相対含水率（RWC）60%以上を解析対象とします。
+
+## 解析
+
+::::
 
 ```{r}
 #| label: analysis-03
@@ -159,7 +188,17 @@ lapply(seq_along(spp), function(i) {
 })
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Bending stiffness
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 曲げ剛性
+
+::::
 
 ```{r}
 #| label: fig-bending-stiffness
@@ -171,7 +210,17 @@ stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Bending Young modulus
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 曲げ試験のヤング率
+
+::::
 
 ```{r}
 #| label: fig-bending-modulus
@@ -183,7 +232,17 @@ stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Second moment of area
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 断面二次モーメント
+
+::::
 
 ```{r}
 #| label: fig-bending-area

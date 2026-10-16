@@ -1,10 +1,39 @@
 ---
 title: "Species summary"
+title-ja: "種ごとの形質の要約"
 ---
+
+:::: {.content-visible unless-profile="ja"}
+
+::: {.callout-note title="Language / 言語"}
+[日本語はこちら（JP）](../ja/notebook/02-species-summary.html){#language-switch hreflang="ja" lang="ja"}
+:::
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+::: {.callout-note title="言語 / Language"}
+[Read this page in English (EN)](../../notebook/02-species-summary.html){#language-switch hreflang="en" lang="en"}
+:::
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
 
 Summarize leaf thickness, leaf dry matter content (LDMC), and leaf mass per area (LMA). Thickness uses fully hydrated samples. The original calculations and plots are retained.
 
 ## Analysis
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+葉厚、葉の乾物含有率（LDMC）、単位葉面積当たりの乾燥質量（LMA）をまとめます。葉厚には十分に吸水させた試料を用います。元の計算と作図方法を維持しています。
+
+## 解析
+
+::::
 
 ```{r}
 #| label: analysis-02
@@ -284,6 +313,8 @@ axis(
 dev.off()
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ## Trait summaries
 
 Each table reports nonmissing measurement records, mean, and sample standard
@@ -292,6 +323,18 @@ manuscript Table 1. Thickness uses the fully hydrated records; LDMC and LMA use
 the existing summary datasets.
 
 ### Thickness (mm)
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+## 形質の要約
+
+各表には、欠測を除いた測定記録数、平均、不偏分散の平方根としての標本標準偏差を示します。この記録数が、論文の表1における独立した葉のサンプル数に相当するかは未確認です。葉厚には十分に吸水した記録を、LDMCとLMAには既存の要約用データセットを用います。
+
+### 葉厚（mm）
+
+::::
 
 ```{r}
 #| label: thickness-summary
@@ -306,7 +349,17 @@ knitr::kable(thickness_summary, digits = 4, row.names = FALSE)
 knitr::include_graphics("../outputs/figures/leaf_thickness_boxplot.svg", rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ### Leaf dry matter content
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+### 葉の乾物含有率
+
+::::
 
 ```{r}
 #| label: ldmc-summary
@@ -321,7 +374,17 @@ knitr::kable(ldmc_summary, digits = 4, row.names = FALSE)
 knitr::include_graphics("../outputs/figures/LDMC_boxplot.svg", rel_path = FALSE, error = FALSE)
 ```
 
+:::: {.content-visible unless-profile="ja"}
+
 ### Leaf mass per area (g m⁻²)
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+### 単位葉面積当たりの乾燥質量（g m⁻²）
+
+::::
 
 ```{r}
 #| label: lma-summary

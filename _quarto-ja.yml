@@ -1,0 +1,39 @@
+project:
+  output-dir: _site/ja
+
+lang: ja
+
+book:
+  title: "脱水に伴う葉の力学特性"
+  navbar:
+    right:
+      - text: "EN"
+        href: ../index.html
+  chapters:
+    - href: index.qmd
+      text: "概要"
+    - part: "データの準備"
+      chapters:
+        - href: notebook/01-data-integration.qmd
+          text: "データの統合"
+        - href: notebook/02-species-summary.qmd
+          text: "種ごとの形質の要約"
+    - part: "主要図"
+      chapters:
+        - href: notebook/03-bending.qmd
+          text: "図1：曲げ特性"
+        - href: notebook/04-tensile.qmd
+          text: "図2：引張特性"
+        - href: notebook/05-bending-tensile-ratios.qmd
+          text: "図3：曲げ特性と引張特性の比"
+    - part: "補足解析"
+      chapters:
+        - href: notebook/06-stiffness-comparison.qmd
+          text: "図S2：剛性の低下"
+  appendices:
+    - href: notebook/07-analysis-notes.qmd
+      text: "解析に関する注記"
+    - href: notebook/08-functions.qmd
+      text: "共通関数"
+    - href: notebook/09-submission-figures.qmd
+      text: "論文投稿用の図"
