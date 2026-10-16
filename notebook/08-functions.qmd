@@ -28,7 +28,9 @@ directories, palette, and shared functions. The analysis uses base R graphics.
 
 `plot_gam_ci()` fits a GAM by REML and returns its model, prediction grid,
 predicted values, standard errors, and confidence limits while drawing the plot.
-Its statistical calculation and plotting parameters are inherited unchanged.
+Its statistical calculation is inherited unchanged. For overlaid leaf sides,
+`gam_ci_ylim()` sets a shared y-axis range containing both sides' observations
+and confidence intervals.
 
 [Download plot_gam_ci.R](../R/plot_gam_ci.R)
 
@@ -40,7 +42,7 @@ Its statistical calculation and plotting parameters are inherited unchanged.
 
 ## GAMの当てはめと作図
 
-`plot_gam_ci()` はREMLでGAMを当てはめ、図を描くとともに、モデル、予測用の格子点、予測値、標準誤差、信頼区間の上下限を返します。統計計算と作図パラメーターは元の解析から変更していません。
+`plot_gam_ci()` はREMLでGAMを当てはめ、図を描くとともに、モデル、予測用の格子点、予測値、標準誤差、信頼区間の上下限を返します。統計計算は元の解析から変更していません。両面を重ね描きする場合は、`gam_ci_ylim()` で両側の観測値と信頼区間を含む共通の縦軸範囲を設定します。
 
 [plot_gam_ci.Rをダウンロード](../R/plot_gam_ci.R)
 

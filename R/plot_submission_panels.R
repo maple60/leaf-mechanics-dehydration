@@ -35,12 +35,14 @@ plot_submission_panels <- function(data, species, metrics, labels, file,
     for (i in seq_along(species)) {
       subset_data <- data[data$spp == species[i], ]
       sides <- if (tensile) "tensile" else c("adaxial", "abaxial")
+      ylim <- if (tensile) NULL else
+        gam_ci_ylim(subset_data, x, metrics[j], c(60, 100))
       for (side in sides) {
         side_data <- if (tensile) subset_data else
           droplevels(subset(subset_data, leaf_side == side))
         results[[length(results) + 1L]] <- plot_gam_ci(
           data = side_data, x = x, y = metrics[j], side = side,
-          pred_range = c(60, 100), xlim = c(100, 60), mar = margins,
+          pred_range = c(60, 100), xlim = c(100, 60), ylim = ylim, mar = margins,
           add = side == "abaxial", pch = if (side == "abaxial") 22 else 21,
           cex_pt = 0.75, pt_border_alpha = 0.5, line_lwd = 1.2,
           cex.axis = 0.95, cex.lab = 1, axis_lwd = 0.4,

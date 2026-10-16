@@ -117,6 +117,7 @@ lapply(seq_along(spp), function(i) {
     x = x,
     y = y,
     side = "adaxial",
+    ylim = gam_ci_ylim(df_sp, x, y, pred_range),
     pred_range = pred_range,
     xlim = xlim,
     mar = mar
@@ -155,6 +156,7 @@ lapply(seq_along(spp), function(i) {
     x = x,
     y = y,
     side = "adaxial",
+    ylim = gam_ci_ylim(df_sp, x, y, pred_range),
     pred_range = pred_range,
     xlim = xlim,
     mar = mar

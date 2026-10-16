@@ -182,3 +182,19 @@ plot_gam_ci <- function(
     colors = list(base = base_col, line = line_col, fill = fill_col)
   ))
 }
+
+# Shared limits for separately fitted adaxial and abaxial curves.
+gam_ci_ylim <- function(data, x, y, pred_range, n_pred = 200) {
+  new_x <- setNames(data.frame(seq(pred_range[1], pred_range[2],
+                                   length.out = n_pred)), x)
+  values <- c(0, data[[y]])
+  for (side_data in split(data, data$leaf_side, drop = TRUE)) {
+    model <- mgcv::gam(as.formula(paste(y, "~ s(", x, ")")),
+                       data = side_data[, c(x, y)], method = "REML",
+                       na.action = na.exclude)
+    prediction <- predict(model, newdata = new_x, se.fit = TRUE)
+    values <- c(values, prediction$fit - 1.96 * prediction$se.fit,
+                prediction$fit + 1.96 * prediction$se.fit)
+  }
+  range(values, finite = TRUE)
+}
