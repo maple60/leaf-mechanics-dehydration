@@ -1,0 +1,93 @@
+---
+title: "GAM results"
+title-ja: "GAMの結果一覧"
+---
+
+:::: {.content-visible when-profile="ja"}
+
+[Read this page in English (EN)](../../notebook/10-gam-results.html){#language-switch hreflang="en" lang="en"}
+
+## この表で分かること
+
+図1～3と補足図S2で使う全102個のGAMを、図と同じ入力・単位・除外条件・設定で再推定します。入力は `outputs/tables/bending.csv` と `tensile.csv`、出力は下記CSVとRDSです。事前にデータ統合を実行し、プロジェクトのルートから `quarto render notebook/10-gam-results.qmd` で再生成できます。キャッシュは使用しません。
+
+各モデルは「測定値 = 切片 + RWCの平滑関数 + 誤差」で、種・形質・曲げ方向ごとに独立に当てはめています。Gaussian分布、identityリンク、平滑項は既存コードと同じ `s(RWC)` の既定値、平滑化パラメーターの推定はREMLです。図3のみ説明変数が曲げ・引張測定の平均RWCです。
+
+**p値は「RWCの平滑項が全体としてゼロ」という帰無仮説に対する近似検定です。** 有意な場合はRWCとの関係を示しますが、単調な増加・減少や非線形性そのものの検定ではありません。非有意でも「変化しない」とは結論できません。種間差、曲げ方向間の差、比が1または3と異なるかも検定していません。
+
+- `n`：モデルに使った測定記録数。独立した葉の枚数とは限りません。
+- `RWC min/max`：実際にモデルに使った観測値の範囲（%）。図の曲線がこの範囲を超える部分は外挿です。
+- `edf`：平滑項の有効自由度。約1はほぼ直線、より大きい値は複雑な曲線を表します。
+- `F` と `Ref. df`：平滑項の近似検定統計量と参照自由度。
+- `p (raw)`：多重比較補正前のp値。小さい値も丸めてゼロとせず表示します。
+- `Adjusted R²`：自由度調整済み決定係数。負の値もそのまま表示します。
+
+**ここでは結果の整理を目的として、補正前のp値をすべて表示します。** 論文で検定群をどう定義し、多重比較をどう扱うかは未決定です。有意・非有意の個数だけで結論を作らず、曲線、変化量、不確実性を併せて確認してください。モデルの仮定や残差、基底次元の十分性を検証したことを、この表だけでは意味しません。
+
+主要図とS2の当てはめは、いずれもRWC 60%以上です。図3は両測定が60%以上となる組だけを使います。S2の *Ligustrum lucidum* 背軸側GAMも一覧に含めますが、既存のS2解析ではその後の低下率と種間回帰から除外されています。S2の2本の種間回帰はGAMではなく、この表には含みません。
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
+
+[日本語はこちら（JP）](../ja/notebook/10-gam-results.html){#language-switch hreflang="ja" lang="ja"}
+
+## Reading the results
+
+All 102 GAMs underlying Figures 1–3 and S2 are refitted using the figure inputs, units, exclusions, and settings. Inputs are `outputs/tables/bending.csv` and `tensile.csv`; outputs are the CSV and RDS below. After data integration, run `quarto render notebook/10-gam-results.qmd` from the project root. No cache is used.
+
+Each model fits a response as an intercept plus a smooth function of RWC and error, separately by species, trait, and bending direction. Models use the Gaussian family, identity link, the existing default `s(RWC)` specification, and REML smoothing selection. Figure 3 uses mean bending and tensile RWC.
+
+**The approximate p-value tests the null hypothesis that the RWC smooth is zero throughout.** It does not test monotonic increase or decrease, nonlinearity alone, species or direction differences, or whether a ratio differs from 1 or 3. A nonsignificant result does not establish absence of change.
+
+- `n`: measurement records used, not necessarily independent leaves.
+- `RWC min/max`: observed predictor range (%); curves outside it are extrapolations.
+- `edf`: effective degrees of freedom; approximately 1 indicates a near-linear fit.
+- `F` and `Ref. df`: approximate smooth-term test statistic and reference degrees of freedom.
+- `p (raw)`: unadjusted p-value; small values are not rounded to zero.
+- `Adjusted R²`: adjusted coefficient of determination, including negative values.
+
+All p-values are unadjusted. Test families and multiplicity handling for the manuscript remain undecided. Interpret curves, effect sizes, and uncertainty together rather than counting significant results. This summary does not establish that residual assumptions or basis dimensions are adequate.
+
+Main figures and S2 use RWC ≥60%. Figure 3 requires both measurements to meet the cutoff. The S2 abaxial GAM for *Ligustrum lucidum* is included, although its subsequent stiffness decrease and contribution to the species-level regression are excluded in the existing analysis. S2's two species-level regressions are not GAMs and are not included here.
+
+::::
+
+```{r}
+#| label: gam-summary
+#| include: false
+source("R/add_tensile_stiffness.R")
+source("R/summarize_gams.R")
+gam_results <- summarize_gams()
+gam_table <- gam_results$table
+stopifnot(nrow(gam_table) == 102L, !anyDuplicated(gam_table$model_id))
+write.csv(gam_table, "outputs/tables/gam-results.csv", row.names = FALSE)
+saveRDS(gam_results, "outputs/tables/gam-results.rds")
+```
+
+[CSV](../outputs/tables/gam-results.csv) · [RDS: models, table, versions](../outputs/tables/gam-results.rds) · [R code](../R/summarize_gams.R)
+
+[Test definition: mgcv documentation](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/summary.gam.html)
+
+```{r}
+#| label: gam-tables
+#| echo: false
+#| results: asis
+cat("R ", gam_results$versions["R"], "; mgcv ",
+    gam_results$versions["mgcv"], "\n\n", sep = "")
+for (figure in c("1", "2", "3", "S2")) {
+  cat("\n\n## Figure ", figure, "\n\n", sep = "")
+  figure_data <- gam_table[gam_table$figure == figure, ]
+  for (trait in unique(figure_data$trait)) {
+    cat("\n\n### ", trait, "\n\n", sep = "")
+    z <- figure_data[figure_data$trait == trait, ]
+    display <- z[, c("panel", "species", "side", "n", "rwc_min", "rwc_max",
+                     "edf", "ref_df", "F", "p_value", "adjusted_r_squared")]
+    display$p_value <- format.pval(display$p_value, digits = 3, eps = 1e-16)
+    names(display) <- c("Panel", "Species", "Side", "n", "RWC min", "RWC max",
+                       "edf", "Ref. df", "F", "p (raw)", "Adjusted R²")
+    print(knitr::kable(display, digits = 3, row.names = FALSE))
+    cat("\n\n")
+  }
+}
+```

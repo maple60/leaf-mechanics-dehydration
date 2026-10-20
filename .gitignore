@@ -19,3 +19,5 @@ outputs/*
 manuscripts/
 
 **/*.quarto_ipynb
+
+/.quarto/

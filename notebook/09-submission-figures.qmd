@@ -21,19 +21,44 @@ title-ja: "論文投稿用の図"
 
 :::: {.content-visible unless-profile="ja"}
 
-The code below generates one PDF per manuscript figure. Expand **Show generation
-code** to inspect each step. The PDFs use the same inputs, exclusions, GAMs, and
+The code below generates a vector PDF for journal submission and a 600 dpi PNG
+for preview or preprint preparation, for each manuscript figure. Expand **Show generation code** to inspect each step. The PDFs use the same inputs, exclusions, GAMs, and
 prediction grids as the analysis chapters; only the panel layout and typography
-change. They are downloadable files rather than embedded figures on this page.
+change. Both formats are downloadable rather than embedded on this page.
 
 [Download the generation notebook (QMD)](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
 
-Figures 1–3 use the dimensions and arrangement of the figures embedded in the
-current manuscript: approximately 114 × 228, 137 × 206, and 67 × 201 mm.
-Each panel has a square plotting region. Species are arranged in rows and
-traits in columns, with shared vertical labels, italic species names, and panel
-letters inside the frames. Figure S2 is 120 mm wide. Text uses Arial, and the
-PDFs retain vector lines and text. Corrected $E_t A$ values and units are retained.
+The original layout is retained: six species rows, traits in columns, and square
+plotting regions. Figures 1, 2, and 3 are 120, 155, and 85.5 mm wide, respectively.
+Their heights are calculated from the panel widths and margins (approximately
+235, 228, and 231 mm). Using a figure-specific width within the journal's 178 mm
+limit avoids excessively tall figures without rearranging panels. Panel letters
+and the association between species, traits, and fitted curves are unchanged.
+Species names are italic, and y labels are shared within each trait column.
+Figure S2 retains its 120 × 120 mm plot with regression annotations inside it.
+All figures use Arial at a 9 pt base size, 8.55 pt tick labels/legends, and 8.1 pt
+species names and compact regression annotations. The PDFs retain vector lines
+and text. Corrected $E_t A$ values and units are retained.
+
+For journal submission, keep the main text in a DOCX/ODT file without the figure
+images, retain the figure legends at the end of that file, and submit each main
+figure as an individual PDF. Separate files are also allowed at initial submission.
+Supporting information follows its own instructions; the journal recommends a
+combined PDF with its figures, legends, tables, title, and authors where possible.
+
+For a preview or preprint version, insert the PNGs using **Insert → Pictures**,
+keep the aspect ratio, and disable Word image compression. The PNGs contain
+600 pixels per inch at the intended dimensions. Reduce them if necessary to leave
+room for captions; enlarging them lowers the effective resolution. Export the
+figure-containing document to PDF as needed for the selected preprint service.
+
+PDF lines and text remain vector objects, so increasing the page size does not
+add detail. We use the intended manuscript dimensions for both output formats,
+without a PDF enlargement step or additional output dependencies. Final printed
+width and lettering still matter: the journal specifies widths up to 178 mm and
+lettering of 8–12 pt. Check the figures at their intended printed dimensions
+before submission. See the
+[journal guidelines](https://physiologiaplantarum.org/instructions-for-manuscrip/).
 
 Tensile stiffness is calculated as `E_t * A`, with `A = thick * width.x` from
 the instrument dimensions (mm) associated with `E.x` (MPa). The resulting
@@ -48,11 +73,17 @@ chapter, which saves its data and fitted regressions without refitting here.
 
 :::: {.content-visible when-profile="ja"}
 
-以下のコードで、論文の図ごとに1つのPDFを作成します。コード欄を展開すると各手順を確認できます。入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。PDFはページ内への埋め込みではなく、ダウンロードして確認できます。
+以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。コード欄を展開すると各手順を確認できます。入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。
 
 [図生成用ノートブック（QMD）をダウンロード](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
 
-図1～3は、現在の原稿に埋め込まれた図の寸法と配置に合わせています（それぞれ約114 × 228、137 × 206、67 × 201 mm）。各パネルの描画領域は正方形です。行に種、列に形質を配置し、共通の縦軸ラベル、斜体の種名、枠内のパネル文字を使います。図S2の幅は120 mmです。文字はArialで、PDF内の線と文字はベクター形式です。修正後の $E_t A$ の値と単位を維持しています。
+元のレイアウト（6種の行、形質の列、正方形の描画領域）を維持します。図1・2・3の幅はそれぞれ120、155、85.5 mmです。高さは正方形のパネル幅と余白から計算し、それぞれ約235、228、231 mmになります。178 mmを上限として図ごとに幅を調整することで、パネルを並べ替えずに過度な縦長を避けます。パネル文字と、種・形質・推定曲線の対応も維持しています。種名は斜体、縦軸ラベルは形質の列ごとに共通です。図S2は120 × 120 mmで、回帰式と統計量を元と同じ図内に配置します。文字はArialの9 ptを基準とし、目盛数字や凡例には8.55 pt、斜体の種名と回帰式の説明には8.1 ptを使います。PDF内の線と文字はベクター形式です。修正後の $E_t A$ の値と単位を維持しています。
+
+雑誌への提出時は、本文のDOCX/ODTには図の画像を入れず、図の説明文を本文末尾に残し、主図を1図ずつPDFで提出します。初回投稿でも別ファイル提出が認められています。補足資料は別の規定に従い、可能であれば図・説明文・表・論文タイトル・著者名を含む単一PDFにまとめます。
+
+自身のプレビューやプレプリント用には、別の原稿にPNGを**［挿入］→［画像］**から挿入します。縦横比を固定し、Wordの画像圧縮を無効にしてください。PNGは上記の実寸で600 dpiです。図の説明文を収めるための縮小は可能ですが、拡大すると実効解像度が下がります。必要に応じて、図入り原稿を利用するプレプリントサービスに合ったPDFへ書き出します。
+
+PDF内の線と文字はベクターなので、ページを大きくしても細部の情報量は増えません。PDFもPNGも原稿内の配置寸法で作成し、PDFの拡大処理や追加の出力用依存関係は使いません。ただし、最終掲載時の幅と文字サイズは重要です。規定では最大幅178 mm、文字8～12 ptが指定されています。提出前には、上記の実寸で文字・点・線の読みやすさを確認してください。[公式投稿規定](https://physiologiaplantarum.org/instructions-for-manuscrip/)を参照してください。
 
 引張剛性は `E_t * A` として計算します。`A = thick * width.x` は、`E.x`（MPa）に対応する試験機の寸法（mm）から得ます。`EA` の単位はN、曲げ剛性と引張剛性の比の単位はmm²です。
 
@@ -119,6 +150,8 @@ figure_1_models <- plot_submission_panels(
 
 [Download Figure 1 (PDF)](../outputs/figures/submission/figure_1.pdf){download="figure_1.pdf"}
 
+[Download Figure 1 for Word (PNG, 600 dpi)](../outputs/figures/submission/figure_1.png){download="figure_1.png"}
+
 ## Figure 2: Tensile properties
 
 A–F: tensile stiffness; G–L: tensile Young's modulus; M–R: tissue density;
@@ -129,6 +162,8 @@ S–X: modulus divided by tissue density.
 :::: {.content-visible when-profile="ja"}
 
 [図1（PDF）をダウンロード](../outputs/figures/submission/figure_1.pdf){download="figure_1.pdf"}
+
+[図1のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_1.png){download="figure_1.png"}
 
 ## 図2：引張特性
 
@@ -158,6 +193,8 @@ figure_2_models <- plot_submission_panels(
 
 [Download Figure 2 (PDF)](../outputs/figures/submission/figure_2.pdf){download="figure_2.pdf"}
 
+[Download Figure 2 for Word (PNG, 600 dpi)](../outputs/figures/submission/figure_2.png){download="figure_2.png"}
+
 ## Figure 3: Bending-to-tensile ratios
 
 A–F: stiffness ratio; G–L: Young's modulus ratio. The reference lines for the
@@ -168,6 +205,8 @@ modulus ratio are at 1 and 3, as in the analysis chapter.
 :::: {.content-visible when-profile="ja"}
 
 [図2（PDF）をダウンロード](../outputs/figures/submission/figure_2.pdf){download="figure_2.pdf"}
+
+[図2のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_2.png){download="figure_2.png"}
 
 ## 図3：曲げ特性と引張特性の比
 
@@ -195,17 +234,19 @@ figure_3_models <- plot_submission_panels(
   labels = expression("Bending stiffness / tensile stiffness"~(10^{-3}~mm^2),
                       "Bending / tensile Young's modulus"),
   file = file.path(submission_dir, "figure_3.pdf"), x = "RWC_mean",
-  reference_lines = c(1, 3), label_offsets = c(0.045, 0.085))
+  reference_lines = c(1, 3))
 ```
 
 :::: {.content-visible unless-profile="ja"}
 
 [Download Figure 3 (PDF)](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
 
+[Download Figure 3 for Word (PNG, 600 dpi)](../outputs/figures/submission/figure_3.png){download="figure_3.png"}
+
 ## Figure S2: Relative stiffness decrease
 
 This PDF uses the saved predictions and regressions from the supplementary
-analysis, including its 50% RWC fitting cutoff and inherited missing abaxial
+analysis, including its 60% RWC fitting cutoff and inherited missing abaxial
 value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.
 
 ::::
@@ -214,9 +255,11 @@ value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.
 
 [図3（PDF）をダウンロード](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
 
+[図3のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_3.png){download="figure_3.png"}
+
 ## 図S2：剛性の相対的な低下
 
-補足解析で保存した予測値と回帰結果を用います。モデルの当てはめはRWC 50%以上で行い、元の解析と同じく *Ligustrum lucidum* の背軸側を欠測とします。RWC 80%に最も近い格子点の予測値を維持しています。
+補足解析で保存した予測値と回帰結果を用います。モデルの当てはめはRWC 60%以上で行い、元の解析と同じく *Ligustrum lucidum* の背軸側を欠測とします。RWC 80%に最も近い格子点の予測値を使います。
 
 ::::
 
@@ -229,16 +272,20 @@ comparison <- readRDS("outputs/tables/stiffness-comparison.rds")
 plot_submission_comparison(comparison, file.path(submission_dir, "figure_S2.pdf"))
 ```
 
+
 :::: {.content-visible unless-profile="ja"}
 
 [Download Figure S2 (PDF)](../outputs/figures/submission/figure_S2.pdf){download="figure_S2.pdf"}
 
+[Download Figure S2 for Word (PNG, 600 dpi)](../outputs/figures/submission/figure_S2.png){download="figure_S2.png"}
+
 ## Shared drawing code
 
 The calls above use `plot_gam_ci()` from the analysis chapters. The helper below
-sets the PDF device, panel arrangement, labels, and point and line sizes.
+sets the PDF and PNG output, panel arrangement, labels, and point and line sizes.
 
 [Download the drawing helper (R)](../R/plot_submission_panels.R)
+
 
 ::::
 
@@ -246,11 +293,14 @@ sets the PDF device, panel arrangement, labels, and point and line sizes.
 
 [図S2（PDF）をダウンロード](../outputs/figures/submission/figure_S2.pdf){download="figure_S2.pdf"}
 
+[図S2のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_S2.png){download="figure_S2.png"}
+
 ## 共通の描画コード
 
-上の処理では、解析の章と同じ `plot_gam_ci()` を呼び出します。以下の補助関数がPDFデバイス、パネルの配置、ラベル、点の大きさと線の太さを設定します。
+上の処理では、解析の章と同じ `plot_gam_ci()` を呼び出します。以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。
 
 [描画用の補助関数（R）をダウンロード](../R/plot_submission_panels.R)
+
 
 ::::
 

@@ -11,8 +11,12 @@ project:
     - R/summarize_trait.R
     - R/plot_submission_panels.R
     - R/add_tensile_stiffness.R
+    - R/summarize_gams.R
+    - outputs/tables/gam-results.csv
+    - outputs/tables/gam-results.rds
     - outputs/figures/submission/generate_figures.qmd
     - outputs/figures/submission/*.pdf
+    - outputs/figures/submission/*.png
 
 book:
   title: "Leaf Mechanics under Dehydration"

@@ -31,6 +31,8 @@ book:
         - href: notebook/06-stiffness-comparison.qmd
           text: "図S2：剛性の低下"
   appendices:
+    - href: notebook/10-gam-results.qmd
+      text: "GAMの結果一覧"
     - href: notebook/07-analysis-notes.qmd
       text: "解析に関する注記"
     - href: notebook/08-functions.qmd

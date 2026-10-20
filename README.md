@@ -64,9 +64,9 @@ and the existing `mgcv` dependency; no new analysis packages were introduced.
 
 The source and migrated analyses were checked under R 4.5.3 using the lockfile's
 mgcv 1.9-3, Matrix 1.7-3, nlme 3.1-168, and lattice 0.22-7. Integrated tables
-contain 496 bending records and 262 tensile records. The notebook conversion
-retains the main-figure cutoff of 60% RWC and the supplementary comparison's
-cutoff of 50% RWC. The supplementary comparison was previously named S3 in code;
+contain 496 bending records and 262 tensile records. Current analyses
+use a cutoff of 60% RWC for both the main figures and supplementary comparison.
+The supplementary comparison was previously named S3 in code;
 it is S2 in the manuscript.
 
 The manuscript's Table 1 sample-count definition, Aucuba thickness standard
@@ -77,7 +77,9 @@ recreated by these notebooks.
 ## Data and manuscripts
 
 Original inputs remain outside Git; outputs are generated in the code checkout.
-`manuscripts/` is a local working folder excluded from Git and the rendered site.
+Working manuscripts are stored in
+`C:/Users/Konrai/Dropbox/GitHub/leaf-mechanics-dehydration/manuscripts/`,
+outside the code checkout and rendered site.
 A dataset DOI and an agreed license will be added before public release.
 
 ## Site preview
@@ -103,8 +105,31 @@ blocks and `title-ja` in the QMD sources, then update the corresponding English
 prose to match. Keep the shared R chunks, numerical results, and scientific
 notation consistent between languages; do not edit generated files in `_site/`.
 
-The final chapter creates four draft PDFs in `outputs/figures/submission/`
-and copies them into the site for download. Figures 2, 3, and S2 now use tensile
+The final chapter creates a vector PDF for journal submission and a 600 dpi PNG
+for preview/preprint preparation for each of Figures 1–3 and S2, in
+`outputs/figures/submission/`. Both formats use the intended manuscript dimensions: approximately
+120 × 235 mm for Figure 1, 155 × 228 mm for Figure 2, 85.5 × 231 mm for Figure 3,
+and 120 × 120 mm for S2. The original six-species rows, trait columns, square
+plotting regions, panel letters, and species/trait associations are retained.
+Widths vary within the journal's 178 mm limit to avoid excessive heights.
+Text uses Arial at a 9 pt base size, with 8.55 pt tick labels/legends and 8.1 pt
+italic species names and regression annotations.
+The R drawing code creates both; no PDF enlargement or Python output step is needed.
+After the data integration and stiffness comparison chapters, run
+`quarto render notebook/09-submission-figures.qmd` to regenerate the pairs.
+
+Keep figure images out of the journal's main DOCX/ODT, retain the figure legends
+at the end, and upload each main figure as a separate PDF. For previews or
+preprints, use a separate document with the PNGs inserted as pictures, keep their
+aspect ratios, and disable Word image compression. Export that document to PDF
+as required by the selected service. Supporting information follows the journal's
+separate instructions, preferably as a combined PDF.
+
+Vector output avoids raster blur, but final printed dimensions and lettering
+still require review at the intended printed size. The base and axis text sizes
+follow the journal's 8–12 pt lettering range. See the [official guidelines](https://physiologiaplantarum.org/instructions-for-manuscrip/).
+
+Figures 2, 3, and S2 now use tensile
 stiffness `EA = E.x * thick * width.x` (N), replacing the legacy tensile `EI`.
 Update the manuscript's figure units and S2 statistics to the corrected results.
 Use `quarto preview` for a local browser preview. This draft does not deploy

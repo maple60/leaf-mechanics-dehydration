@@ -45,8 +45,8 @@ release.
 4. [Compare stiffness changes](notebook/06-stiffness-comparison.qmd) between
    100% and 80% RWC (manuscript Figure S2).
 
-Main Figures 1–3 use RWC of at least 60%, as in the manuscript. The supplementary
-comparison uses the inherited 50% cutoff. Models are generalized additive
+Figures 1–3 and the supplementary comparison use RWC of at least 60%.
+Models are generalized additive
 models (GAMs) fitted by restricted maximum likelihood (REML).
 
 ## Reproduce the results
@@ -85,7 +85,7 @@ not embedded in the site.
 3. 相対含水率（RWC）の低下に伴う[曲げ特性](notebook/03-bending.qmd)、[引張特性](notebook/04-tensile.qmd)、および[両者の比](notebook/05-bending-tensile-ratios.qmd)を確認します。
 4. RWC 100%から80%までの[剛性低下の比較](notebook/06-stiffness-comparison.qmd)を行います（論文の図S2）。
 
-主要図1～3では論文と同じくRWC 60%以上を用います。補足解析の比較では、元の解析の基準である50%以上を用います。モデルは一般化加法モデル（GAM）で、制限付き最尤法（REML）により推定します。
+主要図1～3と補足解析の比較では、RWC 60%以上を用います。モデルは一般化加法モデル（GAM）で、制限付き最尤法（REML）により推定します。
 
 ## 結果の再現方法
 

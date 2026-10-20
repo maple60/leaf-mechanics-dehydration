@@ -24,6 +24,7 @@ book:
       chapters:
         - notebook/06-stiffness-comparison.qmd
   appendices:
+    - notebook/10-gam-results.qmd
     - notebook/07-analysis-notes.qmd
     - notebook/08-functions.qmd
     - notebook/09-submission-figures.qmd

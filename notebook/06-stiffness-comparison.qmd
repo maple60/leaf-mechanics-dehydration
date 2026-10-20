@@ -21,13 +21,13 @@ title-ja: "図S2：剛性の低下"
 
 :::: {.content-visible unless-profile="ja"}
 
-Compare the relative decrease in bending and tensile stiffness from 100% to 80% RWC. This is Figure S2 in the manuscript; the source notebook called it S3. Its GAMs retain the original RWC cutoff of 50%.
+Compare the relative decrease in bending and tensile stiffness from 100% to 80% RWC. This is Figure S2 in the manuscript; the source notebook called it S3. Its GAMs use RWC of at least 60%, matching Figures 1–3.
 
 ::::
 
 :::: {.content-visible when-profile="ja"}
 
-RWC 100%から80%までの曲げ剛性と引張剛性の相対的な低下を比較します。論文の図S2に相当し、元のノートブックではS3と呼ばれていました。GAMの当てはめには、元の解析と同じRWC 50%以上の基準を用います。
+RWC 100%から80%までの曲げ剛性と引張剛性の相対的な低下を比較します。論文の図S2に相当し、元のノートブックではS3と呼ばれていました。GAMの当てはめには、図1～3と同じRWC 60%以上の基準を用います。
 
 ::::
 
@@ -76,7 +76,7 @@ names(spp) <- c(
 #| fig-show: hide
 categories <- c("bending", "tensile")
 df <- df_list[[categories[1]]]
-df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
+df <- df[df$water_content >= 60, ] # filter data for water content >= 60%
 df$EI <- df$EI * 1000 # convert unit of EI
 df$I <- df$I * 1000 # convert unit of I
 ```
@@ -95,8 +95,8 @@ adaxial_result_list <- lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "EI",
     side = "adaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = c(60, 100),
+    xlim = c(100, 60)
   )
 })
 
@@ -110,8 +110,8 @@ abaxial_result_list <- lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "EI",
     side = "abaxial",
-    pred_range = c(50, 100),
-    xlim = c(100, 50),
+    pred_range = c(60, 100),
+    xlim = c(100, 60),
     pch = 22 # Use different point shape for abaxial
   )
 })
@@ -151,7 +151,7 @@ df_list <- list()
 df_list[["tensile"]] <- read.csv("outputs/tables/tensile.csv")
 categories <- c("bending", "tensile")
 df <- add_tensile_stiffness(df_list[[categories[2]]])
-df <- df[df$water_content >= 50, ] # filter data for water content >= 50%
+df <- df[df$water_content >= 60, ] # filter data for water content >= 60%
 
 df$I <- df$I * 1000 # convert unit of I
 df$LMA <- df$dry_weight / df$area * 10^3 # calculate leaf mass per area (LMA) (g m-2)
@@ -174,8 +174,8 @@ tensile_result_list <- lapply(seq_along(spp), function(i) {
     x = "water_content",
     y = "EA",
     side = side,
-    pred_range = c(50, 100),
-    xlim = c(100, 50)
+    pred_range = c(60, 100),
+    xlim = c(100, 60)
   )
   return(result)
 })
@@ -293,11 +293,14 @@ line_width <- 4 # Line width
 
 svg("outputs/figures/figure_S2.svg", bg = "transparent")
 par(mar = c(3, 4, 0.6, 0.6))
+# Include negative decreases (predicted stiffness increases) in the plot.
+plot_limits <- range(c(0, 100, unlist(df_wide[, c(
+  "drop_tensile", "drop_adaxial", "drop_abaxial")])), na.rm = TRUE)
 plot(
   df_wide$drop_tensile,
   df_wide$drop_adaxial,
-  xlim = c(0, 100),
-  ylim = c(0, 100),
+  xlim = plot_limits,
+  ylim = plot_limits,
   xlab = "",
   ylab = "",
   asp = 1,
@@ -415,5 +418,17 @@ Both ordinary and adjusted R² are shown to clarify the manuscript reporting.
 :::: {.content-visible when-profile="ja"}
 
 元の解析では、*Ligustrum lucidum* の背軸側の値を `NA` として除外しています。そのため、背軸側の回帰には5種を用います。論文中の記載を確認できるように、通常のR²と自由度調整済みR²の両方を示します。
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+各GAMの標本数、RWC範囲、edf、F値、補正前p値は[GAMの結果一覧](10-gam-results.qmd)を参照してください。
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
+
+See [GAM results](10-gam-results.qmd) for sample sizes, RWC ranges, edf, F statistics, and unadjusted p-values for each model.
 
 ::::

@@ -256,3 +256,15 @@ figure_files <- list.files("outputs/figures/figure_01", pattern = "_RWC_vs_I_", 
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
 ```
+
+:::: {.content-visible when-profile="ja"}
+
+各GAMの標本数、RWC範囲、edf、F値、補正前p値は[GAMの結果一覧](10-gam-results.qmd)を参照してください。
+
+::::
+
+:::: {.content-visible unless-profile="ja"}
+
+See [GAM results](10-gam-results.qmd) for sample sizes, RWC ranges, edf, F statistics, and unadjusted p-values for each model.
+
+::::

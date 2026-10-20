@@ -69,14 +69,16 @@ now use `EA = E.x * thick * width.x`, consistent with the manuscript definition
 of tensile stiffness. Dimensions are from the instrument export, paired with
 its Young's modulus, rather than the separate metadata dimensions (two thickness
 and four width values differ). Figure 2 uses N; the stiffness ratio in Figure 3
-uses 10⁻³ mm². Exclusions, matching, GAM settings, and RWC cutoffs are unchanged.
+uses 10⁻³ mm². Exclusions, matching, and GAM settings are unchanged.
+S2 now uses RWC ≥60%, matching Figures 1–3, instead of the inherited 50% cutoff.
 The legacy S2 regression values above must be replaced by the corrected results
 shown in the stiffness comparison chapter.
 
-With `EA`, the abaxial S2 regression (five species) has slope 1.1311062,
-intercept -0.3633202, R² 0.9668022, and p = 0.0025932. The adaxial regression
-(six species) has slope 0.5194481, intercept 0.4466174, R² 0.7039988, and
-p = 0.0367743. The manuscript's quoted regression values need updating.
+With `EA` and RWC ≥60%, the abaxial S2 regression (five species) has slope 1.138343,
+intercept 0.8150808, R² 0.9238091, and p = 0.0091385. The adaxial regression
+(six species) has slope 0.6236132, intercept -3.468724, R² 0.6276111, and
+p = 0.0602741. These p-values test whether the species-level regression slope
+is zero. The manuscript's quoted regression values need updating.
 
 The integration notebook applies `exclude_records_bending.csv` to both bending
 and tensile records. It also retains the existing hard-coded tensile exclusions
@@ -128,9 +130,9 @@ GitHub上の元の解析（コミット `606501e6a66bde009e91a9326a1c216c9e6e16d
 
 ### 引張剛性の定義
 
-従来の図2のコードは、引張試験の試料情報にある `EI` 列を使っていました。この値は262件中248件で `E.x * I` と一致します（相対許容誤差10⁻⁶）。現在の図2、3、S2は、論文の引張剛性の定義に合わせて `EA = E.x * thick * width.x` を使います。寸法には別途の試料情報ではなく、ヤング率に対応する試験機の出力値を使います（両者で葉厚2件、幅4件が異なります）。図2の単位はN、図3の剛性比は10⁻³ mm²です。除外、対応付け、GAM設定、RWCの基準は変更していません。上表の従来のS2回帰値は、剛性比較の章に示す修正後の結果に更新する必要があります。
+従来の図2のコードは、引張試験の試料情報にある `EI` 列を使っていました。この値は262件中248件で `E.x * I` と一致します（相対許容誤差10⁻⁶）。現在の図2、3、S2は、論文の引張剛性の定義に合わせて `EA = E.x * thick * width.x` を使います。寸法には別途の試料情報ではなく、ヤング率に対応する試験機の出力値を使います（両者で葉厚2件、幅4件が異なります）。図2の単位はN、図3の剛性比は10⁻³ mm²です。除外、対応付け、GAM設定は変更していません。S2のRWC下限は従来の50%から60%に変更し、図1～3と統一しています。上表の従来のS2回帰値は、剛性比較の章に示す修正後の結果に更新する必要があります。
 
-`EA` を用いたS2の背軸側の回帰（5種）は、傾き1.1311062、切片-0.3633202、R² 0.9668022、p = 0.0025932です。向軸側の回帰（6種）は、傾き0.5194481、切片0.4466174、R² 0.7039988、p = 0.0367743です。論文中の回帰値を更新する必要があります。
+`EA` とRWC 60%以上のデータを用いたS2の背軸側の回帰（5種）は、傾き1.138343、切片0.8150808、R² 0.9238091、p = 0.0091385です。向軸側の回帰（6種）は、傾き0.6236132、切片-3.468724、R² 0.6276111、p = 0.0602741です。このp値は種間回帰の傾きがゼロかを検定しています。論文中の回帰値を更新する必要があります。
 
 統合用ノートブックでは、`exclude_records_bending.csv` を曲げ・引張の両方に適用しています。コード内で指定されている引張試験の除外と、試験機の失敗記録の除外も維持しています。移行時に除外規則は変更していません。
 
