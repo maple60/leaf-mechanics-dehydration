@@ -21,6 +21,10 @@ project:
 book:
   title: "Leaf Mechanics under Dehydration"
   author: "Kaede Konrai"
+  site-url: https://maple60.github.io/leaf-mechanics-dehydration/
+  repo-url: https://github.com/maple60/leaf-mechanics-dehydration
+  repo-branch: main
+  repo-actions: [source, issue]
 
 number-sections: false
 filters:

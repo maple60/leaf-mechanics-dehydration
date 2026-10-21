@@ -57,7 +57,7 @@ CSV files used by all later analyses.
 | `outputs/tables/`, `outputs/figures/` | Generated CSV and SVG files, ignored by Git. |
 | `renv.lock`, `renv/` | Original R package environment. |
 
-R (the lockfile records 4.5.1) and Quarto are required. Analyses use base R
+R (see `renv.lock` for the recorded version) and Quarto are required. Analyses use base R
 and the existing `mgcv` dependency; no new analysis packages were introduced.
 
 ## Reproduction status
@@ -132,7 +132,30 @@ follow the journal's 8–12 pt lettering range. See the [official guidelines](ht
 Figures 2, 3, and S2 now use tensile
 stiffness `EA = E.x * thick * width.x` (N), replacing the legacy tensile `EI`.
 Update the manuscript's figure units and S2 statistics to the corrected results.
-Use `quarto preview` for a local browser preview. This draft does not deploy
-automatically or make the private repository public.
+Use `quarto preview` for a local browser preview.
+
+## Publish to GitHub Pages
+
+The public analysis site is hosted at
+<https://maple60.github.io/leaf-mechanics-dehydration/>; Japanese pages are under
+`ja/`. The source repository can remain private.
+
+Render locally because the original inputs are stored outside Git. Run from the
+repository root, with `PROJECT_DATA_DIR` configured and the `renv` packages restored:
+
+```sh
+quarto render
+quarto publish gh-pages --no-render
+```
+
+The English render also builds the Japanese pages through the post-render hook.
+Check both language versions before publishing. The publish command sends the
+generated `_site/` contents to the `gh-pages` branch. In GitHub repository
+**Settings > Pages**, select **Deploy from a branch**, **gh-pages**, and **/ (root)**.
+GitHub's built-in Pages workflow deploys updates to that branch; no custom
+workflow file is required. A push to `main` alone does not publish a new site.
+
+Only generated site files are published. Do not copy raw inputs, manuscripts,
+or working directories into `_site/`.
 
 Edit this `README.md` directly; it is not generated from Quarto.

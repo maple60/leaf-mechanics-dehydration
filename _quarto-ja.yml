@@ -5,8 +5,12 @@ lang: ja
 
 book:
   title: "脱水に伴う葉の力学特性"
+  site-url: https://maple60.github.io/leaf-mechanics-dehydration/ja/
   navbar:
     right:
+      - icon: github
+        href: https://github.com/maple60/leaf-mechanics-dehydration
+        aria-label: "GitHubリポジトリ"
       - text: "EN"
         href: ../index.html
   chapters:

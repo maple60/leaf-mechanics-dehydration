@@ -7,6 +7,9 @@ project:
 book:
   navbar:
     right:
+      - icon: github
+        href: https://github.com/maple60/leaf-mechanics-dehydration
+        aria-label: "GitHub repository"
       - text: "JP"
         href: ja/index.html
   chapters:
