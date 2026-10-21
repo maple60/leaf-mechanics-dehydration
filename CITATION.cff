@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite it using the metadata below."
+title: "Data and code for: Changes in leaf mechanical properties under bending and tensile tests during dehydration in six plant species"
+type: software
+authors:
+  - family-names: Konrai
+    given-names: Kaede
+    affiliation: "Graduate School of Agriculture, Kyoto University, Japan"
+    orcid: "https://orcid.org/0009-0005-4555-8424"
+  - family-names: Onoda
+    given-names: Yusuke
+    affiliation: "Graduate School of Agriculture, Kyoto University, Japan"
+    orcid: "https://orcid.org/0000-0001-6245-2342"
+repository-code: "https://github.com/maple60/leaf-mechanics-dehydration"
+# Code is MIT-licensed; the released data are CC BY 4.0 (see LICENSE and LICENSE-DATA.md).
+license:
+  - MIT
+  - CC-BY-4.0
+keywords:
+  - leaf mechanics
+  - dehydration
+  - bending stiffness
+  - tensile stiffness
+  - relative water content
+  - generalized additive model
+# Fill in after archiving the release on Zenodo:
+# version: "1.0.0"
+# date-released: "2026-MM-DD"
+# doi: "10.5281/zenodo.XXXXXXX"
+#
+# Add after the article is accepted:
+# preferred-citation:
+#   type: article
+#   authors:
+#     - family-names: Konrai
+#       given-names: Kaede
+#     - family-names: Onoda
+#       given-names: Yusuke
+#   title: "Changes in leaf mechanical properties under bending and tensile tests during dehydration in six plant species"
+#   journal: "Physiologia Plantarum"
+#   year: 2026
+#   doi: "10.xxxx/xxxxx"
