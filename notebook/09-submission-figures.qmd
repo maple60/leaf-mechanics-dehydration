@@ -234,7 +234,7 @@ figure_3_models <- plot_submission_panels(
   labels = expression("Bending stiffness / tensile stiffness"~(10^{-3}~mm^2),
                       "Bending / tensile Young's modulus"),
   file = file.path(submission_dir, "figure_3.pdf"), x = "RWC_mean",
-  reference_lines = c(1, 3))
+  reference_lines = c(1, 3), label_offsets = c(4, 6.5) / 85.5)
 ```
 
 :::: {.content-visible unless-profile="ja"}
