@@ -7,16 +7,17 @@ project:
   execute-dir: project
   output-dir: _site
   resources:
-    - R/plot_gam_ci.R
-    - R/summarize_trait.R
-    - R/plot_submission_panels.R
-    - R/add_tensile_stiffness.R
-    - R/summarize_gams.R
-    - outputs/tables/gam-results.csv
-    - outputs/tables/gam-results.rds
-    - outputs/figures/submission/generate_figures.qmd
-    - outputs/figures/submission/*.pdf
-    - outputs/figures/submission/*.png
+    # Anchor paths at the project root so working copies are not published.
+    - /R/plot_gam_ci.R
+    - /R/summarize_trait.R
+    - /R/plot_submission_panels.R
+    - /R/add_tensile_stiffness.R
+    - /R/summarize_gams.R
+    - /outputs/tables/gam-results.csv
+    - /outputs/tables/gam-results.rds
+    - /outputs/figures/submission/generate_figures.qmd
+    - /outputs/figures/submission/*.pdf
+    - /outputs/figures/submission/*.png
 
 book:
   title: "Leaf Mechanics under Dehydration"
