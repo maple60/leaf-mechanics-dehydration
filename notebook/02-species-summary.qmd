@@ -21,7 +21,7 @@ title-ja: "種ごとの形質の要約"
 
 :::: {.content-visible unless-profile="ja"}
 
-Summarize leaf thickness, leaf dry matter content (LDMC), and leaf mass per area (LMA). Thickness uses fully hydrated samples. The original calculations and plots are retained.
+Summarize leaf thickness, leaf dry matter content (LDMC), and leaf mass per area (LMA). Thickness uses fully hydrated samples.
 
 ## Analysis
 
@@ -29,7 +29,8 @@ Summarize leaf thickness, leaf dry matter content (LDMC), and leaf mass per area
 
 :::: {.content-visible when-profile="ja"}
 
-葉厚、葉の乾物含有率（LDMC）、単位葉面積当たりの乾燥質量（LMA）をまとめます。葉厚には十分に吸水させた試料を用います。元の計算と作図方法を維持しています。
+葉厚、葉の乾物含有率（LDMC）、単位葉面積当たりの乾燥質量（LMA）をまとめます。
+葉厚には十分に吸水させた試料を用います。
 
 ## 解析
 
@@ -318,9 +319,7 @@ dev.off()
 ## Trait summaries
 
 Each table reports nonmissing measurement records, mean, and sample standard
-deviation. These counts are not confirmed independent-leaf sample sizes in
-manuscript Table 1. Thickness uses the fully hydrated records; LDMC and LMA use
-the existing summary datasets.
+deviation.
 
 ### Thickness (mm)
 
@@ -330,7 +329,7 @@ the existing summary datasets.
 
 ## 形質の要約
 
-各表には、欠測を除いた測定記録数、平均、不偏分散の平方根としての標本標準偏差を示します。この記録数が、論文の表1における独立した葉のサンプル数に相当するかは未確認です。葉厚には十分に吸水した記録を、LDMCとLMAには既存の要約用データセットを用います。
+各表には、欠測を除いた測定記録数、平均、不偏分散の平方根としての標本標準偏差を示します。
 
 ### 葉厚（mm）
 
