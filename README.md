@@ -54,7 +54,7 @@ R packages are restored to the versions in `renv.lock` with `renv::restore()`. I
 
 The analysis uses 56 instrument CSV files and three metadata/exclusion CSV files.
 They are not tracked in Git. See [data/README.md](data/README.md) for how to obtain them and for the contents of each file.
-The dataset DOI is in preparation.
+The data and code are archived on Zenodo (DOI: [10.5281/zenodo.23554265](https://doi.org/10.5281/zenodo.23554265)).
 
 ## Outputs
 

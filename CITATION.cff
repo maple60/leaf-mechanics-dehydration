@@ -23,8 +23,7 @@ keywords:
   - generalized additive model
 version: "1.0.0"
 date-released: "2026-10-22"
-# Fill in after archiving the release on Zenodo:
-# doi: "10.5281/zenodo.XXXXXXX"
+doi: "10.5281/zenodo.23554265"
 #
 # Add after the article is accepted:
 # preferred-citation:

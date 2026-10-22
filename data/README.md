@@ -2,7 +2,7 @@
 
 This folder documents the measurement data used by the analysis code. The
 data themselves are archived on Zenodo together with the code
-(DOI: *to be added after archiving*) and are released under
+(DOI: [10.5281/zenodo.23554265](https://doi.org/10.5281/zenodo.23554265)) and are released under
 [CC BY 4.0](../LICENSE-DATA.md). The code is released under the MIT License
 ([LICENSE](../LICENSE)).
 
