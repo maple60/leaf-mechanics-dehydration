@@ -93,7 +93,7 @@ not embedded in the site.
 
 最初のノートブックが統合済みテーブルを作成し、以降のノートブックがそれを読み込み、図を `outputs/figures/` に出力します。元の入力ファイルは変更しません。環境設定と必要なデータの詳細は[リポジトリのREADME](https://github.com/maple60/leaf-mechanics-dehydration)を参照してください。
 
-英語版と日本語版をまとめて作成する場合は、PowerShellで `./scripts/render-bilingual.ps1` を実行します。日本語版のみの作成には `quarto render --profile ja` を使います。
+`quarto render` は英語版と日本語版をまとめて作成します。日本語版のみの作成には `quarto render --profile ja` を使います。
 
 ## このサイトの範囲
 
