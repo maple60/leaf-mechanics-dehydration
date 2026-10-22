@@ -70,11 +70,14 @@ read_example_curves <- function(selection, data_dir) {
   list(samples = do.call(rbind, samples), curves = curves)
 }
 
+# Scientific names for the species codes used in the data files.
+example_species <- c(ubayuri = "Cardiocrinum cordatum", youshuyamagobou = "Phytolacca americana",
+                     yurinoki = "Liriodendron tulipifera", niseakashia = "Robinia pseudoacacia",
+                     aoki = "Aucuba japonica", nezumimochi = "Ligustrum lucidum")
+
 # The same drawing is used for the site SVG and the submission PDF/PNG.
 plot_example_curves <- function(examples) {
-  species <- c(ubayuri = "Cardiocrinum cordatum", youshuyamagobou = "Phytolacca americana",
-               yurinoki = "Liriodendron tulipifera", niseakashia = "Robinia pseudoacacia",
-               aoki = "Aucuba japonica", nezumimochi = "Ligustrum lucidum")
+  species <- example_species
   colours <- c(high = "#08306b", medium = "#2171b5", low = "#6baed6")
   samples <- examples$samples
   stopifnot(nrow(samples) == 36L, length(examples$curves) == 36L)

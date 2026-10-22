@@ -71,6 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
 <link href="../notebook/08-functions.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -110,35 +111,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../language-switch.css">
 </head>
@@ -277,17 +249,17 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebook/07-analysis-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">解析に関する注記</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../notebook/08-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">共通関数</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebook/09-submission-figures.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">論文投稿用の図</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">参考文献</span></a>
   </div>
 </li>
       </ul>
@@ -347,16 +319,13 @@ window.Quarto = {
 <p><a href="../../notebook/09-submission-figures.html" id="language-switch" hreflang="en" lang="en">Read this page in English (EN)</a></p>
 </div>
 </div>
-<p>以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。コード欄を展開すると各手順を確認できます。主要図の入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。図S1は再現用の章で保存した元の代表例と基準値補正を用います。PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。</p>
+<p>以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。 コード欄を展開すると各手順を確認できます。主要図の入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。 図S1は再現用の章で保存した元の代表例と基準値補正を用います。 PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。</p>
 <p><a href="../outputs/figures/submission/generate_figures.qmd" download="generate_figures.qmd">図生成用ノートブック（QMD）をダウンロード</a></p>
-<p>元のレイアウト（6種の行、形質の列、正方形の描画領域）を維持します。図1・2・3の幅はそれぞれ120、155、85.5 mmです。高さは正方形のパネル幅と余白から計算し、それぞれ約235、228、231 mmになります。178 mmを上限として図ごとに幅を調整することで、パネルを並べ替えずに過度な縦長を避けます。パネル文字と、種・形質・推定曲線の対応も維持しています。種名は斜体、縦軸ラベルは形質の列ごとに共通です。図S2は120 × 120 mmで、回帰式と統計量を元と同じ図内に配置します。文字はArialの9 ptを基準とし、目盛数字や凡例には8.55 pt、斜体の種名と回帰式の説明には8.1 ptを使います。PDF内の線と文字はベクター形式です。修正後の <span class="math inline">\(E_t A\)</span> の値と単位を維持しています。</p>
-<p>雑誌への提出時は、本文のDOCX/ODTには図の画像を入れず、図の説明文を本文末尾に残し、主図を1図ずつPDFで提出します。初回投稿でも別ファイル提出が認められています。補足資料は別の規定に従い、可能であれば図・説明文・表・論文タイトル・著者名を含む単一PDFにまとめます。</p>
-<p>自身のプレビューやプレプリント用には、別の原稿にPNGを<strong>［挿入］→［画像］</strong>から挿入します。縦横比を固定し、Wordの画像圧縮を無効にしてください。PNGは上記の実寸で600 dpiです。図の説明文を収めるための縮小は可能ですが、拡大すると実効解像度が下がります。必要に応じて、図入り原稿を利用するプレプリントサービスに合ったPDFへ書き出します。</p>
-<p>PDF内の線と文字はベクターなので、ページを大きくしても細部の情報量は増えません。PDFもPNGも原稿内の配置寸法で作成し、PDFの拡大処理や追加の出力用依存関係は使いません。ただし、最終掲載時の幅と文字サイズは重要です。規定では最大幅178 mm、文字8～12 ptが指定されています。提出前には、上記の実寸で文字・点・線の読みやすさを確認してください。<a href="https://physiologiaplantarum.org/instructions-for-manuscrip/">公式投稿規定</a>を参照してください。</p>
-<p>引張剛性は <code>E_t * A</code> として計算します。<code>A = thick * width.x</code> は、<code>E.x</code>（MPa）に対応する試験機の寸法（mm）から得ます。<code>EA</code> の単位はN、曲げ剛性と引張剛性の比の単位はmm²です。</p>
+<p>元のレイアウト（6種の行、形質の列、正方形の描画領域）を維持します。 図1・2・3の幅はそれぞれ120、155、85.5 mmです。 高さは正方形のパネル幅と余白から計算し、それぞれ約235、228、231 mmになります。 178 mmを上限として図ごとに幅を調整することで、パネルを並べ替えずに過度な縦長を避けます。 パネル文字と、種・形質・推定曲線の対応も維持しています。 種名は斜体、縦軸ラベルは形質の列ごとに共通です。</p>
+<p>図S2は120 × 120 mmで、回帰式と統計量を元と同じ図内に配置します。 文字はArialの9 ptを基準とし、目盛数字や凡例には8.55 pt、斜体の種名と回帰式の説明には8.1 ptを使います。 PDF内の線と文字はベクター形式です。</p>
 <section id="準備" class="level2">
 <h2 class="anchored" data-anchor-id="準備">準備</h2>
-<p>最初にデータ統合を実行してください。図S1には <code>11-force-displacement.qmd</code>、図S2には剛性比較の章も必要です。各章が保存した代表例または回帰結果を読み込むため、ここでは再推定しません。</p>
+<p>最初にデータ統合を実行してください。 図S1には <code>11-force-displacement.qmd</code>、図S2には剛性比較の章も必要です。 各章が保存した代表例または回帰結果を読み込むため、ここでは再推定しません。</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show generation code</summary>
@@ -379,7 +348,7 @@ window.Quarto = {
 </section>
 <section id="図1曲げ特性" class="level2">
 <h2 class="anchored" data-anchor-id="図1曲げ特性">図1：曲げ特性</h2>
-<p>A～F：曲げ剛性、G～L：曲げ試験のヤング率、M～R：断面二次モーメント。オレンジの丸と青の四角は、それぞれ向軸側と背軸側の曲げを示します。</p>
+<p>A～F：曲げ剛性、G～L：曲げ試験のヤング率、M～R：断面二次モーメント。 オレンジの丸と青の四角は、それぞれ向軸側と背軸側の曲げを示します。</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show generation code</summary>
@@ -448,7 +417,7 @@ window.Quarto = {
 </section>
 <section id="図s1荷重変位曲線" class="level2">
 <h2 class="anchored" data-anchor-id="図s1荷重変位曲線">図S1：荷重–変位曲線</h2>
-<p>155 × 235 mmの図に、元図で選ばれている36本の個別曲線を12パネルで示します。A～Fは向軸側の曲げ、G～Lは引張です。<a href="../notebook/11-force-displacement.html">再現用の章</a>に試料ID、RWC、基準値補正、およびユリノキの引張ID 58が定量解析から除外されていることを記載しています。</p>
+<p>155 × 235 mmの図に、元図で選ばれている36本の個別曲線を12パネルで示します。 A～Fは向軸側の曲げ、G～Lは引張です。<a href="../notebook/11-force-displacement.html">再現用の章</a>に 試料ID、RWC、基準値補正、およびユリノキの引張ID 58が定量解析から除外されていることを記載しています。</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show generation code</summary>
@@ -462,7 +431,7 @@ window.Quarto = {
 </section>
 <section id="図s2剛性の相対的な低下" class="level2">
 <h2 class="anchored" data-anchor-id="図s2剛性の相対的な低下">図S2：剛性の相対的な低下</h2>
-<p>補足解析で保存した予測値と回帰結果を用います。モデルの当てはめはRWC 60%以上で行い、元の解析と同じく <em>Ligustrum lucidum</em> の背軸側を欠測とします。RWC 80%に最も近い格子点の予測値を使います。</p>
+<p>補足解析で保存した予測値と回帰結果を用います。 モデルの当てはめはRWC 60%以上で行い、元の解析と同じく <em>Ligustrum lucidum</em> の背軸側を欠測とします。 RWC 80%に最も近い格子点の予測値を使います。</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show generation code</summary>
@@ -475,7 +444,7 @@ window.Quarto = {
 </section>
 <section id="共通の描画コード" class="level2">
 <h2 class="anchored" data-anchor-id="共通の描画コード">共通の描画コード</h2>
-<p>図1～3では解析の章と同じ <code>plot_gam_ci()</code> を呼び出し、図S1では <code>R/force_displacement.R</code> を使います。以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。</p>
+<p>図1～3では解析の章と同じ <code>plot_gam_ci()</code> を呼び出し、図S1では <code>R/force_displacement.R</code> を使います。 以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。</p>
 <p><a href="../R/plot_submission_panels.R">描画用の補助関数（R）をダウンロード</a></p>
 <div class="callout callout-style-default callout-note callout-titled" title="Show shared drawing code">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
@@ -1134,6 +1103,9 @@ document.addEventListener("DOMContentLoaded", () => {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../references.html" class="pagination-link" aria-label="参考文献">
+        <span class="nav-page-text"><span class="chapter-title">参考文献</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">ソースコード</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -1177,319 +1149,307 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>Figure S2 retains its 120 × 120 mm plot with regression annotations inside it.</span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>All figures use Arial at a 9 pt base size, 8.55 pt tick labels/legends, and 8.1 pt</span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>species names and compact regression annotations. The PDFs retain vector lines</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>and text. Corrected $E_t A$ values and units are retained.</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>and text.</span>
 <span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>For journal submission, keep the main text in a DOCX/ODT file without the figure</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>images, retain the figure legends at the end of that file, and submit each main</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>figure as an individual PDF. Separate files are also allowed at initial submission.</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>Supporting information follows its own instructions; the journal recommends a</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>combined PDF with its figures, legends, tables, title, and authors where possible.</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>Run data integration first. Figure S2 also requires the stiffness comparison</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>chapter, which saves its data and fitted regressions without refitting here.</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>Figure S1 requires <span class="in">`11-force-displacement.qmd`</span>, which saves its original examples.</span>
 <span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>For a preview or preprint version, insert the PNGs using **Insert → Pictures**,</span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>keep the aspect ratio, and disable Word image compression. The PNGs contain</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>600 pixels per inch at the intended dimensions. Reduce them if necessary to leave</span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>room for captions; enlarging them lowers the effective resolution. Export the</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>figure-containing document to PDF as needed for the selected preprint service.</span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>PDF lines and text remain vector objects, so increasing the page size does not</span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>add detail. We use the intended manuscript dimensions for both output formats,</span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>without a PDF enlargement step or additional output dependencies. Final printed</span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>width and lettering still matter: the journal specifies widths up to 178 mm and</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>lettering of 8–12 pt. Check the figures at their intended printed dimensions</span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>before submission. See the</span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">journal guidelines</span><span class="co">](https://physiologiaplantarum.org/instructions-for-manuscrip/)</span>.</span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>Tensile stiffness is calculated as <span class="in">`E_t * A`</span>, with <span class="in">`A = thick * width.x`</span> from</span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>the instrument dimensions (mm) associated with <span class="in">`E.x`</span> (MPa). The resulting</span>
-<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="in">`EA`</span> is in N; bending-to-tensile stiffness ratios are in mm².</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>コード欄を展開すると各手順を確認できます。主要図の入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>図S1は再現用の章で保存した元の代表例と基準値補正を用います。</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図生成用ノートブック（QMD）をダウンロード</span><span class="co">](../outputs/figures/submission/generate_figures.qmd)</span>{download="generate_figures.qmd"}</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>元のレイアウト（6種の行、形質の列、正方形の描画領域）を維持します。</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>図1・2・3の幅はそれぞれ120、155、85.5 mmです。</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>高さは正方形のパネル幅と余白から計算し、それぞれ約235、228、231 mmになります。</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>178 mmを上限として図ごとに幅を調整することで、パネルを並べ替えずに過度な縦長を避けます。</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>パネル文字と、種・形質・推定曲線の対応も維持しています。</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>種名は斜体、縦軸ラベルは形質の列ごとに共通です。</span>
 <span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation</span></span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>Run data integration first. Figure S2 also requires the stiffness comparison</span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>chapter, which saves its data and fitted regressions without refitting here.</span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>Figure S1 requires <span class="in">`11-force-displacement.qmd`</span>, which saves its original examples.</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>図S2は120 × 120 mmで、回帰式と統計量を元と同じ図内に配置します。</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>文字はArialの9 ptを基準とし、目盛数字や凡例には8.55 pt、斜体の種名と回帰式の説明には8.1 ptを使います。</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>PDF内の線と文字はベクター形式です。</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a><span class="fu">## 準備</span></span>
 <span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>最初にデータ統合を実行してください。</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>図S1には <span class="in">`11-force-displacement.qmd`</span>、図S2には剛性比較の章も必要です。</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>各章が保存した代表例または回帰結果を読み込むため、ここでは再推定しません。</span>
 <span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。コード欄を展開すると各手順を確認できます。主要図の入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。図S1は再現用の章で保存した元の代表例と基準値補正を用います。PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図生成用ノートブック（QMD）をダウンロード</span><span class="co">](../outputs/figures/submission/generate_figures.qmd)</span>{download="generate_figures.qmd"}</span>
-<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>元のレイアウト（6種の行、形質の列、正方形の描画領域）を維持します。図1・2・3の幅はそれぞれ120、155、85.5 mmです。高さは正方形のパネル幅と余白から計算し、それぞれ約235、228、231 mmになります。178 mmを上限として図ごとに幅を調整することで、パネルを並べ替えずに過度な縦長を避けます。パネル文字と、種・形質・推定曲線の対応も維持しています。種名は斜体、縦軸ラベルは形質の列ごとに共通です。図S2は120 × 120 mmで、回帰式と統計量を元と同じ図内に配置します。文字はArialの9 ptを基準とし、目盛数字や凡例には8.55 pt、斜体の種名と回帰式の説明には8.1 ptを使います。PDF内の線と文字はベクター形式です。修正後の $E_t A$ の値と単位を維持しています。</span>
-<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>雑誌への提出時は、本文のDOCX/ODTには図の画像を入れず、図の説明文を本文末尾に残し、主図を1図ずつPDFで提出します。初回投稿でも別ファイル提出が認められています。補足資料は別の規定に従い、可能であれば図・説明文・表・論文タイトル・著者名を含む単一PDFにまとめます。</span>
-<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>自身のプレビューやプレプリント用には、別の原稿にPNGを**［挿入］→［画像］**から挿入します。縦横比を固定し、Wordの画像圧縮を無効にしてください。PNGは上記の実寸で600 dpiです。図の説明文を収めるための縮小は可能ですが、拡大すると実効解像度が下がります。必要に応じて、図入り原稿を利用するプレプリントサービスに合ったPDFへ書き出します。</span>
-<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>PDF内の線と文字はベクターなので、ページを大きくしても細部の情報量は増えません。PDFもPNGも原稿内の配置寸法で作成し、PDFの拡大処理や追加の出力用依存関係は使いません。ただし、最終掲載時の幅と文字サイズは重要です。規定では最大幅178 mm、文字8～12 ptが指定されています。提出前には、上記の実寸で文字・点・線の読みやすさを確認してください。<span class="co">[</span><span class="ot">公式投稿規定</span><span class="co">](https://physiologiaplantarum.org/instructions-for-manuscrip/)</span>を参照してください。</span>
-<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>引張剛性は <span class="in">`E_t * A`</span> として計算します。<span class="in">`A = thick * width.x`</span> は、<span class="in">`E.x`</span>（MPa）に対応する試験機の寸法（mm）から得ます。<span class="in">`EA`</span> の単位はN、曲げ剛性と引張剛性の比の単位はmm²です。</span>
-<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## 準備</span></span>
-<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>最初にデータ統合を実行してください。図S1には <span class="in">`11-force-displacement.qmd`</span>、図S2には剛性比較の章も必要です。各章が保存した代表例または回帰結果を読み込むため、ここでは再推定しません。</span>
-<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-preparation</span></span>
-<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
-<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/setup.R"</span>)</span>
-<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/plot_submission_panels.R"</span>)</span>
-<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>submission_dir <span class="ot">&lt;-</span> <span class="st">"outputs/figures/submission"</span></span>
-<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(submission_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">file.copy</span>(<span class="st">"notebook/09-submission-figures.qmd"</span>,</span>
-<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">file.path</span>(submission_dir, <span class="st">"generate_figures.qmd"</span>),</span>
-<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>                    <span class="at">overwrite =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>bending <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"outputs/tables/bending.csv"</span>)</span>
-<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>tensile <span class="ot">&lt;-</span> <span class="fu">add_tensile_stiffness</span>(<span class="fu">read.csv</span>(<span class="st">"outputs/tables/tensile.csv"</span>))</span>
-<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ubayuri"</span>, <span class="st">"youshuyamagobou"</span>, <span class="st">"yurinoki"</span>,</span>
-<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>             <span class="st">"niseakashia"</span>, <span class="st">"aoki"</span>, <span class="st">"nezumimochi"</span>)</span>
-<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(species) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Cardiocrinum cordatum"</span>, <span class="st">"Phytolacca americana"</span>,</span>
-<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Liriodendron tulipifera"</span>, <span class="st">"Robinia pseudoacacia"</span>,</span>
-<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Aucuba japonica"</span>, <span class="st">"Ligustrum lucidum"</span>)</span>
-<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-preparation</span></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/setup.R"</span>)</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/plot_submission_panels.R"</span>)</span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>submission_dir <span class="ot">&lt;-</span> <span class="st">"outputs/figures/submission"</span></span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(submission_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">file.copy</span>(<span class="st">"notebook/09-submission-figures.qmd"</span>,</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">file.path</span>(submission_dir, <span class="st">"generate_figures.qmd"</span>),</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>                    <span class="at">overwrite =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>bending <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"outputs/tables/bending.csv"</span>)</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>tensile <span class="ot">&lt;-</span> <span class="fu">add_tensile_stiffness</span>(<span class="fu">read.csv</span>(<span class="st">"outputs/tables/tensile.csv"</span>))</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ubayuri"</span>, <span class="st">"youshuyamagobou"</span>, <span class="st">"yurinoki"</span>,</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>             <span class="st">"niseakashia"</span>, <span class="st">"aoki"</span>, <span class="st">"nezumimochi"</span>)</span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(species) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Cardiocrinum cordatum"</span>, <span class="st">"Phytolacca americana"</span>,</span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Liriodendron tulipifera"</span>, <span class="st">"Robinia pseudoacacia"</span>,</span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Aucuba japonica"</span>, <span class="st">"Ligustrum lucidum"</span>)</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 1: Bending properties</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>A–F: bending stiffness; G–L: bending Young's modulus; M–R: second moment of</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>area. Orange circles and blue squares represent adaxial and abaxial bending.</span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図1：曲げ特性</span></span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>A～F：曲げ剛性、G～L：曲げ試験のヤング率、M～R：断面二次モーメント。</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>オレンジの丸と青の四角は、それぞれ向軸側と背軸側の曲げを示します。</span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
-<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 1: Bending properties</span></span>
-<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>A–F: bending stiffness; G–L: bending Young's modulus; M–R: second moment of</span>
-<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>area. Orange circles and blue squares represent adaxial and abaxial bending.</span>
-<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図1：曲げ特性</span></span>
-<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>A～F：曲げ剛性、G～L：曲げ試験のヤング率、M～R：断面二次モーメント。オレンジの丸と青の四角は、それぞれ向軸側と背軸側の曲げを示します。</span>
-<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-1</span></span>
-<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
-<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
-<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
-<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>data_bending <span class="ot">&lt;-</span> bending[bending<span class="sc">$</span>water_content <span class="sc">&gt;=</span> <span class="dv">60</span>, ]</span>
-<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>data_bending<span class="sc">$</span>EI <span class="ot">&lt;-</span> data_bending<span class="sc">$</span>EI <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>data_bending<span class="sc">$</span>I <span class="ot">&lt;-</span> data_bending<span class="sc">$</span>I <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>figure_1_models <span class="ot">&lt;-</span> <span class="fu">plot_submission_panels</span>(</span>
-<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a>  data_bending, species, <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"EI"</span>, <span class="st">"E.x"</span>, <span class="st">"I"</span>),</span>
-<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">expression</span>(<span class="st">"Bending stiffness"</span><span class="sc">~</span>(<span class="dv">10</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}<span class="sc">~</span>N<span class="sc">~</span>mm<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Young's modulus"</span><span class="sc">~</span>(MPa),</span>
-<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Second moment of area"</span><span class="sc">~</span>(<span class="dv">10</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}<span class="sc">~</span>mm<span class="sc">^</span><span class="dv">4</span>)),</span>
-<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_1.pdf"</span>))</span>
-<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-1</span></span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>data_bending <span class="ot">&lt;-</span> bending[bending<span class="sc">$</span>water_content <span class="sc">&gt;=</span> <span class="dv">60</span>, ]</span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>data_bending<span class="sc">$</span>EI <span class="ot">&lt;-</span> data_bending<span class="sc">$</span>EI <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>data_bending<span class="sc">$</span>I <span class="ot">&lt;-</span> data_bending<span class="sc">$</span>I <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>figure_1_models <span class="ot">&lt;-</span> <span class="fu">plot_submission_panels</span>(</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>  data_bending, species, <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"EI"</span>, <span class="st">"E.x"</span>, <span class="st">"I"</span>),</span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">expression</span>(<span class="st">"Bending stiffness"</span><span class="sc">~</span>(<span class="dv">10</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}<span class="sc">~</span>N<span class="sc">~</span>mm<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Young's modulus"</span><span class="sc">~</span>(MPa),</span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Second moment of area"</span><span class="sc">~</span>(<span class="dv">10</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}<span class="sc">~</span>mm<span class="sc">^</span><span class="dv">4</span>)),</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_1.pdf"</span>))</span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 1 (PDF)</span><span class="co">](../outputs/figures/submission/figure_1.pdf)</span>{download="figure_1.pdf"}</span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 1 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_1.png)</span>{download="figure_1.png"}</span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 2: Tensile properties</span></span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>A–F: tensile stiffness; G–L: tensile Young's modulus; M–R: tissue density;</span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>S–X: modulus divided by tissue density.</span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図1（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_1.pdf)</span>{download="figure_1.pdf"}</span>
 <span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図1のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_1.png)</span>{download="figure_1.png"}</span>
 <span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 1 (PDF)</span><span class="co">](../outputs/figures/submission/figure_1.pdf)</span>{download="figure_1.pdf"}</span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図2：引張特性</span></span>
 <span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 1 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_1.png)</span>{download="figure_1.png"}</span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a>A～F：引張剛性、G～L：引張試験のヤング率、M～R：組織密度、S～X：ヤング率を組織密度で除した値。</span>
 <span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 2: Tensile properties</span></span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a>A–F: tensile stiffness; G–L: tensile Young's modulus; M–R: tissue density;</span>
-<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a>S–X: modulus divided by tissue density.</span>
-<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図1（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_1.pdf)</span>{download="figure_1.pdf"}</span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-2</span></span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a>data_tensile <span class="ot">&lt;-</span> tensile[tensile<span class="sc">$</span>water_content <span class="sc">&gt;=</span> <span class="dv">60</span>, ]</span>
 <span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図1のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_1.png)</span>{download="figure_1.png"}</span>
-<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図2：引張特性</span></span>
-<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a>A～F：引張剛性、G～L：引張試験のヤング率、M～R：組織密度、S～X：ヤング率を組織密度で除した値。</span>
-<span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-2</span></span>
-<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
-<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
-<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
-<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a>data_tensile <span class="ot">&lt;-</span> tensile[tensile<span class="sc">$</span>water_content <span class="sc">&gt;=</span> <span class="dv">60</span>, ]</span>
+<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a>data_tensile<span class="sc">$</span>I <span class="ot">&lt;-</span> data_tensile<span class="sc">$</span>I <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a>data_tensile<span class="sc">$</span>density <span class="ot">&lt;-</span> data_tensile<span class="sc">$</span>dry_weight <span class="sc">/</span> data_tensile<span class="sc">$</span>thickness</span>
+<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a>data_tensile<span class="sc">$</span>E_per_density <span class="ot">&lt;-</span> data_tensile<span class="sc">$</span>E.x <span class="sc">/</span> data_tensile<span class="sc">$</span>density <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a>figure_2_models <span class="ot">&lt;-</span> <span class="fu">plot_submission_panels</span>(</span>
+<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a>  data_tensile, species, <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"EA"</span>, <span class="st">"E.x"</span>, <span class="st">"density"</span>, <span class="st">"E_per_density"</span>),</span>
+<span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">expression</span>(<span class="st">"Tensile stiffness"</span><span class="sc">~</span>(N), <span class="st">"Young's modulus"</span><span class="sc">~</span>(MPa),</span>
+<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Leaf tissue density"</span><span class="sc">~</span>(kg<span class="sc">~</span>m<span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}),</span>
+<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Young's modulus / density"</span><span class="sc">~</span>(MPa<span class="sc">~</span>cm<span class="sc">^</span><span class="dv">3</span><span class="sc">~</span>g<span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>})),</span>
+<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_2.pdf"</span>), <span class="at">tensile =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 2 (PDF)</span><span class="co">](../outputs/figures/submission/figure_2.pdf)</span>{download="figure_2.pdf"}</span>
+<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 2 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_2.png)</span>{download="figure_2.png"}</span>
 <span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a>data_tensile<span class="sc">$</span>I <span class="ot">&lt;-</span> data_tensile<span class="sc">$</span>I <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a>data_tensile<span class="sc">$</span>density <span class="ot">&lt;-</span> data_tensile<span class="sc">$</span>dry_weight <span class="sc">/</span> data_tensile<span class="sc">$</span>thickness</span>
-<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>data_tensile<span class="sc">$</span>E_per_density <span class="ot">&lt;-</span> data_tensile<span class="sc">$</span>E.x <span class="sc">/</span> data_tensile<span class="sc">$</span>density <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a>figure_2_models <span class="ot">&lt;-</span> <span class="fu">plot_submission_panels</span>(</span>
-<span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a>  data_tensile, species, <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"EA"</span>, <span class="st">"E.x"</span>, <span class="st">"density"</span>, <span class="st">"E_per_density"</span>),</span>
-<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">expression</span>(<span class="st">"Tensile stiffness"</span><span class="sc">~</span>(N), <span class="st">"Young's modulus"</span><span class="sc">~</span>(MPa),</span>
-<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Leaf tissue density"</span><span class="sc">~</span>(kg<span class="sc">~</span>m<span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}),</span>
-<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Young's modulus / density"</span><span class="sc">~</span>(MPa<span class="sc">~</span>cm<span class="sc">^</span><span class="dv">3</span><span class="sc">~</span>g<span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>})),</span>
-<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_2.pdf"</span>), <span class="at">tensile =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 3: Bending-to-tensile ratios</span></span>
+<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>A–F: stiffness ratio; G–L: Young's modulus ratio. The reference lines for the</span>
+<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a>modulus ratio are at 1 and 3, as in the analysis chapter.</span>
+<span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図2（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_2.pdf)</span>{download="figure_2.pdf"}</span>
 <span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図2のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_2.png)</span>{download="figure_2.png"}</span>
 <span id="cb8-201"><a href="#cb8-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 2 (PDF)</span><span class="co">](../outputs/figures/submission/figure_2.pdf)</span>{download="figure_2.pdf"}</span>
+<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図3：曲げ特性と引張特性の比</span></span>
 <span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 2 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_2.png)</span>{download="figure_2.png"}</span>
+<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a>A～F：剛性比、G～L：ヤング率の比。ヤング率の比の基準線は解析の章と同じく1と3です。</span>
 <span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure 3: Bending-to-tensile ratios</span></span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>A–F: stiffness ratio; G–L: Young's modulus ratio. The reference lines for the</span>
-<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>modulus ratio are at 1 and 3, as in the analysis chapter.</span>
-<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図2（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_2.pdf)</span>{download="figure_2.pdf"}</span>
-<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図2のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_2.png)</span>{download="figure_2.png"}</span>
-<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図3：曲げ特性と引張特性の比</span></span>
-<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>A～F：剛性比、G～L：ヤング率の比。ヤング率の比の基準線は解析の章と同じく1と3です。</span>
-<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-3</span></span>
-<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
-<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
-<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
-<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a>ratios <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
-<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>  bending[, <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"leaf_side"</span>, <span class="st">"ID"</span>, <span class="st">"EI"</span>, <span class="st">"E.x"</span>, <span class="st">"water_content"</span>)],</span>
-<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a>  tensile[, <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>, <span class="st">"EA"</span>, <span class="st">"E.x"</span>, <span class="st">"water_content"</span>)],</span>
-<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_bending"</span>, <span class="st">"_tensile"</span>),</span>
-<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>), <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>))</span>
-<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a>ratios <span class="ot">&lt;-</span> ratios[ratios<span class="sc">$</span>water_content_bending <span class="sc">&gt;=</span> <span class="dv">60</span> <span class="sc">&amp;</span></span>
-<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>                   ratios<span class="sc">$</span>water_content_tensile <span class="sc">&gt;=</span> <span class="dv">60</span>, ]</span>
-<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a>ratios<span class="sc">$</span>RWC_mean <span class="ot">&lt;-</span> (ratios<span class="sc">$</span>water_content_bending <span class="sc">+</span> ratios<span class="sc">$</span>water_content_tensile) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a>ratios<span class="sc">$</span>stiffness_ratio <span class="ot">&lt;-</span> ratios<span class="sc">$</span>EI <span class="sc">/</span> ratios<span class="sc">$</span>EA <span class="sc">*</span> <span class="dv">1000</span></span>
-<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a>ratios<span class="sc">$</span>E_ratio <span class="ot">&lt;-</span> ratios<span class="sc">$</span>E.x_bending <span class="sc">/</span> ratios<span class="sc">$</span>E.x_tensile</span>
-<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a>figure_3_models <span class="ot">&lt;-</span> <span class="fu">plot_submission_panels</span>(</span>
-<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a>  ratios, species, <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"stiffness_ratio"</span>, <span class="st">"E_ratio"</span>),</span>
-<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">expression</span>(<span class="st">"Bending stiffness / tensile stiffness"</span><span class="sc">~</span>(<span class="dv">10</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}<span class="sc">~</span>mm<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Bending / tensile Young's modulus"</span>),</span>
-<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_3.pdf"</span>), <span class="at">x =</span> <span class="st">"RWC_mean"</span>,</span>
-<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_lines =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">label_offsets =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">6.5</span>) <span class="sc">/</span> <span class="fl">85.5</span>)</span>
-<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
-<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 3 (PDF)</span><span class="co">](../outputs/figures/submission/figure_3.pdf)</span>{download="figure_3.pdf"}</span>
-<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 3 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_3.png)</span>{download="figure_3.png"}</span>
-<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure S1: Force–displacement curves</span></span>
-<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a>The 155 × 235 mm figure shows 36 original individual curves in 12 panels.</span>
-<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a>A–F are adaxial bending; G–L are tensile tests. The</span>
-<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">reproduction chapter</span><span class="co">](11-force-displacement.qmd)</span> lists the selected IDs,</span>
-<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a>RWC values, baseline correction, and the inherited exclusion of tensile ID 58</span>
-<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a>in *Liriodendron tulipifera* from the quantitative analyses.</span>
-<span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図3（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_3.pdf)</span>{download="figure_3.pdf"}</span>
-<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図3のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_3.png)</span>{download="figure_3.png"}</span>
-<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図S1：荷重–変位曲線</span></span>
-<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a>155 × 235 mmの図に、元図で選ばれている36本の個別曲線を12パネルで示します。A～Fは向軸側の曲げ、G～Lは引張です。<span class="co">[</span><span class="ot">再現用の章</span><span class="co">](11-force-displacement.qmd)</span>に試料ID、RWC、基準値補正、およびユリノキの引張ID 58が定量解析から除外されていることを記載しています。</span>
-<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-s1</span></span>
-<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
-<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
-<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
-<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/force_displacement.R"</span>)</span>
-<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a>examples <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"outputs/tables/force-displacement.rds"</span>)</span>
-<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a><span class="fu">save_example_curves</span>(examples, <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_S1.pdf"</span>))</span>
-<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
-<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S1 (PDF)</span><span class="co">](../outputs/figures/submission/figure_S1.pdf)</span>{download="figure_S1.pdf"}</span>
-<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S1 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_S1.png)</span>{download="figure_S1.png"}</span>
-<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure S2: Relative stiffness decrease</span></span>
-<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a>This PDF uses the saved predictions and regressions from the supplementary</span>
-<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a>analysis, including its 60% RWC fitting cutoff and inherited missing abaxial</span>
-<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a>value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.</span>
-<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S1（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S1.pdf)</span>{download="figure_S1.pdf"}</span>
-<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S1のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S1.png)</span>{download="figure_S1.png"}</span>
-<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図S2：剛性の相対的な低下</span></span>
-<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a>補足解析で保存した予測値と回帰結果を用います。モデルの当てはめはRWC 60%以上で行い、元の解析と同じく *Ligustrum lucidum* の背軸側を欠測とします。RWC 80%に最も近い格子点の予測値を使います。</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-3</span></span>
+<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
+<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
+<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
+<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a>ratios <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a>  bending[, <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"leaf_side"</span>, <span class="st">"ID"</span>, <span class="st">"EI"</span>, <span class="st">"E.x"</span>, <span class="st">"water_content"</span>)],</span>
+<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a>  tensile[, <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>, <span class="st">"EA"</span>, <span class="st">"E.x"</span>, <span class="st">"water_content"</span>)],</span>
+<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_bending"</span>, <span class="st">"_tensile"</span>),</span>
+<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>), <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>))</span>
+<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>ratios <span class="ot">&lt;-</span> ratios[ratios<span class="sc">$</span>water_content_bending <span class="sc">&gt;=</span> <span class="dv">60</span> <span class="sc">&amp;</span></span>
+<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>                   ratios<span class="sc">$</span>water_content_tensile <span class="sc">&gt;=</span> <span class="dv">60</span>, ]</span>
+<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>ratios<span class="sc">$</span>RWC_mean <span class="ot">&lt;-</span> (ratios<span class="sc">$</span>water_content_bending <span class="sc">+</span> ratios<span class="sc">$</span>water_content_tensile) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>ratios<span class="sc">$</span>stiffness_ratio <span class="ot">&lt;-</span> ratios<span class="sc">$</span>EI <span class="sc">/</span> ratios<span class="sc">$</span>EA <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>ratios<span class="sc">$</span>E_ratio <span class="ot">&lt;-</span> ratios<span class="sc">$</span>E.x_bending <span class="sc">/</span> ratios<span class="sc">$</span>E.x_tensile</span>
+<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>figure_3_models <span class="ot">&lt;-</span> <span class="fu">plot_submission_panels</span>(</span>
+<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>  ratios, species, <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"stiffness_ratio"</span>, <span class="st">"E_ratio"</span>),</span>
+<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">expression</span>(<span class="st">"Bending stiffness / tensile stiffness"</span><span class="sc">~</span>(<span class="dv">10</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">3</span>}<span class="sc">~</span>mm<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Bending / tensile Young's modulus"</span>),</span>
+<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_3.pdf"</span>), <span class="at">x =</span> <span class="st">"RWC_mean"</span>,</span>
+<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_lines =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">label_offsets =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">6.5</span>) <span class="sc">/</span> <span class="fl">85.5</span>)</span>
+<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 3 (PDF)</span><span class="co">](../outputs/figures/submission/figure_3.pdf)</span>{download="figure_3.pdf"}</span>
+<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure 3 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_3.png)</span>{download="figure_3.png"}</span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure S1: Force–displacement curves</span></span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a>The 155 × 235 mm figure shows 36 original individual curves in 12 panels.</span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a>A–F are adaxial bending; G–L are tensile tests. The</span>
+<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">reproduction chapter</span><span class="co">](11-force-displacement.qmd)</span> lists the selected IDs,</span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a>RWC values, baseline correction, and the inherited exclusion of tensile ID 58</span>
+<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a>in *Liriodendron tulipifera* from the quantitative analyses.</span>
+<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図3（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_3.pdf)</span>{download="figure_3.pdf"}</span>
+<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図3のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_3.png)</span>{download="figure_3.png"}</span>
+<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図S1：荷重–変位曲線</span></span>
+<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a>155 × 235 mmの図に、元図で選ばれている36本の個別曲線を12パネルで示します。</span>
+<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a>A～Fは向軸側の曲げ、G～Lは引張です。<span class="co">[</span><span class="ot">再現用の章</span><span class="co">](11-force-displacement.qmd)</span>に</span>
+<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a>試料ID、RWC、基準値補正、およびユリノキの引張ID 58が定量解析から除外されていることを記載しています。</span>
+<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-s1</span></span>
+<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
+<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
+<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
+<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/force_displacement.R"</span>)</span>
+<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a>examples <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"outputs/tables/force-displacement.rds"</span>)</span>
+<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a><span class="fu">save_example_curves</span>(examples, <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_S1.pdf"</span>))</span>
+<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S1 (PDF)</span><span class="co">](../outputs/figures/submission/figure_S1.pdf)</span>{download="figure_S1.pdf"}</span>
+<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S1 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_S1.png)</span>{download="figure_S1.png"}</span>
+<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure S2: Relative stiffness decrease</span></span>
+<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a>This PDF uses the saved predictions and regressions from the supplementary</span>
+<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a>analysis, including its 60% RWC fitting cutoff and inherited missing abaxial</span>
+<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a>value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.</span>
+<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S1（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S1.pdf)</span>{download="figure_S1.pdf"}</span>
+<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S1のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S1.png)</span>{download="figure_S1.png"}</span>
+<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a><span class="fu">## 図S2：剛性の相対的な低下</span></span>
+<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a>補足解析で保存した予測値と回帰結果を用います。</span>
+<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a>モデルの当てはめはRWC 60%以上で行い、元の解析と同じく *Ligustrum lucidum* の背軸側を欠測とします。</span>
+<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a>RWC 80%に最も近い格子点の予測値を使います。</span>
+<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-s2</span></span>
+<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
+<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
+<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
+<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a>comparison <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"outputs/tables/stiffness-comparison.rds"</span>)</span>
+<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_submission_comparison</span>(comparison, <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_S2.pdf"</span>))</span>
+<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: submission-figure-s2</span></span>
-<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show generation code"</span></span>
-<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
-<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
-<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a>comparison <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"outputs/tables/stiffness-comparison.rds"</span>)</span>
-<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_submission_comparison</span>(comparison, <span class="fu">file.path</span>(submission_dir, <span class="st">"figure_S2.pdf"</span>))</span>
-<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S2 (PDF)</span><span class="co">](../outputs/figures/submission/figure_S2.pdf)</span>{download="figure_S2.pdf"}</span>
+<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S2 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_S2.png)</span>{download="figure_S2.png"}</span>
+<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a><span class="fu">## Shared drawing code</span></span>
+<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a>Figures 1–3 use <span class="in">`plot_gam_ci()`</span> from the analysis chapters. Figure S1 uses</span>
+<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a><span class="in">`R/force_displacement.R`</span>. The helper below</span>
+<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a>sets the PDF and PNG output, panel arrangement, labels, and point and line sizes.</span>
 <span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download the drawing helper (R)</span><span class="co">](../R/plot_submission_panels.R)</span></span>
+<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S2 (PDF)</span><span class="co">](../outputs/figures/submission/figure_S2.pdf)</span>{download="figure_S2.pdf"}</span>
+<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download Figure S2 for Word (PNG, 600 dpi)</span><span class="co">](../outputs/figures/submission/figure_S2.png)</span>{download="figure_S2.png"}</span>
+<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
 <span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a><span class="fu">## Shared drawing code</span></span>
+<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S2（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S2.pdf)</span>{download="figure_S2.pdf"}</span>
 <span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a>Figures 1–3 use <span class="in">`plot_gam_ci()`</span> from the analysis chapters. Figure S1 uses</span>
-<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a><span class="in">`R/force_displacement.R`</span>. The helper below</span>
-<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a>sets the PDF and PNG output, panel arrangement, labels, and point and line sizes.</span>
+<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S2のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S2.png)</span>{download="figure_S2.png"}</span>
+<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## 共通の描画コード</span></span>
 <span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Download the drawing helper (R)</span><span class="co">](../R/plot_submission_panels.R)</span></span>
-<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a>図1～3では解析の章と同じ <span class="in">`plot_gam_ci()`</span> を呼び出し、図S1では <span class="in">`R/force_displacement.R`</span> を使います。</span>
+<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a>以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。</span>
 <span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">描画用の補助関数（R）をダウンロード</span><span class="co">](../R/plot_submission_panels.R)</span></span>
 <span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S2（PDF）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S2.pdf)</span>{download="figure_S2.pdf"}</span>
-<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">図S2のWord挿入用画像（PNG、600 dpi）をダウンロード</span><span class="co">](../outputs/figures/submission/figure_S2.png)</span>{download="figure_S2.png"}</span>
-<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a><span class="fu">## 共通の描画コード</span></span>
-<span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a>図1～3では解析の章と同じ <span class="in">`plot_gam_ci()`</span> を呼び出し、図S1では <span class="in">`R/force_displacement.R`</span> を使います。以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。</span>
-<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">描画用の補助関数（R）をダウンロード</span><span class="co">](../R/plot_submission_panels.R)</span></span>
-<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: asis</span></span>
-<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"::: {.callout-note collapse=</span><span class="sc">\"</span><span class="st">true</span><span class="sc">\"</span><span class="st"> title=</span><span class="sc">\"</span><span class="st">Show shared drawing code</span><span class="sc">\"</span><span class="st">}</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a>    <span class="st">"```r</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">paste</span>(<span class="fu">readLines</span>(<span class="st">"R/plot_submission_panels.R"</span>), <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>),</span>
-<span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">```</span><span class="sc">\n</span><span class="st">::: </span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb8-368"><a href="#cb8-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: asis</span></span>
+<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"::: {.callout-note collapse=</span><span class="sc">\"</span><span class="st">true</span><span class="sc">\"</span><span class="st"> title=</span><span class="sc">\"</span><span class="st">Show shared drawing code</span><span class="sc">\"</span><span class="st">}</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a>    <span class="st">"```r</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">paste</span>(<span class="fu">readLines</span>(<span class="st">"R/plot_submission_panels.R"</span>), <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">```</span><span class="sc">\n</span><span class="st">::: </span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="コピー" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

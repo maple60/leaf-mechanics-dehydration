@@ -278,17 +278,17 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebook/07-analysis-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">解析に関する注記</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../notebook/08-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">共通関数</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebook/09-submission-figures.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">論文投稿用の図</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">参考文献</span></a>
   </div>
 </li>
       </ul>
@@ -346,7 +346,7 @@ window.Quarto = {
 <p><a href="../../notebook/04-tensile.html" id="language-switch" hreflang="en" lang="en">Read this page in English (EN)</a></p>
 </div>
 </div>
-<p>引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。RWC 60%以上を解析対象とします。</p>
+<p>引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。</p>
 <section id="解析" class="level2">
 <h2 class="anchored" data-anchor-id="解析">解析</h2>
 <div class="cell">
@@ -493,7 +493,7 @@ window.Quarto = {
 </section>
 <section id="引張剛性e_tan" class="level2">
 <h2 class="anchored" data-anchor-id="引張剛性e_tan">引張剛性（<span class="math inline">\(E_tA\)</span>、N）</h2>
-<p>断面積は <code>thick * width.x</code>（mm²）で、<code>E.x</code>（MPa = N/mm²）に対応する試験機の寸法値を用います。従来の引張データの <code>EI</code> 列は用いません。</p>
+<p>断面積は <code>thick * width.x</code>（mm²）で、<code>E.x</code>（MPa = N/mm²）に対応する試験機の寸法値を用います。</p>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -1345,7 +1345,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divided by density. The analysis uses RWC of at least 60%.</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divided by density.</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analysis</span></span>
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
@@ -1353,7 +1353,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。RWC 60%以上を解析対象とします。</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。</span>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## 解析</span></span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
@@ -1499,7 +1499,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tensile stiffness ($E_tA$, N)</span></span>
 <span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>Cross-sectional area is <span class="in">`thick * width.x`</span> (mm²), using the instrument dimensions</span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>associated with <span class="in">`E.x`</span> (MPa = N/mm²). The legacy tensile <span class="in">`EI`</span> column is not used.</span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>associated with <span class="in">`E.x`</span> (MPa = N/mm²).</span>
 <span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a></span>
@@ -1507,7 +1507,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="fu">## 引張剛性（$E_tA$、N）</span></span>
 <span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>断面積は <span class="in">`thick * width.x`</span>（mm²）で、<span class="in">`E.x`</span>（MPa = N/mm²）に対応する試験機の寸法値を用います。従来の引張データの <span class="in">`EI`</span> 列は用いません。</span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>断面積は <span class="in">`thick * width.x`</span>（mm²）で、<span class="in">`E.x`</span>（MPa = N/mm²）に対応する試験機の寸法値を用います。</span>
 <span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a></span>

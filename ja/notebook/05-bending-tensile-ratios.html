@@ -278,17 +278,17 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebook/07-analysis-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">解析に関する注記</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../notebook/08-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">共通関数</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebook/09-submission-figures.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">論文投稿用の図</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">参考文献</span></a>
   </div>
 </li>
       </ul>
@@ -344,7 +344,7 @@ window.Quarto = {
 <p><a href="../../notebook/05-bending-tensile-ratios.html" id="language-switch" hreflang="en" lang="en">Read this page in English (EN)</a></p>
 </div>
 </div>
-<p>既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。両方の測定でRWCが60%以上であることを条件とします。</p>
+<p>既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。</p>
 <section id="解析" class="level2">
 <h2 class="anchored" data-anchor-id="解析">解析</h2>
 <div class="cell">
@@ -502,7 +502,7 @@ window.Quarto = {
 </section>
 <section id="曲げ剛性と引張剛性の比e_bie_ta" class="level2">
 <h2 class="anchored" data-anchor-id="曲げ剛性と引張剛性の比e_bie_ta">曲げ剛性と引張剛性の比（<span class="math inline">\(E_bI/E_tA\)</span>）</h2>
-<p>比の単位はmm²で、図では10⁻³ mm²単位で表示します。</p>
+<p>比の単位はmm²で、図では桁数の都合上、10⁻³ mm²単位で表示します。</p>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -1188,7 +1188,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>Compare bending and tensile properties using the existing specimen matching and GAMs. Both measurements must have RWC of at least 60%.</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>Compare bending and tensile properties using the existing specimen matching and GAMs.</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analysis</span></span>
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
@@ -1196,7 +1196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。両方の測定でRWCが60%以上であることを条件とします。</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。</span>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## 解析</span></span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
@@ -1352,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bending-to-tensile stiffness ratio ($E_bI/E_tA$)</span></span>
 <span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>The ratio is in mm² and is displayed in units of 10⁻³ mm².</span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>The ratio is in mm² and is displayed in units of 10⁻³ mm² to keep the number of digits small.</span>
 <span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
@@ -1360,7 +1360,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="fu">## 曲げ剛性と引張剛性の比（$E_bI/E_tA$）</span></span>
 <span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>比の単位はmm²で、図では10⁻³ mm²単位で表示します。</span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>比の単位はmm²で、図では桁数の都合上、10⁻³ mm²単位で表示します。</span>
 <span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a></span>

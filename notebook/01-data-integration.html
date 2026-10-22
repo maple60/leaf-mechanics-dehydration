@@ -249,17 +249,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebook/07-analysis-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Analysis notes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../notebook/08-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Shared functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebook/09-submission-figures.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Figures for journal submission</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
   </div>
 </li>
       </ul>
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="../ja/notebook/01-data-integration.html" id="language-switch" hreflang="ja" lang="ja">日本語はこちら（JP）</a></p>
 </div>
 </div>
-<p>Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to outputs/tables/.</p>
+<p>Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to <code>outputs/tables/</code>.</p>
 <section id="analysis" class="level2">
 <h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
 <div class="cell">
@@ -347,184 +347,186 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>bending_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(filepath)) {</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  filename <span class="ot">&lt;-</span> <span class="fu">basename</span>(tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(filepath[i])) <span class="co"># Get filename without extension</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(filename, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="co"># Print filename to console</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(filepath[i], <span class="at">fileEncoding =</span> <span class="st">"cp932"</span>) <span class="co"># Read CSV file with Japanese encoding</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Bending test</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"3点曲げ"</span>) {</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>))),</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Fmax"</span>,</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DISmax"</span>,</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    bending_list[[filename]] <span class="ot">&lt;-</span> res</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tensile test</span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"引張"</span>) {</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N)) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span>,</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strength"</span>,</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strain"</span></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    tensile_list[[filename]] <span class="ot">&lt;-</span> res</span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, bending_list) <span class="co"># Combine all bending test data into a single data frame</span></span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tensile_list) <span class="co"># Combine all tensile test data into a single data frame</span></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"_"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID1) <span class="co"># Remove underscore from ID</span></span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"f|b"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID) <span class="co"># Remove leaf side indicator from ID</span></span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"f"</span>, d_bending<span class="sc">$</span>ID1), <span class="st">"f"</span>, <span class="st">"b"</span>) <span class="co"># adaxial or abaxial</span></span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"f"</span>, <span class="st">"adaxial"</span>, <span class="st">"abaxial"</span>)</span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[<span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="st">"failed"</span>), ] <span class="co"># Remove rows where tensile test failed</span></span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where tensile test failed</span></span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">31</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">39</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with empty E values</span></span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> d_bending[<span class="sc">-</span><span class="fu">which</span>(d_bending<span class="sc">$</span>E <span class="sc">==</span> <span class="st">"-.-"</span>), ]</span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging data with sample information ----</span></span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>d_info_bending <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"bending_sample_information.csv"</span>))</span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>d_info_tensile <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"tensile_sample_information.csv"</span>))</span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="co"># rename column names</span></span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_bending) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>  <span class="st">"leaf_side"</span>,</span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
-<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
-<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
-<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
-<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
-<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_tensile) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
-<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
-<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
-<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
-<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
-<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
-<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
-<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
-<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
-<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
-<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
-<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
-<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
-<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
-<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
-<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
-<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
-<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
-<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
-<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
-<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
-<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
-<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
-<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>d_info_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>  d_info_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"front"</span>,</span>
-<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>  <span class="st">"adaxial"</span>,</span>
-<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>  <span class="st">"abaxial"</span></span>
-<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"bending"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>  d_bending,</span>
-<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>  d_info_bending,</span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"leaf_side"</span>, <span class="st">"ID"</span>),</span>
-<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"tensile"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>  d_tensile,</span>
-<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>  d_info_tensile,</span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>),</span>
-<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)</span>
-<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>df_excluded <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"exclude_records_bending.csv"</span>))</span>
-<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="co"># 除外キー（species, id）の組を作って %in% で除く</span></span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>keep_bending <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"bending"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)]) <span class="sc">%in%</span></span>
-<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>df_bending_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"bending"</span>]][keep_bending, ]</span>
-<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>keep_tensile <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"tensile"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>)]) <span class="sc">%in%</span></span>
-<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>df_tensile_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"tensile"</span>]][keep_tensile, ]</span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="co"># Save data ----</span></span>
-<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>  df_bending_filtered,</span>
-<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/bending.csv"</span>,</span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>  df_tensile_filtered,</span>
-<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/tensile.csv"</span>,</span>
-<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
-<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get filename without extension</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  filename <span class="ot">&lt;-</span> <span class="fu">basename</span>(tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(filepath[i]))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(filename, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="co"># Print filename to console</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Read CSV file with Japanese encoding</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(filepath[i], <span class="at">fileEncoding =</span> <span class="st">"cp932"</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Bending test</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"3点曲げ"</span>) {</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>))),</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Fmax"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DISmax"</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    bending_list[[filename]] <span class="ot">&lt;-</span> res</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tensile test</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"引張"</span>) {</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N)) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span>,</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strength"</span>,</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strain"</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    tensile_list[[filename]] <span class="ot">&lt;-</span> res</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, bending_list) <span class="co"># Combine all bending test data into a single data frame</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tensile_list) <span class="co"># Combine all tensile test data into a single data frame</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"_"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID1) <span class="co"># Remove underscore from ID</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"f|b"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID) <span class="co"># Remove leaf side indicator from ID</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"f"</span>, d_bending<span class="sc">$</span>ID1), <span class="st">"f"</span>, <span class="st">"b"</span>) <span class="co"># adaxial or abaxial</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"f"</span>, <span class="st">"adaxial"</span>, <span class="st">"abaxial"</span>)</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[<span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="st">"failed"</span>), ] <span class="co"># Remove rows where tensile test failed</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where tensile test failed</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">31</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">39</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with empty E values</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> d_bending[<span class="sc">-</span><span class="fu">which</span>(d_bending<span class="sc">$</span>E <span class="sc">==</span> <span class="st">"-.-"</span>), ]</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging data with sample information ----</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>d_info_bending <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"bending_sample_information.csv"</span>))</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>d_info_tensile <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"tensile_sample_information.csv"</span>))</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="co"># rename column names</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_bending) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>  <span class="st">"leaf_side"</span>,</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_tensile) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>d_info_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>  d_info_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"front"</span>,</span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>  <span class="st">"adaxial"</span>,</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>  <span class="st">"abaxial"</span></span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"bending"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>  d_bending,</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>  d_info_bending,</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"leaf_side"</span>, <span class="st">"ID"</span>),</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"tensile"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>  d_tensile,</span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>  d_info_tensile,</span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>),</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>df_excluded <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"exclude_records_bending.csv"</span>))</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a><span class="co"># 除外キー（species, id）の組を作って %in% で除く</span></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>keep_bending <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"bending"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)]) <span class="sc">%in%</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>df_bending_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"bending"</span>]][keep_bending, ]</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>keep_tensile <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"tensile"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>)]) <span class="sc">%in%</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>df_tensile_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"tensile"</span>]][keep_tensile, ]</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Save data ----</span></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  df_bending_filtered,</span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/bending.csv"</span>,</span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>  df_tensile_filtered,</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/tensile.csv"</span>,</span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -560,7 +562,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>The exclusion CSV is applied to both tests, as in the source analysis. The existing failure filtering and the two hard-coded tensile exclusions are retained. See <a href="../notebook/07-analysis-notes.html">Analysis notes</a> for unresolved reporting questions. The integrated tables are generated outputs, not new original data.</p>
 
 
 <!-- -->
@@ -1082,7 +1083,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to outputs/tables/.</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to <span class="in">`outputs/tables/`</span>.</span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analysis</span></span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
@@ -1090,250 +1091,238 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>試験機の出力を読み込み、試料情報と結合し、元の解析の除外規則を適用します。入力ファイルは変更せず、2つの統合済みテーブルを <span class="in">`outputs/tables/`</span> に保存します。</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## 解析</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: analysis-01</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/setup.R"</span>)</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">data_path</span>(<span class="st">"raw"</span>), <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">length</span>(filenames)) {</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No raw CSV files found. Set PROJECT_DATA_DIR; see data/README.md."</span>)</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> <span class="fu">sapply</span>(filenames, <span class="cf">function</span>(x) <span class="fu">strsplit</span>(x, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>])</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">sapply</span>(filenames, <span class="cf">function</span>(x) <span class="fu">strsplit</span>(x, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>])</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>spp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  filenames,</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">strsplit</span>(x, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>])</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Integration ----</span></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>filepath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">data_path</span>(<span class="st">"raw"</span>), filenames)</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>tensile_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>bending_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(filepath)) {</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>  filename <span class="ot">&lt;-</span> <span class="fu">basename</span>(tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(filepath[i])) <span class="co"># Get filename without extension</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(filename, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="co"># Print filename to console</span></span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(filepath[i], <span class="at">fileEncoding =</span> <span class="st">"cp932"</span>) <span class="co"># Read CSV file with Japanese encoding</span></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Bending test</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"3点曲げ"</span>) {</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>))),</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Fmax"</span>,</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DISmax"</span>,</span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span></span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>    bending_list[[filename]] <span class="ot">&lt;-</span> res</span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tensile test</span></span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"引張"</span>) {</span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N)) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
-<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
-<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
-<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
-<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
-<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
-<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span>,</span>
-<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strength"</span>,</span>
-<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strain"</span></span>
-<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>    tensile_list[[filename]] <span class="ot">&lt;-</span> res</span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, bending_list) <span class="co"># Combine all bending test data into a single data frame</span></span>
-<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tensile_list) <span class="co"># Combine all tensile test data into a single data frame</span></span>
-<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
-<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"_"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID1) <span class="co"># Remove underscore from ID</span></span>
-<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"f|b"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID) <span class="co"># Remove leaf side indicator from ID</span></span>
-<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"f"</span>, d_bending<span class="sc">$</span>ID1), <span class="st">"f"</span>, <span class="st">"b"</span>) <span class="co"># adaxial or abaxial</span></span>
-<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"f"</span>, <span class="st">"adaxial"</span>, <span class="st">"abaxial"</span>)</span>
-<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[<span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="st">"failed"</span>), ] <span class="co"># Remove rows where tensile test failed</span></span>
-<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where tensile test failed</span></span>
-<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
-<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">31</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
-<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>試験機の出力を読み込み、試料情報と結合し、元の解析の除外規則を適用します。</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>入力ファイルは変更せず、2つの統合済みテーブルを <span class="in">`outputs/tables/`</span> に保存します。</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## 解析</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: analysis-01</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: hide</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-show: hide</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/setup.R"</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">data_path</span>(<span class="st">"raw"</span>), <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">length</span>(filenames)) {</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No raw CSV files found. Set PROJECT_DATA_DIR; see data/README.md."</span>)</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> <span class="fu">sapply</span>(filenames, <span class="cf">function</span>(x) <span class="fu">strsplit</span>(x, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>])</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">sapply</span>(filenames, <span class="cf">function</span>(x) <span class="fu">strsplit</span>(x, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>])</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>spp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  filenames,</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(<span class="fu">strsplit</span>(x, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>])</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Integration ----</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>filepath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">data_path</span>(<span class="st">"raw"</span>), filenames)</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>tensile_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>bending_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(filepath)) {</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get filename without extension</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  filename <span class="ot">&lt;-</span> <span class="fu">basename</span>(tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(filepath[i]))</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(filename, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)) <span class="co"># Print filename to console</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Read CSV file with Japanese encoding</span></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(filepath[i], <span class="at">fileEncoding =</span> <span class="st">"cp932"</span>)</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Bending test</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"3点曲げ"</span>) {</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>))),</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Fmax"</span>,</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DISmax"</span>,</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>    bending_list[[filename]] <span class="ot">&lt;-</span> res</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tensile test</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (d[<span class="dv">1</span>, <span class="dv">3</span>] <span class="sc">==</span> <span class="st">"引張"</span>) {</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">which</span>(d[, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">"名前"</span>)</span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>    sample_info <span class="ot">&lt;-</span> d[</span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">2</span>, <span class="dv">1</span>)),</span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> d[</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>      (N[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">3</span>)<span class="sc">:</span>(N[<span class="dv">2</span>] <span class="sc">+</span> (<span class="fu">diff</span>(N)) <span class="sc">-</span> <span class="fu">ifelse</span>(d[N[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">==</span> <span class="st">""</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sample_info, result)</span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID1"</span>,</span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>      <span class="st">"thick"</span>,</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>      <span class="st">"width"</span>,</span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>      <span class="st">"span"</span>,</span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ID2"</span>,</span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E"</span>,</span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strength"</span>,</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>      <span class="st">"strain"</span></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>filename <span class="ot">&lt;-</span> filename</span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(filename, <span class="st">"_"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>    res<span class="sc">$</span>spp <span class="ot">&lt;-</span> spp[i]</span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>    tensile_list[[filename]] <span class="ot">&lt;-</span> res</span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, bending_list) <span class="co"># Combine all bending test data into a single data frame</span></span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tensile_list) <span class="co"># Combine all tensile test data into a single data frame</span></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"_"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID1) <span class="co"># Remove underscore from ID</span></span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"f|b"</span>, <span class="st">""</span>, d_bending<span class="sc">$</span>ID) <span class="co"># Remove leaf side indicator from ID</span></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"f"</span>, d_bending<span class="sc">$</span>ID1), <span class="st">"f"</span>, <span class="st">"b"</span>) <span class="co"># adaxial or abaxial</span></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>d_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(d_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"f"</span>, <span class="st">"adaxial"</span>, <span class="st">"abaxial"</span>)</span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[<span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="st">"failed"</span>), ] <span class="co"># Remove rows where tensile test failed</span></span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows where tensile test failed</span></span>
 <span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
-<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">39</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">31</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
 <span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with empty E values</span></span>
-<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> d_bending[<span class="sc">-</span><span class="fu">which</span>(d_bending<span class="sc">$</span>E <span class="sc">==</span> <span class="st">"-.-"</span>), ]</span>
-<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging data with sample information ----</span></span>
-<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>d_info_bending <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"bending_sample_information.csv"</span>))</span>
-<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a>d_info_tensile <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"tensile_sample_information.csv"</span>))</span>
-<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a><span class="co"># rename column names</span></span>
-<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_bending) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
-<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a>  <span class="st">"leaf_side"</span>,</span>
-<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
-<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
-<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
-<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
-<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
-<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
-<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
-<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
-<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
-<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
-<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
-<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
-<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
-<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
-<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
-<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
-<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
-<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
-<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
-<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
-<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
-<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
-<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_tensile) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
-<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
-<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
-<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
-<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
-<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
-<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
-<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
-<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
-<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
-<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
-<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
-<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
-<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
-<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
-<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
-<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
-<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
-<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
-<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
-<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
-<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
-<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
-<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a>d_info_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>  d_info_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"front"</span>,</span>
-<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a>  <span class="st">"adaxial"</span>,</span>
-<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a>  <span class="st">"abaxial"</span></span>
-<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
-<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"bending"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
-<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a>  d_bending,</span>
-<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a>  d_info_bending,</span>
-<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"leaf_side"</span>, <span class="st">"ID"</span>),</span>
-<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span></span>
-<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"tensile"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
-<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>  d_tensile,</span>
-<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>  d_info_tensile,</span>
-<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>),</span>
-<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)</span>
-<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
-<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>df_excluded <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"exclude_records_bending.csv"</span>))</span>
-<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a><span class="co"># 除外キー（species, id）の組を作って %in% で除く</span></span>
-<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>keep_bending <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"bending"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)]) <span class="sc">%in%</span></span>
-<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
-<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>df_bending_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"bending"</span>]][keep_bending, ]</span>
-<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>keep_tensile <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"tensile"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>)]) <span class="sc">%in%</span></span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a>d_tensile <span class="ot">&lt;-</span> d_tensile[</span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">which</span>(d_tensile<span class="sc">$</span>ID1 <span class="sc">==</span> <span class="dv">39</span> <span class="sc">&amp;</span> d_tensile<span class="sc">$</span>spp <span class="sc">==</span> <span class="st">"youshuyamagobou"</span>),</span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with empty E values</span></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>d_bending <span class="ot">&lt;-</span> d_bending[<span class="sc">-</span><span class="fu">which</span>(d_bending<span class="sc">$</span>E <span class="sc">==</span> <span class="st">"-.-"</span>), ]</span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging data with sample information ----</span></span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>d_info_bending <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"bending_sample_information.csv"</span>))</span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>d_info_tensile <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"tensile_sample_information.csv"</span>))</span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a><span class="co"># rename column names</span></span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_bending) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>  <span class="st">"leaf_side"</span>,</span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d_info_tensile) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ID"</span>,</span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_time"</span>,</span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>  <span class="st">"turgid_weight"</span>,</span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fresh_weight"</span>,</span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness"</span>,</span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a>  <span class="st">"width"</span>,</span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>,</span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a>  <span class="st">"E"</span>,</span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a>  <span class="st">"F_max"</span>,</span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DIS_max"</span>,</span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dry_weight"</span>,</span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_content"</span>,</span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>  <span class="st">"I"</span>,</span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EI"</span>,</span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>  <span class="st">"area"</span>,</span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>  <span class="st">"water_weight"</span>,</span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>  <span class="st">"liquid"</span>,</span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>  <span class="st">"solid"</span>,</span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air"</span>,</span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a>  <span class="st">"air_fraction"</span>,</span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a>  <span class="st">"date"</span>,</span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a>  <span class="st">"thickness_TW"</span>, <span class="co"># leaf thickness at turgid weight</span></span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>  <span class="st">"spp"</span></span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a>d_info_bending<span class="sc">$</span>leaf_side <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>  d_info_bending<span class="sc">$</span>leaf_side <span class="sc">==</span> <span class="st">"front"</span>,</span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a>  <span class="st">"adaxial"</span>,</span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a>  <span class="st">"abaxial"</span></span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"bending"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a>  d_bending,</span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a>  d_info_bending,</span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"leaf_side"</span>, <span class="st">"ID"</span>),</span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>data_list[[<span class="st">"tensile"</span>]] <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>  d_tensile,</span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a>  d_info_tensile,</span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>),</span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)</span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a><span class="co"># Data cleaning ----</span></span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>df_excluded <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">data_path</span>(<span class="st">"manual"</span>, <span class="st">"exclude_records_bending.csv"</span>))</span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a><span class="co"># 除外キー（species, id）の組を作って %in% で除く</span></span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>keep_bending <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"bending"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID"</span>)]) <span class="sc">%in%</span></span>
 <span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
-<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>df_tensile_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"tensile"</span>]][keep_tensile, ]</span>
-<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a><span class="co"># Save data ----</span></span>
-<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
-<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a>  df_bending_filtered,</span>
-<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/bending.csv"</span>,</span>
-<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
-<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
-<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a>  df_tensile_filtered,</span>
-<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/tensile.csv"</span>,</span>
-<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
-<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
-<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Integrated records</span></span>
-<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a><span class="fu">## 統合後の記録数</span></span>
-<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-258"><a href="#cb6-258" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: integration-records</span></span>
-<span id="cb6-259"><a href="#cb6-259" aria-hidden="true" tabindex="-1"></a>record_counts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a>  <span class="at">test =</span> <span class="fu">c</span>(<span class="st">"Bending"</span>, <span class="st">"Tensile"</span>),</span>
-<span id="cb6-261"><a href="#cb6-261" aria-hidden="true" tabindex="-1"></a>  <span class="at">records =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(df_bending_filtered), <span class="fu">nrow</span>(df_tensile_filtered))</span>
-<span id="cb6-262"><a href="#cb6-262" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-263"><a href="#cb6-263" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(record_counts, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-264"><a href="#cb6-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-265"><a href="#cb6-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-266"><a href="#cb6-266" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
-<span id="cb6-267"><a href="#cb6-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-268"><a href="#cb6-268" aria-hidden="true" tabindex="-1"></a>The exclusion CSV is applied to both tests, as in the source analysis. The</span>
-<span id="cb6-269"><a href="#cb6-269" aria-hidden="true" tabindex="-1"></a>existing failure filtering and the two hard-coded tensile exclusions are</span>
-<span id="cb6-270"><a href="#cb6-270" aria-hidden="true" tabindex="-1"></a>retained. See <span class="co">[</span><span class="ot">Analysis notes</span><span class="co">](07-analysis-notes.qmd)</span> for unresolved reporting</span>
-<span id="cb6-271"><a href="#cb6-271" aria-hidden="true" tabindex="-1"></a>questions. The integrated tables are generated outputs, not new original data.</span>
-<span id="cb6-272"><a href="#cb6-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-273"><a href="#cb6-273" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb6-274"><a href="#cb6-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-275"><a href="#cb6-275" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
-<span id="cb6-276"><a href="#cb6-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-277"><a href="#cb6-277" aria-hidden="true" tabindex="-1"></a>元の解析と同じく、除外CSVを両方の試験に適用します。試験失敗の除外処理と、コード内で指定されている引張試験2件の除外も維持しています。記載上の未解決事項は<span class="co">[</span><span class="ot">解析に関する注記</span><span class="co">](07-analysis-notes.qmd)</span>を参照してください。統合済みテーブルは処理結果であり、新しい原データではありません。</span>
-<span id="cb6-278"><a href="#cb6-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-279"><a href="#cb6-279" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>df_bending_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"bending"</span>]][keep_bending, ]</span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>keep_tensile <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">do.call</span>(paste, data_list[[<span class="st">"tensile"</span>]][<span class="fu">c</span>(<span class="st">"spp"</span>, <span class="st">"ID1"</span>)]) <span class="sc">%in%</span></span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(paste, df_excluded[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"id"</span>)])</span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a>df_tensile_filtered <span class="ot">&lt;-</span> data_list[[<span class="st">"tensile"</span>]][keep_tensile, ]</span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Save data ----</span></span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a>  df_bending_filtered,</span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/bending.csv"</span>,</span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a>  df_tensile_filtered,</span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a>  <span class="st">"outputs/tables/tensile.csv"</span>,</span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a><span class="fu">## Integrated records</span></span>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible when-profile="ja"}</span>
+<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## 統合後の記録数</span></span>
+<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-261"><a href="#cb6-261" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: integration-records</span></span>
+<span id="cb6-262"><a href="#cb6-262" aria-hidden="true" tabindex="-1"></a>record_counts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-263"><a href="#cb6-263" aria-hidden="true" tabindex="-1"></a>  <span class="at">test =</span> <span class="fu">c</span>(<span class="st">"Bending"</span>, <span class="st">"Tensile"</span>),</span>
+<span id="cb6-264"><a href="#cb6-264" aria-hidden="true" tabindex="-1"></a>  <span class="at">records =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(df_bending_filtered), <span class="fu">nrow</span>(df_tensile_filtered))</span>
+<span id="cb6-265"><a href="#cb6-265" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-266"><a href="#cb6-266" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(record_counts, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-267"><a href="#cb6-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notebook/07-analysis-notes.html" rel="next">
+<link href="../notebook/08-functions.html" rel="next">
 <link href="../notebook/06-stiffness-comparison.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -249,17 +249,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebook/07-analysis-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">解析に関する注記</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../notebook/08-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">共通関数</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebook/09-submission-figures.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">論文投稿用の図</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">参考文献</span></a>
   </div>
 </li>
       </ul>
@@ -326,19 +326,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="../../notebook/10-gam-results.html" id="language-switch" hreflang="en" lang="en">Read this page in English (EN)</a></p>
 <section id="この表で分かること" class="level2">
 <h2 class="anchored" data-anchor-id="この表で分かること">この表で分かること</h2>
-<p>図1～3と補足図S2で使う全102個のGAMを、図と同じ入力・単位・除外条件・設定で再推定します。入力は <code>outputs/tables/bending.csv</code> と <code>tensile.csv</code>、出力は下記CSVとRDSです。事前にデータ統合を実行し、プロジェクトのルートから <code>quarto render notebook/10-gam-results.qmd</code> で再生成できます。キャッシュは使用しません。</p>
-<p>各モデルは「測定値 = 切片 + RWCの平滑関数 + 誤差」で、種・形質・曲げ方向ごとに独立に当てはめています。Gaussian分布、identityリンク、平滑項は既存コードと同じ <code>s(RWC)</code> の既定値、平滑化パラメーターの推定はREMLです。図3のみ説明変数が曲げ・引張測定の平均RWCです。</p>
-<p><strong>p値は「RWCの平滑項が全体としてゼロ」という帰無仮説に対する近似検定です。</strong> 有意な場合はRWCとの関係を示しますが、単調な増加・減少や非線形性そのものの検定ではありません。非有意でも「変化しない」とは結論できません。種間差、曲げ方向間の差、比が1または3と異なるかも検定していません。</p>
+<p>図1～3と補足図S2で使う全102個のGAMを、図と同じ入力・単位・除外条件・設定で再推定します。 入力は <code>outputs/tables/bending.csv</code> と <code>tensile.csv</code>、出力は下記のCSVとRDSです。 データ統合を実行した後、プロジェクトのルートから <code>quarto render notebook/10-gam-results.qmd</code> で再生成できます。</p>
+<p>モデルは「測定値 = 切片 + RWCの平滑関数 + 誤差」で、種・形質・曲げ方向ごとに独立に当てはめています。 Gaussian分布、identityリンク、平滑項は <code>s(RWC)</code> の既定値、平滑化パラメーターの推定はREMLです。 図3のみ、説明変数は曲げ・引張測定の平均RWCです。</p>
 <ul>
-<li><code>n</code>：モデルに使った測定記録数。独立した葉の枚数とは限りません。</li>
-<li><code>RWC min/max</code>：実際にモデルに使った観測値の範囲（%）。図の曲線がこの範囲を超える部分は外挿です。</li>
-<li><code>edf</code>：平滑項の有効自由度。約1はほぼ直線、より大きい値は複雑な曲線を表します。</li>
-<li><code>F</code> と <code>Ref. df</code>：平滑項の近似検定統計量と参照自由度。</li>
-<li><code>p (raw)</code>：多重比較補正前のp値。小さい値も丸めてゼロとせず表示します。</li>
-<li><code>Adjusted R²</code>：自由度調整済み決定係数。負の値もそのまま表示します。</li>
+<li><code>n</code>：モデルに使った測定記録数</li>
+<li><code>RWC min/max</code>：モデルに使った観測値の範囲（%）。この範囲を超える曲線は外挿です</li>
+<li><code>edf</code>：平滑項の有効自由度。約1はほぼ直線です</li>
+<li><code>F</code>、<code>Ref. df</code>：平滑項の近似検定統計量と参照自由度</li>
+<li><code>p (raw)</code>：多重比較補正前のp値。RWCの平滑項が全体としてゼロという帰無仮説に対する近似検定です</li>
+<li><code>Adjusted R²</code>：自由度調整済み決定係数</li>
 </ul>
-<p><strong>ここでは結果の整理を目的として、補正前のp値をすべて表示します。</strong> 論文で検定群をどう定義し、多重比較をどう扱うかは未決定です。有意・非有意の個数だけで結論を作らず、曲線、変化量、不確実性を併せて確認してください。モデルの仮定や残差、基底次元の十分性を検証したことを、この表だけでは意味しません。</p>
-<p>主要図とS2の当てはめは、いずれもRWC 60%以上です。図3は両測定が60%以上となる組だけを使います。S2の <em>Ligustrum lucidum</em> 背軸側GAMも一覧に含めますが、既存のS2解析ではその後の低下率と種間回帰から除外されています。S2の2本の種間回帰はGAMではなく、この表には含みません。</p>
 <p><a href="../outputs/tables/gam-results.csv">CSV</a> · <a href="../outputs/tables/gam-results.rds">RDS: models, table, versions</a> · <a href="../R/summarize_gams.R">R code</a></p>
 <p><a href="https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/summary.gam.html">Test definition: mgcv documentation</a></p>
 <p>R 4.5.3; mgcv 1.9.3</p>
@@ -2558,8 +2555,8 @@ document.addEventListener("DOMContentLoaded", () => {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebook/07-analysis-notes.html" class="pagination-link" aria-label="解析に関する注記">
-        <span class="nav-page-text"><span class="chapter-title">解析に関する注記</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebook/08-functions.html" class="pagination-link" aria-label="共通関数">
+        <span class="nav-page-text"><span class="chapter-title">共通関数</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">ソースコード</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -2574,88 +2571,84 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## この表で分かること</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>図1～3と補足図S2で使う全102個のGAMを、図と同じ入力・単位・除外条件・設定で再推定します。入力は <span class="in">`outputs/tables/bending.csv`</span> と <span class="in">`tensile.csv`</span>、出力は下記CSVとRDSです。事前にデータ統合を実行し、プロジェクトのルートから <span class="in">`quarto render notebook/10-gam-results.qmd`</span> で再生成できます。キャッシュは使用しません。</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>各モデルは「測定値 = 切片 + RWCの平滑関数 + 誤差」で、種・形質・曲げ方向ごとに独立に当てはめています。Gaussian分布、identityリンク、平滑項は既存コードと同じ <span class="in">`s(RWC)`</span> の既定値、平滑化パラメーターの推定はREMLです。図3のみ説明変数が曲げ・引張測定の平均RWCです。</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>図1～3と補足図S2で使う全102個のGAMを、図と同じ入力・単位・除外条件・設定で再推定します。</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>入力は <span class="in">`outputs/tables/bending.csv`</span> と <span class="in">`tensile.csv`</span>、出力は下記のCSVとRDSです。</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>データ統合を実行した後、プロジェクトのルートから <span class="in">`quarto render notebook/10-gam-results.qmd`</span> で再生成できます。</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>**p値は「RWCの平滑項が全体としてゼロ」という帰無仮説に対する近似検定です。** 有意な場合はRWCとの関係を示しますが、単調な増加・減少や非線形性そのものの検定ではありません。非有意でも「変化しない」とは結論できません。種間差、曲げ方向間の差、比が1または3と異なるかも検定していません。</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`n`</span>：モデルに使った測定記録数。独立した葉の枚数とは限りません。</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`RWC min/max`</span>：実際にモデルに使った観測値の範囲（%）。図の曲線がこの範囲を超える部分は外挿です。</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`edf`</span>：平滑項の有効自由度。約1はほぼ直線、より大きい値は複雑な曲線を表します。</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`F`</span> と <span class="in">`Ref. df`</span>：平滑項の近似検定統計量と参照自由度。</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`p (raw)`</span>：多重比較補正前のp値。小さい値も丸めてゼロとせず表示します。</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Adjusted R²`</span>：自由度調整済み決定係数。負の値もそのまま表示します。</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>**ここでは結果の整理を目的として、補正前のp値をすべて表示します。** 論文で検定群をどう定義し、多重比較をどう扱うかは未決定です。有意・非有意の個数だけで結論を作らず、曲線、変化量、不確実性を併せて確認してください。モデルの仮定や残差、基底次元の十分性を検証したことを、この表だけでは意味しません。</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>モデルは「測定値 = 切片 + RWCの平滑関数 + 誤差」で、種・形質・曲げ方向ごとに独立に当てはめています。</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Gaussian分布、identityリンク、平滑項は <span class="in">`s(RWC)`</span> の既定値、平滑化パラメーターの推定はREMLです。</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>図3のみ、説明変数は曲げ・引張測定の平均RWCです。</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`n`</span>：モデルに使った測定記録数</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`RWC min/max`</span>：モデルに使った観測値の範囲（%）。この範囲を超える曲線は外挿です</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`edf`</span>：平滑項の有効自由度。約1はほぼ直線です</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`F`</span>、<span class="in">`Ref. df`</span>：平滑項の近似検定統計量と参照自由度</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`p (raw)`</span>：多重比較補正前のp値。RWCの平滑項が全体としてゼロという帰無仮説に対する近似検定です</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`Adjusted R²`</span>：自由度調整済み決定係数</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>主要図とS2の当てはめは、いずれもRWC 60%以上です。図3は両測定が60%以上となる組だけを使います。S2の *Ligustrum lucidum* 背軸側GAMも一覧に含めますが、既存のS2解析ではその後の低下率と種間回帰から除外されています。S2の2本の種間回帰はGAMではなく、この表には含みません。</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>:::: {.content-visible unless-profile="ja"}</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">日本語はこちら（JP）</span><span class="co">](../ja/notebook/10-gam-results.html)</span>{#language-switch hreflang="ja" lang="ja"}</span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">日本語はこちら（JP）</span><span class="co">](../ja/notebook/10-gam-results.html)</span>{#language-switch hreflang="ja" lang="ja"}</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading the results</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading the results</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>All 102 GAMs underlying Figures 1–3 and S2 are refitted using the figure inputs, units, exclusions, and settings. Inputs are <span class="in">`outputs/tables/bending.csv`</span> and <span class="in">`tensile.csv`</span>; outputs are the CSV and RDS below. After data integration, run <span class="in">`quarto render notebook/10-gam-results.qmd`</span> from the project root. No cache is used.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>All 102 GAMs underlying Figures 1–3 and S2 are refitted using the same inputs, units, exclusions, and settings as the figures.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>Inputs are <span class="in">`outputs/tables/bending.csv`</span> and <span class="in">`tensile.csv`</span>; outputs are the CSV and RDS files below.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>After data integration, run <span class="in">`quarto render notebook/10-gam-results.qmd`</span> from the project root to regenerate them.</span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>Each model fits a response as an intercept plus a smooth function of RWC and error, separately by species, trait, and bending direction. Models use the Gaussian family, identity link, the existing default <span class="in">`s(RWC)`</span> specification, and REML smoothing selection. Figure 3 uses mean bending and tensile RWC.</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>**The approximate p-value tests the null hypothesis that the RWC smooth is zero throughout.** It does not test monotonic increase or decrease, nonlinearity alone, species or direction differences, or whether a ratio differs from 1 or 3. A nonsignificant result does not establish absence of change.</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>Each model is "response = intercept + smooth function of RWC + error", fitted separately by species, trait, and bending direction.</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Models use the Gaussian family, identity link, the default <span class="in">`s(RWC)`</span> specification, and REML for smoothing parameter estimation.</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>Only Figure 3 uses the mean RWC of the bending and tensile measurements as the predictor.</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`n`</span>: measurement records used, not necessarily independent leaves.</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`RWC min/max`</span>: observed predictor range (%); curves outside it are extrapolations.</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`edf`</span>: effective degrees of freedom; approximately 1 indicates a near-linear fit.</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`F`</span> and <span class="in">`Ref. df`</span>: approximate smooth-term test statistic and reference degrees of freedom.</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`p (raw)`</span>: unadjusted p-value; small values are not rounded to zero.</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Adjusted R²`</span>: adjusted coefficient of determination, including negative values.</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`n`</span>: number of measurement records used in the model</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`RWC min/max`</span>: range of observed values used in the model (%); curves beyond this range are extrapolations</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`edf`</span>: effective degrees of freedom of the smooth term; approximately 1 indicates a near-linear fit</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`F`</span>, <span class="in">`Ref. df`</span>: approximate test statistic and reference degrees of freedom of the smooth term</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`p (raw)`</span>: p-value before multiple-comparison adjustment; an approximate test of the null hypothesis that the RWC smooth is zero throughout</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`Adjusted R²`</span>: adjusted coefficient of determination</span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>All p-values are unadjusted. Test families and multiplicity handling for the manuscript remain undecided. Interpret curves, effect sizes, and uncertainty together rather than counting significant results. This summary does not establish that residual assumptions or basis dimensions are adequate.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>Main figures and S2 use RWC ≥60%. Figure 3 requires both measurements to meet the cutoff. The S2 abaxial GAM for *Ligustrum lucidum* is included, although its subsequent stiffness decrease and contribution to the species-level regression are excluded in the existing analysis. S2's two species-level regressions are not GAMs and are not included here.</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gam-summary</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/add_tensile_stiffness.R"</span>)</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/summarize_gams.R"</span>)</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>gam_results <span class="ot">&lt;-</span> <span class="fu">summarize_gams</span>()</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>gam_table <span class="ot">&lt;-</span> gam_results<span class="sc">$</span>table</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(gam_table) <span class="sc">==</span> <span class="dv">102</span>L, <span class="sc">!</span><span class="fu">anyDuplicated</span>(gam_table<span class="sc">$</span>model_id))</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(gam_table, <span class="st">"outputs/tables/gam-results.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gam_results, <span class="st">"outputs/tables/gam-results.rds"</span>)</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gam-summary</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/add_tensile_stiffness.R"</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/summarize_gams.R"</span>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>gam_results <span class="ot">&lt;-</span> <span class="fu">summarize_gams</span>()</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>gam_table <span class="ot">&lt;-</span> gam_results<span class="sc">$</span>table</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(gam_table) <span class="sc">==</span> <span class="dv">102</span>L, <span class="sc">!</span><span class="fu">anyDuplicated</span>(gam_table<span class="sc">$</span>model_id))</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(gam_table, <span class="st">"outputs/tables/gam-results.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gam_results, <span class="st">"outputs/tables/gam-results.rds"</span>)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">CSV</span><span class="co">](../outputs/tables/gam-results.csv)</span> · <span class="co">[</span><span class="ot">RDS: models, table, versions</span><span class="co">](../outputs/tables/gam-results.rds)</span> · <span class="co">[</span><span class="ot">R code</span><span class="co">](../R/summarize_gams.R)</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Test definition: mgcv documentation</span><span class="co">](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/summary.gam.html)</span></span>
 <span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">CSV</span><span class="co">](../outputs/tables/gam-results.csv)</span> · <span class="co">[</span><span class="ot">RDS: models, table, versions</span><span class="co">](../outputs/tables/gam-results.rds)</span> · <span class="co">[</span><span class="ot">R code</span><span class="co">](../R/summarize_gams.R)</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Test definition: mgcv documentation</span><span class="co">](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/summary.gam.html)</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gam-tables</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: asis</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"R "</span>, gam_results<span class="sc">$</span>versions[<span class="st">"R"</span>], <span class="st">"; mgcv "</span>,</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    gam_results<span class="sc">$</span>versions[<span class="st">"mgcv"</span>], <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (figure <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"S2"</span>)) {</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">## Figure "</span>, figure, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>  figure_data <span class="ot">&lt;-</span> gam_table[gam_table<span class="sc">$</span>figure <span class="sc">==</span> figure, ]</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (trait <span class="cf">in</span> <span class="fu">unique</span>(figure_data<span class="sc">$</span>trait)) {</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">### "</span>, trait, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> figure_data[figure_data<span class="sc">$</span>trait <span class="sc">==</span> trait, ]</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    display <span class="ot">&lt;-</span> z[, <span class="fu">c</span>(<span class="st">"panel"</span>, <span class="st">"species"</span>, <span class="st">"side"</span>, <span class="st">"n"</span>, <span class="st">"rwc_min"</span>, <span class="st">"rwc_max"</span>,</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"edf"</span>, <span class="st">"ref_df"</span>, <span class="st">"F"</span>, <span class="st">"p_value"</span>, <span class="st">"adjusted_r_squared"</span>)]</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    display<span class="sc">$</span>p_value <span class="ot">&lt;-</span> <span class="fu">format.pval</span>(display<span class="sc">$</span>p_value, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">eps =</span> <span class="fl">1e-16</span>)</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(display) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Panel"</span>, <span class="st">"Species"</span>, <span class="st">"Side"</span>, <span class="st">"n"</span>, <span class="st">"RWC min"</span>, <span class="st">"RWC max"</span>,</span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"edf"</span>, <span class="st">"Ref. df"</span>, <span class="st">"F"</span>, <span class="st">"p (raw)"</span>, <span class="st">"Adjusted R²"</span>)</span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(knitr<span class="sc">::</span><span class="fu">kable</span>(display, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gam-tables</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: asis</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"R "</span>, gam_results<span class="sc">$</span>versions[<span class="st">"R"</span>], <span class="st">"; mgcv "</span>,</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    gam_results<span class="sc">$</span>versions[<span class="st">"mgcv"</span>], <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (figure <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"S2"</span>)) {</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">## Figure "</span>, figure, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  figure_data <span class="ot">&lt;-</span> gam_table[gam_table<span class="sc">$</span>figure <span class="sc">==</span> figure, ]</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (trait <span class="cf">in</span> <span class="fu">unique</span>(figure_data<span class="sc">$</span>trait)) {</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">### "</span>, trait, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> figure_data[figure_data<span class="sc">$</span>trait <span class="sc">==</span> trait, ]</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    display <span class="ot">&lt;-</span> z[, <span class="fu">c</span>(<span class="st">"panel"</span>, <span class="st">"species"</span>, <span class="st">"side"</span>, <span class="st">"n"</span>, <span class="st">"rwc_min"</span>, <span class="st">"rwc_max"</span>,</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"edf"</span>, <span class="st">"ref_df"</span>, <span class="st">"F"</span>, <span class="st">"p_value"</span>, <span class="st">"adjusted_r_squared"</span>)]</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    display<span class="sc">$</span>p_value <span class="ot">&lt;-</span> <span class="fu">format.pval</span>(display<span class="sc">$</span>p_value, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">eps =</span> <span class="fl">1e-16</span>)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(display) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Panel"</span>, <span class="st">"Species"</span>, <span class="st">"Side"</span>, <span class="st">"n"</span>, <span class="st">"RWC min"</span>, <span class="st">"RWC max"</span>,</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"edf"</span>, <span class="st">"Ref. df"</span>, <span class="st">"F"</span>, <span class="st">"p (raw)"</span>, <span class="st">"Adjusted R²"</span>)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(knitr<span class="sc">::</span><span class="fu">kable</span>(display, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="コピー" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
