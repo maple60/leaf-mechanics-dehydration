@@ -78,7 +78,7 @@ Git では管理していません。入手方法と各ファイルの内容は 
 | `notebook/05-bending-tensile-ratios.qmd` | 主要 Figure 3 |
 | `notebook/06-stiffness-comparison.qmd` | 補足 Figure S2 |
 | `notebook/11-force-displacement.qmd` | 元の指定IDによるFigure S1の再現と使用試料一覧（投稿用の図の章より先に実行） |
-| `notebook/07-analysis-notes.qmd` から `10-gam-results.qmd` | 解析ノート、関数リファレンス、投稿用の図、GAM の結果 |
+| `notebook/08-functions.qmd` から `10-gam-results.qmd` | 関数リファレンス、投稿用の図、GAM の結果 |
 | `R/` | 共通関数とノートブックの設定 |
 | `data/` | 外部データの要件（データ本体は含まない） |
 | `index.qmd`, `_quarto*.yml` | Quarto ブックのホームページと設定（英語・日本語） |
