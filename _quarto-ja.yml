@@ -4,7 +4,7 @@ project:
 lang: ja
 
 book:
-  title: "脱水に伴う葉の力学特性"
+  title: "6種の植物における脱水過程での葉の力学特性の変化 ―曲げ試験および引張試験による評価―"
   site-url: https://maple60.github.io/leaf-mechanics-dehydration/ja/
   navbar:
     right:

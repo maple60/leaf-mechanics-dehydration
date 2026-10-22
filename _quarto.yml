@@ -20,7 +20,7 @@ project:
     - /outputs/figures/submission/*.png
 
 book:
-  title: "Leaf Mechanics under Dehydration"
+  title: "Changes in leaf mechanical properties under bending and tensile tests during dehydration in six plant species"
   author: "Kaede Konrai"
   site-url: https://maple60.github.io/leaf-mechanics-dehydration/
   repo-url: https://github.com/maple60/leaf-mechanics-dehydration
