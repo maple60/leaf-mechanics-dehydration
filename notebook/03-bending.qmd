@@ -21,7 +21,9 @@ title-ja: "図1：曲げ特性"
 
 :::: {.content-visible unless-profile="ja"}
 
-Fit generalized additive models (GAMs) to bending stiffness, Young's modulus, and the second moment of area. The analysis uses relative water content (RWC) of at least 60%, matching the main manuscript figures.
+Fit generalized additive models (GAMs) [@wood2017] to bending stiffness, Young's modulus, and the second moment of area.
+GAMs are fitted with the package mgcv [@mgcv] in R [@rcore2026], using the [custom functions](08-functions.qmd#gam-fitting-and-plotting) for fitting and plotting.
+The analysis uses relative water content (RWC) of at least 60%, matching the main manuscript figures.
 
 ## Analysis
 
@@ -29,7 +31,10 @@ Fit generalized additive models (GAMs) to bending stiffness, Young's modulus, an
 
 :::: {.content-visible when-profile="ja"}
 
-曲げ剛性、ヤング率、断面二次モーメントに一般化加法モデル（GAM）を当てはめます。論文の主要図に合わせ、相対含水率（RWC）60%以上を解析対象とします。
+曲げ剛性、ヤング率、断面二次モーメントに一般化加法モデル（GAM）[@wood2017] を当てはめます。
+GAMには R [@rcore2026] のパッケージ mgcv [@mgcv] を使い、
+当てはめと作図には[自作の関数](08-functions.qmd#gamの当てはめと作図)を用います。
+論文の主要図に合わせ、相対含水率（RWC）60%以上を解析対象とします。
 
 ## 解析
 
