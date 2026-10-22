@@ -24,7 +24,7 @@
     "href": "index.html#結果の再現方法",
     "title": "概要",
     "section": "結果の再現方法",
-    "text": "結果の再現方法\n入力データは、CP932形式の試験機CSV 56ファイルと、試料情報・除外記録のCSV 3ファイルです。リポジトリの .Renviron で、raw/ と manual/ を含むフォルダーを PROJECT_DATA_DIR に指定してください。Rを再起動し、renv::restore() でパッケージを復元してから、リポジトリのルートで quarto render を実行します。\n最初のノートブックが統合済みテーブルを作成し、以降のノートブックがそれを読み込み、図を outputs/figures/ に出力します。元の入力ファイルは変更しません。環境設定と必要なデータの詳細はリポジトリのREADMEを参照してください。\n英語版と日本語版をまとめて作成する場合は、PowerShellで ./scripts/render-bilingual.ps1 を実行します。日本語版のみの作成には quarto render --profile ja を使います。",
+    "text": "結果の再現方法\n入力データは、CP932形式の試験機CSV 56ファイルと、試料情報・除外記録のCSV 3ファイルです。リポジトリの .Renviron で、raw/ と manual/ を含むフォルダーを PROJECT_DATA_DIR に指定してください。Rを再起動し、renv::restore() でパッケージを復元してから、リポジトリのルートで quarto render を実行します。\n最初のノートブックが統合済みテーブルを作成し、以降のノートブックがそれを読み込み、図を outputs/figures/ に出力します。元の入力ファイルは変更しません。環境設定と必要なデータの詳細はリポジトリのREADMEを参照してください。\nquarto render は英語版と日本語版をまとめて作成します。日本語版のみの作成には quarto render --profile ja を使います。",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>概要</span>"
     ]

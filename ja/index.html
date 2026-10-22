@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">脱水に伴う葉の力学特性</span>
+    <span class="navbar-title">6種の植物における脱水過程での葉の力学特性の変化 ―曲げ試験および引張試験による評価―</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="サーチ"></div>
@@ -344,7 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="結果の再現方法">結果の再現方法</h2>
 <p>入力データは、CP932形式の試験機CSV 56ファイルと、試料情報・除外記録のCSV 3ファイルです。リポジトリの <code>.Renviron</code> で、<code>raw/</code> と <code>manual/</code> を含むフォルダーを <code>PROJECT_DATA_DIR</code> に指定してください。Rを再起動し、<code>renv::restore()</code> でパッケージを復元してから、リポジトリのルートで <code>quarto render</code> を実行します。</p>
 <p>最初のノートブックが統合済みテーブルを作成し、以降のノートブックがそれを読み込み、図を <code>outputs/figures/</code> に出力します。元の入力ファイルは変更しません。環境設定と必要なデータの詳細は<a href="https://github.com/maple60/leaf-mechanics-dehydration">リポジトリのREADME</a>を参照してください。</p>
-<p>英語版と日本語版をまとめて作成する場合は、PowerShellで <code>./scripts/render-bilingual.ps1</code> を実行します。日本語版のみの作成には <code>quarto render --profile ja</code> を使います。</p>
+<p><code>quarto render</code> は英語版と日本語版をまとめて作成します。日本語版のみの作成には <code>quarto render --profile ja</code> を使います。</p>
 </section>
 <section id="このサイトの範囲" class="level2">
 <h2 class="anchored" data-anchor-id="このサイトの範囲">このサイトの範囲</h2>
@@ -939,7 +939,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>最初のノートブックが統合済みテーブルを作成し、以降のノートブックがそれを読み込み、図を <span class="in">`outputs/figures/`</span> に出力します。元の入力ファイルは変更しません。環境設定と必要なデータの詳細は<span class="co">[</span><span class="ot">リポジトリのREADME</span><span class="co">](https://github.com/maple60/leaf-mechanics-dehydration)</span>を参照してください。</span>
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>英語版と日本語版をまとめて作成する場合は、PowerShellで <span class="in">`./scripts/render-bilingual.ps1`</span> を実行します。日本語版のみの作成には <span class="in">`quarto render --profile ja`</span> を使います。</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="in">`quarto render`</span> は英語版と日本語版をまとめて作成します。日本語版のみの作成には <span class="in">`quarto render --profile ja`</span> を使います。</span>
 <span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## このサイトの範囲</span></span>
 <span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
