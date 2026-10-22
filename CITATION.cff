@@ -12,10 +12,8 @@ authors:
     affiliation: "Graduate School of Agriculture, Kyoto University, Japan"
     orcid: "https://orcid.org/0000-0001-6245-2342"
 repository-code: "https://github.com/maple60/leaf-mechanics-dehydration"
-# Code is MIT-licensed; the released data are CC BY 4.0 (see LICENSE and LICENSE-DATA.md).
-license:
-  - MIT
-  - CC-BY-4.0
+# The archived data are CC BY 4.0 (see LICENSE-DATA.md); the code is MIT-licensed (see LICENSE).
+license: CC-BY-4.0
 keywords:
   - leaf mechanics
   - dehydration
