@@ -21,7 +21,7 @@ title-ja: "図3：曲げ特性と引張特性の比"
 
 :::: {.content-visible unless-profile="ja"}
 
-Compare bending and tensile properties using the existing specimen matching and GAMs. Both measurements must have RWC of at least 60%.
+Compare bending and tensile properties using the existing specimen matching and GAMs.
 
 ## Analysis
 
@@ -29,7 +29,7 @@ Compare bending and tensile properties using the existing specimen matching and 
 
 :::: {.content-visible when-profile="ja"}
 
-既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。両方の測定でRWCが60%以上であることを条件とします。
+既存の試料の対応付けとGAMを用いて、曲げ特性と引張特性を比較します。
 
 ## 解析
 
@@ -185,7 +185,7 @@ lapply(seq_along(spp), function(i) {
 
 ## Bending-to-tensile stiffness ratio ($E_bI/E_tA$)
 
-The ratio is in mm² and is displayed in units of 10⁻³ mm².
+The ratio is in mm² and is displayed in units of 10⁻³ mm² to keep the number of digits small.
 
 ::::
 
@@ -193,7 +193,7 @@ The ratio is in mm² and is displayed in units of 10⁻³ mm².
 
 ## 曲げ剛性と引張剛性の比（$E_bI/E_tA$）
 
-比の単位はmm²で、図では10⁻³ mm²単位で表示します。
+比の単位はmm²で、図では桁数の都合上、10⁻³ mm²単位で表示します。
 
 ::::
 
