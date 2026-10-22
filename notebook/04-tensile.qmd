@@ -21,7 +21,7 @@ title-ja: "図2：引張特性"
 
 :::: {.content-visible unless-profile="ja"}
 
-Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divided by density. The analysis uses RWC of at least 60%.
+Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divided by density.
 
 ## Analysis
 
@@ -29,7 +29,7 @@ Fit GAMs to tensile stiffness, Young's modulus, tissue density, and modulus divi
 
 :::: {.content-visible when-profile="ja"}
 
-引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。RWC 60%以上を解析対象とします。
+引張剛性、ヤング率、組織密度、およびヤング率を組織密度で除した値にGAMを当てはめます。
 
 ## 解析
 
@@ -175,7 +175,7 @@ lapply(seq_along(spp), function(i) {
 ## Tensile stiffness ($E_tA$, N)
 
 Cross-sectional area is `thick * width.x` (mm²), using the instrument dimensions
-associated with `E.x` (MPa = N/mm²). The legacy tensile `EI` column is not used.
+associated with `E.x` (MPa = N/mm²).
 
 ::::
 
@@ -183,7 +183,7 @@ associated with `E.x` (MPa = N/mm²). The legacy tensile `EI` column is not used
 
 ## 引張剛性（$E_tA$、N）
 
-断面積は `thick * width.x`（mm²）で、`E.x`（MPa = N/mm²）に対応する試験機の寸法値を用います。従来の引張データの `EI` 列は用いません。
+断面積は `thick * width.x`（mm²）で、`E.x`（MPa = N/mm²）に対応する試験機の寸法値を用います。
 
 ::::
 
