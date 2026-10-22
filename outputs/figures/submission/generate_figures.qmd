@@ -24,7 +24,8 @@ title-ja: "論文投稿用の図"
 The code below generates a vector PDF for journal submission and a 600 dpi PNG
 for preview or preprint preparation, for each manuscript figure. Expand **Show generation code** to inspect each step. The PDFs use the same inputs, exclusions, GAMs, and
 prediction grids as the analysis chapters; only the panel layout and typography
-change. Both formats are downloadable rather than embedded on this page.
+change. Figure S1 uses the fixed examples and baseline correction from its
+reproduction chapter. Both formats are downloadable rather than embedded on this page.
 
 [Download the generation notebook (QMD)](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
 
@@ -68,12 +69,13 @@ the instrument dimensions (mm) associated with `E.x` (MPa). The resulting
 
 Run data integration first. Figure S2 also requires the stiffness comparison
 chapter, which saves its data and fitted regressions without refitting here.
+Figure S1 requires `11-force-displacement.qmd`, which saves its original examples.
 
 ::::
 
 :::: {.content-visible when-profile="ja"}
 
-以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。コード欄を展開すると各手順を確認できます。入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。
+以下のコードで、論文の図ごとに雑誌投稿用のベクターPDFとプレビュー・プレプリント作成用の600 dpi PNGを作成します。コード欄を展開すると各手順を確認できます。主要図の入力、除外、GAM、予測用の格子点は解析の章と共通で、パネルの配置と文字の体裁を変更しています。図S1は再現用の章で保存した元の代表例と基準値補正を用います。PDFとPNGはページ内への埋め込みではなく、ダウンロードして確認できます。
 
 [図生成用ノートブック（QMD）をダウンロード](../outputs/figures/submission/generate_figures.qmd){download="generate_figures.qmd"}
 
@@ -89,7 +91,7 @@ PDF内の線と文字はベクターなので、ページを大きくしても�
 
 ## 準備
 
-最初にデータ統合を実行してください。図S2には剛性比較の章も必要です。同章が保存したデータと回帰結果を読み込むため、ここでは再推定しません。
+最初にデータ統合を実行してください。図S1には `11-force-displacement.qmd`、図S2には剛性比較の章も必要です。各章が保存した代表例または回帰結果を読み込むため、ここでは再推定しません。
 
 ::::
 
@@ -243,6 +245,44 @@ figure_3_models <- plot_submission_panels(
 
 [Download Figure 3 for Word (PNG, 600 dpi)](../outputs/figures/submission/figure_3.png){download="figure_3.png"}
 
+## Figure S1: Force–displacement curves
+
+The 155 × 235 mm figure shows 36 original individual curves in 12 panels.
+A–F are adaxial bending; G–L are tensile tests. The
+[reproduction chapter](11-force-displacement.qmd) lists the selected IDs,
+RWC values, baseline correction, and the inherited exclusion of tensile ID 58
+in *Liriodendron tulipifera* from the quantitative analyses.
+
+::::
+
+:::: {.content-visible when-profile="ja"}
+
+[図3（PDF）をダウンロード](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
+
+[図3のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_3.png){download="figure_3.png"}
+
+## 図S1：荷重–変位曲線
+
+155 × 235 mmの図に、元図で選ばれている36本の個別曲線を12パネルで示します。A～Fは向軸側の曲げ、G～Lは引張です。[再現用の章](11-force-displacement.qmd)に試料ID、RWC、基準値補正、およびユリノキの引張ID 58が定量解析から除外されていることを記載しています。
+
+::::
+
+```{r}
+#| label: submission-figure-s1
+#| code-summary: "Show generation code"
+#| results: hide
+#| fig-show: hide
+source("R/force_displacement.R")
+examples <- readRDS("outputs/tables/force-displacement.rds")
+save_example_curves(examples, file.path(submission_dir, "figure_S1.pdf"))
+```
+
+:::: {.content-visible unless-profile="ja"}
+
+[Download Figure S1 (PDF)](../outputs/figures/submission/figure_S1.pdf){download="figure_S1.pdf"}
+
+[Download Figure S1 for Word (PNG, 600 dpi)](../outputs/figures/submission/figure_S1.png){download="figure_S1.png"}
+
 ## Figure S2: Relative stiffness decrease
 
 This PDF uses the saved predictions and regressions from the supplementary
@@ -253,9 +293,9 @@ value for *Ligustrum lucidum*. The prediction nearest 80% RWC is retained.
 
 :::: {.content-visible when-profile="ja"}
 
-[図3（PDF）をダウンロード](../outputs/figures/submission/figure_3.pdf){download="figure_3.pdf"}
+[図S1（PDF）をダウンロード](../outputs/figures/submission/figure_S1.pdf){download="figure_S1.pdf"}
 
-[図3のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_3.png){download="figure_3.png"}
+[図S1のWord挿入用画像（PNG、600 dpi）をダウンロード](../outputs/figures/submission/figure_S1.png){download="figure_S1.png"}
 
 ## 図S2：剛性の相対的な低下
 
@@ -281,7 +321,8 @@ plot_submission_comparison(comparison, file.path(submission_dir, "figure_S2.pdf"
 
 ## Shared drawing code
 
-The calls above use `plot_gam_ci()` from the analysis chapters. The helper below
+Figures 1–3 use `plot_gam_ci()` from the analysis chapters. Figure S1 uses
+`R/force_displacement.R`. The helper below
 sets the PDF and PNG output, panel arrangement, labels, and point and line sizes.
 
 [Download the drawing helper (R)](../R/plot_submission_panels.R)
@@ -297,7 +338,7 @@ sets the PDF and PNG output, panel arrangement, labels, and point and line sizes
 
 ## 共通の描画コード
 
-上の処理では、解析の章と同じ `plot_gam_ci()` を呼び出します。以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。
+図1～3では解析の章と同じ `plot_gam_ci()` を呼び出し、図S1では `R/force_displacement.R` を使います。以下の補助関数がPDFとPNGの出力、パネルの配置、ラベル、点の大きさと線の太さを設定します。
 
 [描画用の補助関数（R）をダウンロード](../R/plot_submission_panels.R)
 
