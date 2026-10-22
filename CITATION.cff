@@ -23,9 +23,9 @@ keywords:
   - tensile stiffness
   - relative water content
   - generalized additive model
+version: "1.0.0"
+date-released: "2026-10-22"
 # Fill in after archiving the release on Zenodo:
-# version: "1.0.0"
-# date-released: "2026-MM-DD"
 # doi: "10.5281/zenodo.XXXXXXX"
 #
 # Add after the article is accepted:
