@@ -28,3 +28,4 @@ book:
     - notebook/10-gam-results.qmd
     - notebook/08-functions.qmd
     - notebook/09-submission-figures.qmd
+    - references.qmd

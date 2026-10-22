@@ -40,3 +40,5 @@ book:
       text: "共通関数"
     - href: notebook/09-submission-figures.qmd
       text: "論文投稿用の図"
+    - href: references.qmd
+      text: "参考文献"

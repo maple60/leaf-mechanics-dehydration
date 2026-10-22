@@ -30,6 +30,7 @@ book:
   repo-actions: [source, issue]
 
 number-sections: false
+bibliography: references.bib
 filters:
   - filters/language-title.lua
 execute:
