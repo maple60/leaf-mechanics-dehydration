@@ -9,32 +9,14 @@ title-ja: "図S1：荷重–変位曲線"
 [日本語はこちら（JP）](../ja/notebook/11-force-displacement.html){#language-switch hreflang="ja" lang="ja"}
 :::
 
-These are the fixed representative examples selected in the original
-`scripts/paper.R` (`my.curve.select.save()` calls). A–F show adaxial bending;
-G–L show tensile tests. Each panel contains three individual measurements,
-not a mean or a fitted curve. The three blues indicate RWC 90–100%,
-70–<90%, and <70%. The RWC ≥60% cutoff used for GAM fitting is not applied
-to these historical examples.
-
+Representative examples of adaxial bending and tensile tests are shown as
+force–displacement curves for each species. A–F show adaxial bending; G–L show
+tensile tests. Each panel contains three individual measurements, not a mean or
+a fitted curve. From darkest to lightest, the blues indicate RWC 90–100%,
+70–<90%, and <70%.
 The first 100 points define the baseline: their minimum displacement and
-minimum force are subtracted separately from the whole curve, as in the
-original code. The recorded force in N is converted to mN. No smoothing,
-resampling, or removal of the final force drop is performed. Sample IDs and
-the raw-file block boundaries are retained; panel lettering follows the
-two-column layout of the current supplementary caption. Species names follow
-the current manuscript.
-
-The original selection includes *Liriodendron tulipifera* tensile ID 58,
-which is listed as `abnormal curve` in the inherited exclusion table. It is
-retained here to reproduce the original illustration and remains excluded
-from the quantitative analyses. The table below identifies this record.
-
-## Reproduce the examples
-
-Read the existing `raw/` and `manual/` files using `PROJECT_DATA_DIR`.
-No new input files or packages are required. Run this chapter before the
-[submission figures](09-submission-figures.qmd) chapter, which creates
-the PDF and 600 dpi PNG from the saved curves.
+minimum force are subtracted separately from the whole curve.
+Force is converted from N to mN.
 
 ::::
 
@@ -44,15 +26,12 @@ the PDF and 600 dpi PNG from the saved curves.
 [Read this page in English (EN)](../../notebook/11-force-displacement.html){#language-switch hreflang="en" lang="en"}
 :::
 
-元の `scripts/paper.R` の `my.curve.select.save()` で指定されている代表例を再現します。A～Fは向軸側からの曲げ試験、G～Lは引張試験です。各パネルの3本は個別の測定記録であり、平均や推定曲線ではありません。濃い青から順に、RWC 90～100%、70%以上90%未満、70%未満を示します。GAMの当てはめに用いるRWC 60%以上の制限は、この元図の代表例には適用しません。
-
-元コードと同じく、最初の100点の変位の最小値と荷重の最小値を、それぞれ曲線全体から差し引きます。試験機の荷重の単位NはmNに換算します。平滑化、再サンプリング、末尾の荷重低下の削除は行いません。試料IDとCSV内の曲線の読み取り範囲を維持し、パネル文字は現在の補足原稿の2列構成に合わせます。学名は現在の原稿に合わせています。
-
-元の指定には、除外表で `abnormal curve` とされているユリノキ（*Liriodendron tulipifera*）の引張ID 58が含まれます。元図を再現するためここでは表示しますが、定量解析からは引き続き除外されています。下の試料一覧でも識別できます。
-
-## 代表例の再現
-
-`PROJECT_DATA_DIR` が指す既存の `raw/` と `manual/` を読み込みます。新しい入力ファイルやパッケージは必要ありません。この章を実行してから[論文投稿用の図](09-submission-figures.qmd)の章を実行すると、保存した曲線からPDFと600 dpi PNGを生成できます。
+各種について、向軸側の曲げ試験と引張試験の代表例を、荷重–変位曲線として示します。
+A～Fは向軸側の曲げ、G～Lは引張です。
+各パネルの3本は個別の測定記録で、平均や推定曲線ではありません。
+曲線は、濃い青から順にRWC 90～100%、70%以上90%未満、70%未満を表します。
+最初の100点を基準として、変位と荷重のそれぞれの最小値を曲線全体から差し引いています。
+荷重の単位はNからmNに換算しています。
 
 ::::
 
@@ -69,6 +48,7 @@ selection <- data.frame(
   medium = c(79, 49, 51, 60, 66, 32, 21, 48, 51, 26, 31, 20),
   low = c(26, 52, 36, 19, 61, 13, 26, 23, 58, 11, 61, 15))
 examples <- read_example_curves(selection, data_dir)
+examples$samples$species <- unname(example_species[examples$samples$spp])
 dir.create("outputs/tables", recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/figures", recursive = TRUE, showWarnings = FALSE)
 saveRDS(examples, "outputs/tables/force-displacement.rds")
@@ -84,9 +64,8 @@ tryCatch(plot_example_curves(examples), finally = dev.off())
 
 ## Selected measurements
 
-`excluded_from_models` refers to the inherited exclusion table, before any
-RWC fitting cutoff. `n_points` is the number of instrument time points,
-not the number of independent samples.
+* `excluded_from_models`: whether the record is listed in the inherited exclusion table; unrelated to the RWC ≥60% cutoff
+* `n_points`: number of points recorded by the instrument
 
 [Download the sample list (CSV)](../outputs/tables/figure-S1-samples.csv)
 
@@ -102,9 +81,10 @@ not the number of independent samples.
 
 ## 使用した測定記録
 
-`excluded_from_models` は、RWCの当てはめ範囲で絞る前の、元の除外表への該当を示します。`n_points` は試験機の時系列の点数で、独立した試料数ではありません。
+* `excluded_from_models`：元の除外表に該当する記録かどうか。RWC 60%以上の絞り込みとは無関係です
+* `n_points`：試験機が記録した点数
 
-[使用試料の一覧（CSV）](../outputs/tables/figure-S1-samples.csv)
+[使用した測定記録の一覧（CSV）](../outputs/tables/figure-S1-samples.csv)
 
 [図S1（PDF）](../outputs/figures/submission/figure_S1.pdf)
 
@@ -117,7 +97,7 @@ not the number of independent samples.
 ```{r}
 #| label: force-displacement-samples
 #| echo: false
-sample_table <- examples$samples[c("panel", "spp", "side", "rwc_group", "id", "RWC",
+sample_table <- examples$samples[c("panel", "species", "side", "rwc_group", "id", "RWC",
                                    "excluded_from_models", "exclusion_note", "n_points")]
 sample_table$RWC <- round(sample_table$RWC, 2)
 knitr::kable(sample_table)
