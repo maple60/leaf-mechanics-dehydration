@@ -207,7 +207,7 @@ lapply(seq_along(spp), function(i) {
 #| label: fig-bending-stiffness
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(A) Cardiocrinum cordatum", "(B) Phytolacca americana", "(C) Liriodendron tulipifera", "(D) Robinia pseudoacacia", "(E) Aucuba japonica", "(F) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_01", pattern = "_RWC_vs_EI_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
@@ -229,7 +229,7 @@ knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error =
 #| label: fig-bending-modulus
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(G) Cardiocrinum cordatum", "(H) Phytolacca americana", "(I) Liriodendron tulipifera", "(J) Robinia pseudoacacia", "(K) Aucuba japonica", "(L) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_01", pattern = "_RWC_vs_E_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
@@ -251,7 +251,7 @@ knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error =
 #| label: fig-bending-area
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(M) Cardiocrinum cordatum", "(N) Phytolacca americana", "(O) Liriodendron tulipifera", "(P) Robinia pseudoacacia", "(Q) Aucuba japonica", "(R) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_01", pattern = "_RWC_vs_I_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)

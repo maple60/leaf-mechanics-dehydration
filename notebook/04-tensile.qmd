@@ -191,7 +191,7 @@ associated with `E.x` (MPa = N/mm²). The legacy tensile `EI` column is not used
 #| label: fig-tensile-stiffness
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(A) Cardiocrinum cordatum", "(B) Phytolacca americana", "(C) Liriodendron tulipifera", "(D) Robinia pseudoacacia", "(E) Aucuba japonica", "(F) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_EA_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
@@ -213,7 +213,7 @@ knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error =
 #| label: fig-tensile-modulus
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(G) Cardiocrinum cordatum", "(H) Phytolacca americana", "(I) Liriodendron tulipifera", "(J) Robinia pseudoacacia", "(K) Aucuba japonica", "(L) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_E_[A-Z]", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
@@ -235,7 +235,7 @@ knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error =
 #| label: fig-tensile-density
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(M) Cardiocrinum cordatum", "(N) Phytolacca americana", "(O) Liriodendron tulipifera", "(P) Robinia pseudoacacia", "(Q) Aucuba japonica", "(R) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_density_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
@@ -257,7 +257,7 @@ knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error =
 #| label: fig-tensile-modulus-density
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(S) Cardiocrinum cordatum", "(T) Phytolacca americana", "(U) Liriodendron tulipifera", "(V) Robinia pseudoacacia", "(W) Aucuba japonica", "(X) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_02", pattern = "_RWC_vs_E_per_density_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)

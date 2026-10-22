@@ -201,7 +201,7 @@ The ratio is in mm² and is displayed in units of 10⁻³ mm².
 #| label: fig-stiffness-ratio
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(A) Cardiocrinum cordatum", "(B) Phytolacca americana", "(C) Liriodendron tulipifera", "(D) Robinia pseudoacacia", "(E) Aucuba japonica", "(F) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_03", pattern = "_RWC_vs_stiffness_ratio_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
@@ -223,7 +223,7 @@ knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error =
 #| label: fig-modulus-ratio
 #| echo: false
 #| layout-ncol: 2
-#| fig-cap: ["Cardiocrinum cordatum", "Phytolacca americana", "Liriodendron tulipifera", "Robinia pseudoacacia", "Aucuba japonica", "Ligustrum lucidum"]
+#| fig-cap: ["(G) Cardiocrinum cordatum", "(H) Phytolacca americana", "(I) Liriodendron tulipifera", "(J) Robinia pseudoacacia", "(K) Aucuba japonica", "(L) Ligustrum lucidum"]
 figure_files <- list.files("outputs/figures/figure_03", pattern = "_RWC_vs_E_", full.names = TRUE)
 stopifnot(length(figure_files) == 6L)
 knitr::include_graphics(file.path("..", figure_files), rel_path = FALSE, error = FALSE)
