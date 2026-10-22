@@ -2,6 +2,8 @@
 
 [English](README.md) | 日本語
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23554265.svg)](https://doi.org/10.5281/zenodo.23554265)
+
 "Changes in leaf mechanical properties under bending and tensile tests during dehydration in six plant species" の論文に関する解析についてまとめた公開リポジトリです。
 
 論文中に掲載されている図表の再現性の担保のためのリポジトリです。

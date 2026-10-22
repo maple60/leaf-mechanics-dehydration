@@ -2,6 +2,8 @@
 
 English | [日本語](README.ja.md)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23554265.svg)](https://doi.org/10.5281/zenodo.23554265)
+
 This public repository contains the analysis for the manuscript "Changes in leaf mechanical properties under bending and tensile tests during dehydration in six plant species".
 
 Its purpose is to ensure the reproducibility of the figures and tables in the manuscript.
