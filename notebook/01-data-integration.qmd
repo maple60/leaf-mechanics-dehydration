@@ -21,7 +21,7 @@ title-ja: "データの統合"
 
 :::: {.content-visible unless-profile="ja"}
 
-Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to outputs/tables/.
+Import the instrument exports, merge sample information, and apply the inherited record exclusions. Input files are read-only; the two integrated tables are written to `outputs/tables/`.
 
 ## Analysis
 
@@ -29,7 +29,8 @@ Import the instrument exports, merge sample information, and apply the inherited
 
 :::: {.content-visible when-profile="ja"}
 
-試験機の出力を読み込み、試料情報と結合し、元の解析の除外規則を適用します。入力ファイルは変更せず、2つの統合済みテーブルを `outputs/tables/` に保存します。
+試験機の出力を読み込み、試料情報と結合し、元の解析の除外規則を適用します。
+入力ファイルは変更せず、2つの統合済みテーブルを `outputs/tables/` に保存します。
 
 ## 解析
 
@@ -58,9 +59,11 @@ tensile_list <- list()
 bending_list <- list()
 
 for (i in seq_along(filepath)) {
-  filename <- basename(tools::file_path_sans_ext(filepath[i])) # Get filename without extension
+  # Get filename without extension
+  filename <- basename(tools::file_path_sans_ext(filepath[i]))
   cat(paste0(filename, "\n")) # Print filename to console
-  d <- read.csv(filepath[i], fileEncoding = "cp932") # Read CSV file with Japanese encoding
+  # Read CSV file with Japanese encoding
+  d <- read.csv(filepath[i], fileEncoding = "cp932")
   # Bending test
   if (d[1, 3] == "3点曲げ") {
     N <- which(d[, 1] == "名前")
@@ -258,18 +261,3 @@ record_counts <- data.frame(
 )
 knitr::kable(record_counts, row.names = FALSE)
 ```
-
-:::: {.content-visible unless-profile="ja"}
-
-The exclusion CSV is applied to both tests, as in the source analysis. The
-existing failure filtering and the two hard-coded tensile exclusions are
-retained. See [Analysis notes](07-analysis-notes.qmd) for unresolved reporting
-questions. The integrated tables are generated outputs, not new original data.
-
-::::
-
-:::: {.content-visible when-profile="ja"}
-
-元の解析と同じく、除外CSVを両方の試験に適用します。試験失敗の除外処理と、コード内で指定されている引張試験2件の除外も維持しています。記載上の未解決事項は[解析に関する注記](07-analysis-notes.qmd)を参照してください。統合済みテーブルは処理結果であり、新しい原データではありません。
-
-::::
