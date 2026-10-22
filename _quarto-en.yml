@@ -22,6 +22,7 @@ book:
         - notebook/05-bending-tensile-ratios.qmd
     - part: "Supplementary analysis"
       chapters:
+        - notebook/11-force-displacement.qmd
         - notebook/06-stiffness-comparison.qmd
   appendices:
     - notebook/10-gam-results.qmd

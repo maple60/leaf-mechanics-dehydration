@@ -29,6 +29,8 @@ book:
           text: "図3：曲げ特性と引張特性の比"
     - part: "補足解析"
       chapters:
+        - href: notebook/11-force-displacement.qmd
+          text: "図S1：荷重–変位曲線"
         - href: notebook/06-stiffness-comparison.qmd
           text: "図S2：剛性の低下"
   appendices:

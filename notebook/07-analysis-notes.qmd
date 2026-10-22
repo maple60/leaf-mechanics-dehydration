@@ -93,7 +93,7 @@ documented before release.
 
 | Manuscript figure | Notebook coverage |
 | --- | --- |
-| S1: force–displacement examples | Not yet implemented. |
+| S1: force–displacement examples | [Reproduced from the original selected IDs](11-force-displacement.qmd); one historical example is excluded from quantitative analyses. |
 | S2: relative stiffness decrease | `06-stiffness-comparison.qmd`. |
 | S3: microscopy | Not yet implemented; source photographs remain in the original collection. |
 
@@ -142,7 +142,7 @@ GitHub上の元の解析（コミット `606501e6a66bde009e91a9326a1c216c9e6e16d
 
 | 論文の図 | ノートブックの対応 |
 | --- | --- |
-| S1：荷重–変位曲線の例 | 未実装。 |
+| S1：荷重–変位曲線の例 | [元の指定IDから再現](11-force-displacement.qmd)。元図の1例は定量解析の除外対象。 |
 | S2：剛性の相対的な低下 | `06-stiffness-comparison.qmd`。 |
 | S3：顕微鏡画像 | 未実装。元の写真は元の資料に保管。 |
 

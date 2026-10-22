@@ -77,6 +77,7 @@ The main figures and the supplementary comparison use relative water content (RW
 | `notebook/04-tensile.qmd` | Main Figure 2 |
 | `notebook/05-bending-tensile-ratios.qmd` | Main Figure 3 |
 | `notebook/06-stiffness-comparison.qmd` | Supplementary Figure S2 |
+| `notebook/11-force-displacement.qmd` | Original Figure S1 examples and their sample IDs (run before the submission-figure chapter) |
 | `notebook/07-analysis-notes.qmd` to `10-gam-results.qmd` | Analysis notes, function reference, submission figures, GAM results |
 | `R/` | Shared functions and notebook setup |
 | `data/` | External data requirements (the data themselves are not included) |

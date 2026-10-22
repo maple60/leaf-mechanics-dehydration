@@ -13,6 +13,8 @@ project:
     - /R/plot_submission_panels.R
     - /R/add_tensile_stiffness.R
     - /R/summarize_gams.R
+    - /R/force_displacement.R
+    - /outputs/tables/figure-S1-samples.csv
     - /outputs/tables/gam-results.csv
     - /outputs/tables/gam-results.rds
     - /outputs/figures/submission/generate_figures.qmd
